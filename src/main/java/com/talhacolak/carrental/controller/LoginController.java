@@ -1,5 +1,6 @@
-package com.talhacolak.carrental;
+package com.talhacolak.carrental.controller;
 
+import com.talhacolak.carrental.CarRentalApplication;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -22,9 +23,13 @@ public class LoginController {
            }
 
        }
-       */
+     */
+
     @FXML
     private Button goNext;
+
+    @FXML
+    private Button loginButton;
 
     @FXML
     protected void goNext() throws IOException {

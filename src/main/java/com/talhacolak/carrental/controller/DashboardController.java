@@ -1,11 +1,13 @@
-package com.talhacolak.carrental;
+package com.talhacolak.carrental.controller;
 
+import com.talhacolak.carrental.CarRentalApplication;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 import java.io.IOException;
 
@@ -16,11 +18,11 @@ public class DashboardController {
 
     @FXML
     protected void goBack() throws IOException {
-        Stage stage = (Stage) button.getScene().getWindow();
+        Stage stage = new Stage(StageStyle.DECORATED);
         Parent scene = FXMLLoader.load(CarRentalApplication.class.getResource("login-view.fxml"));
         stage.setScene(new Scene(scene));
         stage.setTitle("Login");
-        //stage.setResizable(false);
+        stage.setResizable(false);
         stage.getScene().getWindow().centerOnScreen();
         stage.show();
     }
