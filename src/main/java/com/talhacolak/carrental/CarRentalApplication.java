@@ -54,7 +54,7 @@ public class CarRentalApplication extends Application {
 
 //eski
 /*
-    // TODO: bu metodu refactor yap
+    //
     @Override
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(CarRentalApplication.class.getResource("login-view.fxml"));
