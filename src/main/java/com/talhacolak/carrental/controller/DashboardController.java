@@ -2,29 +2,31 @@ package com.talhacolak.carrental.controller;
 
 import com.talhacolak.carrental.CarRentalApplication;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
-
 import java.io.IOException;
 
 public class DashboardController {
 
     @FXML
-    private Button button;
+    private Button goback;
 
     @FXML
-    protected void goBack() throws IOException {
-        Stage stage = new Stage(StageStyle.DECORATED);
-        Parent scene = FXMLLoader.load(CarRentalApplication.class.getResource("login-view.fxml"));
-        stage.setScene(new Scene(scene));
-        stage.setTitle("Login");
-        stage.setResizable(false);
-        stage.getScene().getWindow().centerOnScreen();
-        stage.show();
+    private Button cars;
+
+    @FXML
+    private void carview() throws IOException{
+    }
+
+    @FXML
+    private void goBack() throws IOException {
+    Stage stage = (Stage) goback.getScene().getWindow();
+    stage.setScene(CarRentalApplication.loadscene("demo-carview.fxml",1080,720));
+    stage.setTitle("Carview");
+    stage.setMaximized(true);
+    stage.centerOnScreen();
+    stage.setResizable(true);
+    stage.show();
     }
 }
 /*@FXML
