@@ -16,7 +16,7 @@ public class UserService {
             transaction = session.beginTransaction();
             session.save(user); // Save the user entity
             transaction.commit();
-            System.out.println("User added successfully!");
+            System.out.println("Kullanıcı başarıyla eklendi!");
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();

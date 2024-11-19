@@ -1,14 +1,17 @@
 package com.talhacolak.carrental.dto;
 
 public enum Category {
-    SEDAN("Sedan"),
-    SUV("SUV"),
-    HATCHBACK("Hatchback");
+    SEDAN("Sedan","Sedan"),
+    SUV("SUV","SUV"),
+    HATCHBACK("Hatchback","Hatchback"),
+    UNDEFINED("Tanımsız","Undefined");
 
     private final String trName;
+    private final String engName;
 
-    Category(String trName) {
+    Category(String trName, String engName) {
         this.trName = trName;
+        this.engName = engName;
     }
 
     @Override

@@ -4,12 +4,14 @@ import com.talhacolak.carrental.dto.Fuel;
 import com.talhacolak.carrental.dto.Gear;
 import com.talhacolak.carrental.dto.Category;
 import com.talhacolak.carrental.dto.CarStatus;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.NotFound;
 
 @Entity
 @Data //getter setter metodları için
@@ -17,22 +19,28 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Car extends BaseEntity {
 
+    @Column(unique = true, nullable = false, length = 8)
     private String licensePlate;
+
+    @Column(nullable = false, length = 50)
     private String brand;
+
+    @Column(nullable = false, length = 50)
     private String model;
-    private int price;
+
     private int year;
 
-    @Enumerated(EnumType.STRING)
-    private Category category;
+    private int price;
 
     @Enumerated(EnumType.STRING)
-    private Fuel fuel;
+    private Category category = Category.UNDEFINED;
 
     @Enumerated(EnumType.STRING)
-    private Gear gear;
+    private Fuel fuel = Fuel.UNDEFINED;
 
     @Enumerated(EnumType.STRING)
-    private CarStatus status;
+    private Gear gear = Gear.UNDEFINED;
+
+    @Enumerated(EnumType.STRING)
+    private CarStatus status = CarStatus.UNDEFINED;
 }
-//fuel ENUM('Benzinli', 'Dizel', 'Hibrit' DEFAULT 'Beklemede') , gear ENUM('Manuel', 'Otomatik' DEFAULT 'Beklemede'), year INT, plate VARCHAR(50), price INT, status ENUM('Müsait', 'Kirada', 'Bakımda') DEFAULT 'Beklemede')";

@@ -27,16 +27,17 @@
                     <Font name="System Bold" size="30.0" />
                 </font>
             </Label>
+         <FontAwesomeIconView glyphName="CAR" layoutX="27.0" layoutY="351.0" size="10em" />
         </AnchorPane>
     </left>
     <right>
         <AnchorPane prefHeight="400.0" prefWidth="266.0" style="-fx-background-color: #023047;" BorderPane.alignment="CENTER">
             <TextField fx:id="username" layoutX="51.0" layoutY="124.0" promptText="Username" style="-fx-background-color: #8ecae6;" />
             <PasswordField fx:id="password" layoutX="51.0" layoutY="174.0" promptText="Password" style="-fx-background-color: #8ecae6;" />
-            <Button fx:id="loginButton" layoutX="103.0" layoutY="218.0" mnemonicParsing="false" onAction="#loginaction" style="-fx-background-color: #8ecae6;" text="Login" textFill="#696969" />
+            <Button fx:id="loginButton" layoutX="103.0" layoutY="218.0" mnemonicParsing="false" onAction="#loginAction" style="-fx-background-color: #8ecae6;" text="Login" textFill="#696969" />
             <Label fx:id="errorLabel" layoutX="59.0" layoutY="97.0" textFill="RED" />
             <Button fx:id="goNext" layoutX="175.0" layoutY="342.0" mnemonicParsing="false" onMouseClicked="#goNext" text="Button" />
-         <Button fx:id="close" layoutX="225.0" layoutY="1.0" mnemonicParsing="false" onAction="#close" prefHeight="26.0" prefWidth="28.0">
+         <Button fx:id="close" blendMode="OVERLAY" layoutX="223.0" layoutY="1.0" mnemonicParsing="false" onAction="#close" prefHeight="30.0" prefWidth="30.0">
             <graphic>
                <FontAwesomeIconView glyphName="CLOSE" size="1.2em" />
             </graphic>

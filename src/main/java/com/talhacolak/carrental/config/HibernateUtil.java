@@ -18,8 +18,4 @@ public class HibernateUtil {
             throw new ExceptionInInitializerError(ex);
         }
     }
-
-//    public static void shutdown() {
-//        getSessionFactory().close();
-//    }
 }

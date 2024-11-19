@@ -11,19 +11,19 @@
 <?import javafx.scene.layout.TilePane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="680.0" prefWidth="1080.0" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.talhacolak.carrental.controller.DashboardController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="680.0" prefWidth="1090.0" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.talhacolak.carrental.controller.CarGalleryController">
    <children>
-      <TilePane alignment="CENTER" hgap="45.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefColumns="3" prefHeight="680.0" prefRows="3" prefTileHeight="210.0" prefTileWidth="280.0" prefWidth="1080.0" vgap="15.0">
+      <TilePane alignment="CENTER" hgap="45.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefColumns="3" prefHeight="680.0" prefRows="3" prefTileHeight="210.0" prefTileWidth="280.0" prefWidth="1090.0" style="-fx-background-color: #8ECAE6;" vgap="15.0">
          <children>
-            <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="210.0" prefWidth="280.0" style="-fx-border-color: black; -fx-border-width: 1;">
+            <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="210.0" prefWidth="280.0" style="-fx-border-color: black; -fx-border-width: 1; -fx-background-color: White;">
                <children>
-                  <FontAwesomeIconView boundsType="VISUAL" glyphName="PLUS" layoutX="74.0" layoutY="110.0" size="15em" textOrigin="CENTER" />
+                  <FontAwesomeIconView fx:id="carAdd" boundsType="VISUAL" glyphName="PLUS" layoutX="65.0" layoutY="105.0" onMouseClicked="#carAdd" size="16em" textOrigin="CENTER" />
                </children>
                <TilePane.margin>
                   <Insets />
                </TilePane.margin>
             </AnchorPane>
-            <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="210.0" prefWidth="280.0" style="-fx-border-width: 1; -fx-border-color: black;">
+            <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="210.0" prefWidth="280.0" style="-fx-border-width: 1; -fx-border-color: black; -fx-background-color: White;">
                <children>
                   <ImageView fitHeight="200.0" fitWidth="260.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -54,7 +54,7 @@
                   <Insets />
                </TilePane.margin>
             </VBox>
-            <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="210.0" prefWidth="280.0" style="-fx-border-width: 1; -fx-border-color: black;">
+            <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="210.0" prefWidth="280.0" style="-fx-border-width: 1; -fx-border-color: black; -fx-background-color: White;">
                <children>
                   <ImageView fitHeight="200.0" fitWidth="260.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -82,7 +82,7 @@
                   <Insets />
                </TilePane.margin>
             </VBox>
-            <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="210.0" prefWidth="280.0" style="-fx-border-width: 1; -fx-border-color: black;">
+            <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="210.0" prefWidth="280.0" style="-fx-border-width: 1; -fx-border-color: black; -fx-background-color: White;">
                <children>
                   <ImageView fitHeight="200.0" fitWidth="260.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -110,7 +110,7 @@
                   <Insets />
                </TilePane.margin>
             </VBox>
-            <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="210.0" prefWidth="280.0" style="-fx-border-width: 1; -fx-border-color: black;">
+            <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="210.0" prefWidth="280.0" style="-fx-border-width: 1; -fx-border-color: black; -fx-background-color: White;">
                <children>
                   <ImageView fitHeight="200.0" fitWidth="260.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -138,7 +138,7 @@
                   <Insets />
                </TilePane.margin>
             </VBox>
-            <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="210.0" prefWidth="280.0" style="-fx-border-width: 1; -fx-border-color: black;">
+            <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="210.0" prefWidth="280.0" style="-fx-border-width: 1; -fx-border-color: black; -fx-background-color: White;">
                <children>
                   <ImageView fitHeight="200.0" fitWidth="260.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -169,7 +169,7 @@
                   <Insets />
                </TilePane.margin>
             </VBox>
-            <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="210.0" prefWidth="280.0" style="-fx-border-width: 1; -fx-border-color: black;">
+            <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="210.0" prefWidth="280.0" style="-fx-border-width: 1; -fx-border-color: black; -fx-background-color: White;">
                <children>
                   <ImageView fitHeight="200.0" fitWidth="260.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -197,7 +197,7 @@
                   <Insets />
                </TilePane.margin>
             </VBox>
-            <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="210.0" prefWidth="280.0" style="-fx-border-width: 1; -fx-border-color: black;">
+            <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="210.0" prefWidth="280.0" style="-fx-border-width: 1; -fx-border-color: black; -fx-background-color: White;">
                <children>
                   <ImageView fitHeight="200.0" fitWidth="260.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -225,7 +225,7 @@
                   <Insets />
                </TilePane.margin>
             </VBox>
-            <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="210.0" prefWidth="280.0" style="-fx-border-width: 1; -fx-border-color: black;">
+            <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="210.0" prefWidth="280.0" style="-fx-border-width: 1; -fx-border-color: black; -fx-background-color: White;">
                <children>
                   <ImageView fitHeight="200.0" fitWidth="260.0" pickOnBounds="true" preserveRatio="true">
                      <image>

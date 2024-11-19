@@ -20,14 +20,12 @@ public class CarRentalApplication extends Application {
 
     UserService userService;
 
-
     //yeni
     public static Scene loadscene(String fxmlpath, int width, int height) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(CarRentalApplication.class.getResource(fxmlpath));
         Parent root = fxmlLoader.load();
         return new Scene(root, width, height);
     }
-
 
     @Override
     public void start(Stage stage) throws IOException {
@@ -41,6 +39,7 @@ public class CarRentalApplication extends Application {
         }
 
         stage.setScene(loadscene("login-view.fxml", 600, 400));
+        stage.initStyle(StageStyle.TRANSPARENT);
         stage.setTitle("Login Screen");
         stage.setResizable(false);
         stage.centerOnScreen();

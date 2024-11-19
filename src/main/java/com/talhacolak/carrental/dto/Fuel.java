@@ -4,7 +4,8 @@ public enum Fuel {
     PETROL("Benzinli","Petrol"),
     DIESEL("Dizel","Diesel"),
     HYBRID("Hibrid", "Hybrid"),
-    ELECTRIC("Elektrikli", "Electric");
+    ELECTRIC("Elektrikli", "Electric"),
+    UNDEFINED("Tanımsız","Undefined");
 
     private final String trName;
     private final String engName;

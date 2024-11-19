@@ -1,49 +1,81 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.talhacolak.carrental.controller.DashboardController">
-    <left>
-        <VBox alignment="TOP_CENTER" prefHeight="400.0" prefWidth="200.0" style="-fx-background-color: #023047;" BorderPane.alignment="CENTER">
-            <Button fx:id="cars" layoutX="19.0" layoutY="82.0" mnemonicParsing="false" onAction="#carview" prefHeight="26.0" prefWidth="182.0" style="-fx-background-color: none;" text="Araçlar" textFill="#9c9c9c">
-                <font>
-                    <Font name="System Bold" size="24.0" />
-                </font>
-            </Button>
-            <Button layoutX="19.0" layoutY="94.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="182.0" style="-fx-background-color: none;" text="Araç Ekle" textFill="#9c9c9c">
-                <font>
-                    <Font name="System Bold" size="24.0" />
-                </font>
-            </Button>
-            <Button mnemonicParsing="false" prefHeight="26.0" prefWidth="182.0" style="-fx-background-color: none;" text="Araç Kirala" textFill="#9c9c9c">
-                <font>
-                    <Font name="System Bold" size="24.0" />
-                </font>
-            </Button>
-            <Button layoutX="19.0" layoutY="144.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="182.0" style="-fx-background-color: none;" text="Check List" textFill="#9c9c9c">
-                <font>
-                    <Font name="System Bold" size="24.0" />
-                </font>
-            </Button>
-            <Button layoutX="19.0" layoutY="205.0" mnemonicParsing="false" prefHeight="51.0" prefWidth="179.0" style="-fx-background-color: none;" text="Müşteriye Teslim Et" textFill="#9c9c9c">
-                <font>
-                    <Font name="System Bold" size="24.0" />
-                </font>
-            </Button>
-            <Button layoutX="19.0" layoutY="267.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="182.0" style="-fx-background-color: none;" text="Müşteriden Teslim Al" textFill="#9c9c9c">
-                <font>
-                    <Font name="System Bold" size="24.0" />
-                </font>
-            </Button>
-        </VBox>
-    </left>
-   <center>
-        <StackPane prefHeight="720.0" prefWidth="1080.0" style="-fx-background-color: #219ebc" BorderPane.alignment="CENTER">
-            <Button fx:id="goback" layoutX="510.0" layoutY="347.0" mnemonicParsing="false" onMouseClicked="#goBack" text="Go Back" />
-        </StackPane>
-   </center>
-</BorderPane>
+<AnchorPane fx:id="dashboard_form" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.talhacolak.carrental.controller.DashboardController">
+   <children>
+      <BorderPane fx:id="contents" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0">
+          <left>
+              <VBox prefHeight="680.0" prefWidth="190.0" style="-fx-background-color: #023047;">
+                  <Button fx:id="cars" layoutX="19.0" layoutY="82.0" mnemonicParsing="false" onAction="#carviewer" prefHeight="26.0" prefWidth="182.0" style="-fx-background-color: none; -fx-alignment: center-left;" text="Araçlar" textFill="#fb8500">
+                      <font>
+                          <Font name="System Bold" size="24.0" />
+                      </font>
+                  </Button>
+                  <Button layoutX="19.0" layoutY="144.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="182.0" style="-fx-background-color: none;" text="Check List" textFill="#9c9c9c">
+                      <font>
+                          <Font name="System Bold" size="24.0" />
+                      </font>
+                  </Button>
+                  <Button layoutX="19.0" layoutY="94.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="182.0" style="-fx-background-color: none;" text="Araç Ekle" textFill="#9c9c9c">
+                      <font>
+                          <Font name="System Bold" size="24.0" />
+                      </font>
+                  </Button>
+                  <Button mnemonicParsing="false" prefHeight="26.0" prefWidth="182.0" style="-fx-background-color: none;" text="Araç Kirala" textFill="#9c9c9c">
+                      <font>
+                          <Font name="System Bold" size="24.0" />
+                      </font>
+                  </Button>
+                  <Button layoutX="19.0" layoutY="205.0" mnemonicParsing="false" prefHeight="51.0" prefWidth="179.0" style="-fx-background-color: none;" text="Müşteriye Teslim Et" textFill="#9c9c9c">
+                      <font>
+                          <Font name="System Bold" size="24.0" />
+                      </font>
+                  </Button>
+                  <Button layoutX="19.0" layoutY="267.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="182.0" style="-fx-background-color: none;" text="Müşteriden Teslim Al" textFill="#9c9c9c">
+                      <font>
+                          <Font name="System Bold" size="24.0" />
+                      </font>
+                  </Button>
+                  <Button fx:id="goback" mnemonicParsing="false" onMouseClicked="#goBack" text="Go Back" />
+               <padding>
+                  <Insets left="5.0" right="5.0" />
+               </padding>
+              </VBox>
+          </left>
+         <center>
+            <AnchorPane fx:id="contentArea" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="680.0" prefWidth="1090.0" BorderPane.alignment="CENTER">
+               <children>
+                    <StackPane prefHeight="680.0" prefWidth="1090.0" style="-fx-background-color: #219ebc" />
+               </children>
+            </AnchorPane>
+         </center>
+         <top>
+            <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="1280.0" style="-fx-background-color: #023047;" BorderPane.alignment="CENTER">
+               <children>
+                  <Button fx:id="menubtn" alignment="CENTER" contentDisplay="CENTER" layoutX="14.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="40.0" prefWidth="40.0" style="-fx-background-color: transparent;">
+                     <padding>
+                        <Insets left="5.0" />
+                     </padding>
+                     <graphic>
+                        <FontAwesomeIconView fill="WHITE" glyphName="BARS" size="30px" />
+                     </graphic>
+                  </Button>
+                  <Button fx:id="close" blendMode="OVERLAY" layoutX="1241.0" layoutY="7.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#close" prefHeight="25.0" prefWidth="25.0">
+                     <graphic>
+                        <FontAwesomeIconView glyphName="CLOSE" size="20px" />
+                     </graphic>
+                  </Button>
+               </children>
+            </AnchorPane>
+         </top>
+      </BorderPane>
+   </children>
+</AnchorPane>

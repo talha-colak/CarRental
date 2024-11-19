@@ -2,7 +2,8 @@ package com.talhacolak.carrental.dto;
 
 public enum Gear {
     Manual("Manuel", "Manual"),
-    Automatic("Otomatik", "Automatic");
+    Automatic("Otomatik", "Automatic"),
+    UNDEFINED("Tanımsız","Undefined");
 
     private final String trName;
     private final String engName;
