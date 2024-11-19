@@ -81,6 +81,7 @@ public class CarAddController {
         car.setBrand(brand);
         car.setModel(model);
         car.setYear(yearText);
+        car.setPrice((int) priceText);
         car.setCategory(bodyDropdown.getValue());
         car.setFuel(fuelDropdown.getValue());
         car.setGear(gearDropdown.getValue());
