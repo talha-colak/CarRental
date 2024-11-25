@@ -11,7 +11,6 @@ import jakarta.persistence.Enumerated;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.NotFound;
 
 @Entity
 @Data //getter setter metodları için
@@ -27,6 +26,8 @@ public class Car extends BaseEntity {
 
     @Column(nullable = false, length = 50)
     private String model;
+
+    private String imageUrl;
 
     private int year;
 

@@ -24,18 +24,14 @@ public class CarGalleryController {
         if (carAddStage == null) {
             carAddStage = new Stage();
             try {
-                FXMLLoader loader = new FXMLLoader(CarRentalApplication.class.getResource("car-add.fxml"));
+                FXMLLoader loader = new FXMLLoader(CarRentalApplication.
+                        class.getResource("car-add.fxml"));
                 Parent root = loader.load();
                 Scene scene = new Scene(root);
                 carAddStage.setScene(scene);
                 carAddStage.initStyle(StageStyle.UTILITY);
                 carAddStage.setTitle("Car Adding Forms");
                 carAddStage.show();
-//                Stage stage = new Stage(StageStyle.UTILITY);
-//                stage.setTitle("Car Adding Forms");
-//                stage.setScene(new Scene(root));
-//                stage.show();
-
                 carAddStage.setOnCloseRequest(e -> carAddStage = null);
 
             } catch (IOException e) {
@@ -45,4 +41,6 @@ public class CarGalleryController {
             carAddStage.toFront();
         }
     }
+
+
 }

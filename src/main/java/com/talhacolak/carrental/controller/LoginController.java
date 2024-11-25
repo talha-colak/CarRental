@@ -2,35 +2,19 @@ package com.talhacolak.carrental.controller;
 
 import com.talhacolak.carrental.CarRentalApplication;
 import com.talhacolak.carrental.config.HibernateUtil;
-import com.talhacolak.carrental.entity.Car;
 import com.talhacolak.carrental.entity.User;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import org.hibernate.Session;
-//import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.mindrot.jbcrypt.BCrypt;
 
 import java.io.IOException;
 
 public class LoginController {
-
-    /* @FXML
-     private Label errorLabel;
-
-       public void validateLogin() {
-           if (loginFailed) {
-               errorLabel.setText("Geçersiz Kullanıcı Adı ve Parola");
-           }
-
-       }
-     */
 
     @FXML
     private BorderPane login_form;
@@ -45,28 +29,23 @@ public class LoginController {
     private Label errorLabel;
 
     @FXML
-    private Button goNext;
-
-    @FXML
-    private Button loginButton, close;
+    private Button goNext, loginButton, close;
 
     @FXML
     private void close() {
         Stage stage = (Stage) login_form.getScene().getWindow();
         stage.close();
     }
-
-    @FXML
-    private void goNext() throws IOException {
-
-        Stage stage = (Stage) goNext.getScene().getWindow();
-        stage.setScene(CarRentalApplication.loadscene("dashboard.fxml", 1280, 720));
-        stage.setTitle("Dashboard");
-        //stage.getScene().getWindow().centerOnScreen();
-        stage.centerOnScreen();
-        stage.setResizable(false);
-        stage.show();
-
+//    @FXML
+//    private void goNext() throws IOException {
+//
+//        Stage stage = (Stage) goNext.getScene().getWindow();
+//        stage.setScene(CarRentalApplication.loadscene("dashboard.fxml", 1280, 720));
+//        stage.setTitle("Dashboard");
+//        stage.centerOnScreen();
+//        stage.setResizable(false);
+//        stage.show();
+//    }
 //        Car car = new Car();
 //        car.setBrand("BMW");
 //        car.setModel("M3");
@@ -75,7 +54,6 @@ public class LoginController {
 //        session.save(car);
 //        transaction.commit();
 //        session.close();
-    }
 
     //TODO: loginAction metodunu düzenle.
     @FXML
@@ -91,7 +69,8 @@ public class LoginController {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             Transaction transaction = session.beginTransaction();
 
-            User user = session.createQuery("FROM User WHERE userName = :username", User.class).setParameter("username", usernameInput).uniqueResult();
+            User user = session.createQuery("FROM User WHERE userName =" +
+                    " :username", User.class).setParameter("username", usernameInput).uniqueResult();
             transaction.commit();
 
             if (user != null /*&& BCrypt.checkpw(passwordInput, user.getPassword())*/) {
@@ -104,7 +83,6 @@ public class LoginController {
             e.printStackTrace();
             errorLabel.setText("Bir hata oluştu. Tekrar deneyin.");
         }
-
     }
 
     private void navigateToDashboard() {
@@ -112,26 +90,10 @@ public class LoginController {
         try {
             Stage currentStage = (Stage) login_form.getScene().getWindow();
             Scene dashboardScene = CarRentalApplication.loadscene("dashboard.fxml", 1280, 720);
-            //FXMLLoader loader = new FXMLLoader(CarRentalApplication.class.getResource("dashboard.fxml"));
-            //Parent root =loader.load();
             setStage(dashboardScene);
             currentStage.close();
-
-//            Stage dashboardStage = new Stage();
-//            dashboardStage.setScene(dashboardScene);
-//            dashboardStage.initStyle(StageStyle.DECORATED);
-//            dashboardStage.setTitle("Dashboard");
-//            dashboardStage.centerOnScreen();
-//            dashboardStage.setResizable(false);
             currentStage.close();
-            //DashboardController dashboardController = loader.getController();
-            //dashboardController.setStage(stage);
-            //stage.setScene(CarRentalApplication.loadscene("dashboard.fxml",1280,720));
-            //Scene dashboardScene = new Scene(root,1280,720);
-            //stage.setScene(dashboardScene);
-            //stage.setTitle("Dashboard");
-            // stage.centerOnScreen();
-            // stage.show();
+
         } catch (IOException e) {
             e.printStackTrace();
             errorLabel.setText("Dashboard yüklenemedi!");
@@ -139,19 +101,19 @@ public class LoginController {
     }
 
     private void setStage(Scene scene) {
-        // Create a new stage for the dashboard
+        // dashboard için Stage oluşturur
         Stage dashboardStage = new Stage();
 
-        // Set the scene for the new stage
+        // Stage'e yeni bir Scene ayarlar
         dashboardStage.setScene(scene);
 
-        // Set properties for the dashboard stage before showing it
-        dashboardStage.initStyle(StageStyle.TRANSPARENT); // You can change this style if needed
+        // dashboard Stage'i göstermeden önce özellik atamaları yapılır
+        dashboardStage.initStyle(StageStyle.TRANSPARENT);
         dashboardStage.setTitle("Dashboard");
-        dashboardStage.centerOnScreen(); // Optional: center the stage
-        dashboardStage.setResizable(false); // Optional: make the stage resizable
+        dashboardStage.centerOnScreen();
+        dashboardStage.setResizable(false);
 
-        // Show the new stage
+        // Stage'i gösterir
         dashboardStage.show();
     }
 }

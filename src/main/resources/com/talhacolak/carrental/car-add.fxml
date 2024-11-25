@@ -9,8 +9,8 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox alignment="CENTER" prefHeight="480.0" prefWidth="510.0" spacing="10" xmlns="http://javafx.com/javafx/23"
-      xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.talhacolak.carrental.controller.CarAddController">
+<VBox alignment="CENTER" prefHeight="480.0" prefWidth="510.0" spacing="10" xmlns="http://javafx.com/javafx/"
+      xmlns:fx="http://javafx.com/fxml/" fx:controller="com.talhacolak.carrental.controller.CarAddController">
     <Label alignment="TOP_CENTER" contentDisplay="TOP" style="-fx-font-size: 32px; -fx-font-weight: bold;"
            text="Araç Ekleme Formu">
         <VBox.margin>
@@ -29,11 +29,11 @@
     <TextField fx:id="priceField" promptText="Price-per-Day"/>
     <HBox alignment="TOP_CENTER" prefHeight="30.0" prefWidth="600.0" spacing="30.0">
         <children>
-            <ComboBox fx:id="bodyDropdown" prefWidth="150.0" promptText="Gövde Tipi" visibleRowCount="3"/>
+            <ComboBox fx:id="bodyDropdown" prefWidth="150.0" promptText="Gövde Tipi" visibleRowCount="4"/>
             <ComboBox fx:id="fuelDropdown" layoutX="224.0" layoutY="10.0" prefWidth="150.0" promptText="Yakıt Tipi"
-                      visibleRowCount="4"/>
+                      visibleRowCount="5"/>
             <ComboBox fx:id="gearDropdown" layoutX="315.0" layoutY="10.0" prefWidth="150.0" promptText="Vites Tipi"
-                      visibleRowCount="2"/>
+                      visibleRowCount="3"/>
             <ComboBox fx:id="statusDropdown" layoutX="405.0" layoutY="10.0" prefWidth="150.0" promptText="Durumu"
                       visibleRowCount="5"/>
         </children>

@@ -1,6 +1,5 @@
 package com.talhacolak.carrental;
 
-import com.talhacolak.carrental.config.HibernateUtil;
 import com.talhacolak.carrental.dto.Role;
 import com.talhacolak.carrental.entity.User;
 import com.talhacolak.carrental.service.UserService;
@@ -10,8 +9,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 
 import java.io.IOException;
 import java.util.Objects;
@@ -19,7 +16,6 @@ import java.util.Objects;
 public class CarRentalApplication extends Application {
 
     UserService userService;
-
     //yeni
     public static Scene loadscene(String fxmlpath, int width, int height) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(CarRentalApplication.class.getResource(fxmlpath));
@@ -31,7 +27,6 @@ public class CarRentalApplication extends Application {
     public void start(Stage stage) throws IOException {
 
         userService = new UserService();
-
         User user = userService.getUserByUsername("admin");
         if (Objects.isNull(user)) {
             User adminUser = new User("admin", "123456", Role.ADMIN);

@@ -38,11 +38,14 @@ public class CarAddController {
         gearDropdown.setItems(FXCollections.observableArrayList(Gear.values()));
         statusDropdown.setItems(FXCollections.observableArrayList(CarStatus.values()));
 
-        plateField.setTextFormatter(new TextFormatter<>(change -> change.getControlNewText().matches("[A-Z0-9]{0,8}") ? change : null));
+        plateField.setTextFormatter(new TextFormatter<>(change ->
+                change.getControlNewText().matches("[A-Z0-9]{0,8}") ? change : null));
 
-        yearField.setTextFormatter(new TextFormatter<>(change -> change.getControlNewText().matches("\\d{0,4}") ? change : null));
+        yearField.setTextFormatter(new TextFormatter<>(change ->
+                change.getControlNewText().matches("\\d{0,4}") ? change : null));
 
-        priceField.setTextFormatter(new TextFormatter<>(change -> change.getControlNewText().matches("\\d*(\\.\\d{0,2})?") ? change : null));
+        priceField.setTextFormatter(new TextFormatter<>(change ->
+                change.getControlNewText().matches("\\d*(\\.\\d{0,2})?") ? change : null));
 
     }
 
@@ -74,8 +77,6 @@ public class CarAddController {
 
         int yearText = Integer.parseInt(year);
         double priceText = Double.parseDouble(price);
-        // Car car = new Car(brand, model, plate, yearText, priceText, fuelDropdown.getValue(), gearDropdown.getValue(), bodyDropdown.getValue());
-
         Car car = new Car();
         car.setLicensePlate(plate);
         car.setBrand(brand);
@@ -86,8 +87,6 @@ public class CarAddController {
         car.setFuel(fuelDropdown.getValue());
         car.setGear(gearDropdown.getValue());
         car.setStatus(statusDropdown.getValue());
-        //saveCar(car);
-        //showAlert("Başarılı!", "Bilgiler başarıyla eklendi");
 
         try {
             saveCar(car);
@@ -100,7 +99,7 @@ public class CarAddController {
     }
 
     private void saveCar(Car car) {
-        carAddService.saveCar(car);
+        carAddService.save(car);
     }
 
     private void showAlert(String title, String content) {

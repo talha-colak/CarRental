@@ -4,17 +4,19 @@ import com.talhacolak.carrental.config.HibernateUtil;
 import com.talhacolak.carrental.entity.User;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.mindrot.jbcrypt.BCrypt;
 
 public class UserService {
 
-    // Method to add a user
+    // Kullanıcı eklemek için metod
     public void addUser(User user) {
+
         Session session = HibernateUtil.getSessionFactory().openSession();
 
         Transaction transaction = null;
         try (session) {
             transaction = session.beginTransaction();
-            session.save(user); // Save the user entity
+            session.save(user); // kullanıyı tabloya kaydeder
             transaction.commit();
             System.out.println("Kullanıcı başarıyla eklendi!");
         } catch (Exception e) {
@@ -25,13 +27,13 @@ public class UserService {
         }
     }
 
-    // Method to retrieve a user by username
+    // Kullanıcı bilgilerini kullanıcı adı ile alan metod
     public User getUserByUsername(String username) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         User user = null;
 
         try {
-            // Query to find the user
+            // kullanıcıyı seçmek için sorgu
             user = session.createQuery("FROM User WHERE userName = :username", User.class)
                     .setParameter("username", username)
                     .uniqueResult();
@@ -41,7 +43,7 @@ public class UserService {
             session.close();
         }
 
-        return user; // Return the user or null if not found
+        return user;
     }
 
 }
