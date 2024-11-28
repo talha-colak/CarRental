@@ -8,10 +8,7 @@ import com.talhacolak.carrental.dto.Gear;
 import com.talhacolak.carrental.entity.Car;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TextField;
-import javafx.scene.control.TextFormatter;
+import javafx.scene.control.*;
 
 import java.time.LocalDate;
 
@@ -21,7 +18,6 @@ public class CarAddController {
 
     @FXML
     private TextField plateField, brandField, modelField, yearField, priceField;    // 22 ABC 123
-
     @FXML
     private ComboBox<Category> bodyDropdown;
     @FXML
@@ -37,9 +33,8 @@ public class CarAddController {
         fuelDropdown.setItems(FXCollections.observableArrayList(Fuel.values()));
         gearDropdown.setItems(FXCollections.observableArrayList(Gear.values()));
         statusDropdown.setItems(FXCollections.observableArrayList(CarStatus.values()));
-
         plateField.setTextFormatter(new TextFormatter<>(change ->
-                change.getControlNewText().matches("[A-Z0-9]{0,8}") ? change : null));
+                change.getControlNewText().matches("\\d{0,2}[A-Z]{0,3}\\d{0,3}") ? change : null));
 
         yearField.setTextFormatter(new TextFormatter<>(change ->
                 change.getControlNewText().matches("\\d{0,4}") ? change : null));
@@ -62,8 +57,8 @@ public class CarAddController {
             showAlert("Hata!", "Tüm kutucuklar doldurulmalı!");
             return;
         }
-        if (!plate.matches("[A-Z0-9]{8}")) {
-            showAlert("Hata!", "Plaka uygun '00ABC000' formatında girilmeli!");
+        if (!plate.matches("\\d{0,2}[A-Z]{0,3}\\d{0,3}")) {
+            showAlert("Hata!", "Plaka '00ABC000' formatında girilmeli!");
             return;
         }
         if (!year.matches("\\d{4}") || Integer.parseInt(year) < 1900 || Integer.parseInt(year) > LocalDate.now().getYear()) {
@@ -115,10 +110,10 @@ public class CarAddController {
         modelField.clear();
         yearField.clear();
         priceField.clear();
-        bodyDropdown.getSelectionModel().clearSelection();
-        fuelDropdown.getSelectionModel().clearSelection();
-        gearDropdown.getSelectionModel().clearSelection();
-        statusDropdown.getSelectionModel().clearSelection();
+        bodyDropdown.getSelectionModel().select(Category.UNDEFINED);
+        fuelDropdown.getSelectionModel().select(Fuel.UNDEFINED);
+        gearDropdown.getSelectionModel().select(Gear.UNDEFINED);
+        statusDropdown.getSelectionModel().select(CarStatus.UNDEFINED);
     }
 
 }

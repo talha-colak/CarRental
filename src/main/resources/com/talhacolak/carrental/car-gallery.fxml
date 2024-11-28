@@ -13,8 +13,8 @@
 <?import javafx.scene.layout.VBox?>
 
 
-<ScrollPane fx:id="carGalleryScrollPane" vbarPolicy="NEVER" xmlns="http://javafx.com/javafx/23"
-            xmlns:fx="http://javafx.com/fxml/1"
+<ScrollPane fx:id="carGalleryScrollPane" vbarPolicy="AS_NEEDED" hbarPolicy="NEVER" xmlns="http://javafx.com/javafx/"
+            xmlns:fx="http://javafx.com/fxml/"
             fx:controller="com.talhacolak.carrental.controller.CarGalleryController">
     <content>
         <TilePane fx:id="carTilePane" alignment="CENTER" hgap="45.0" maxHeight="-Infinity" maxWidth="-Infinity"
