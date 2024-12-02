@@ -6,7 +6,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-
 @Entity
 @Data
 @Table(name = "user")
@@ -14,10 +13,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class User extends BaseEntity {
 
-    @Column(nullable = false,unique = true)
+    @Column(nullable = false, unique = true)
     private String userName;
 
-    @Column(nullable = false,unique = true)
+    @Column(nullable = false, unique = true)
     private String password;
 
     @Column(nullable = false)

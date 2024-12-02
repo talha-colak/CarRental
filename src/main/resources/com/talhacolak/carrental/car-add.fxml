@@ -9,18 +9,13 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox alignment="CENTER" prefHeight="480.0" prefWidth="510.0" spacing="10" xmlns="http://javafx.com/javafx/"
-      xmlns:fx="http://javafx.com/fxml/" fx:controller="com.talhacolak.carrental.controller.CarAddController">
+<VBox alignment="CENTER" prefHeight="565.0" prefWidth="510.0" spacing="10" style="-fx-background-color: #8ecae6;"
+      xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.talhacolak.carrental.controller.CarAddController">
     <Label alignment="TOP_CENTER" contentDisplay="TOP" style="-fx-font-size: 32px; -fx-font-weight: bold;"
            text="Araç Ekleme Formu">
-        <VBox.margin>
-            <Insets/>
-        </VBox.margin>
     </Label>
     <Separator prefHeight="35.0" prefWidth="600.0">
-        <opaqueInsets>
-            <Insets/>
-        </opaqueInsets>
     </Separator>
     <TextField fx:id="plateField" promptText="Plate Number"/>
     <TextField fx:id="brandField" promptText="Brand"/>
@@ -41,5 +36,6 @@
             <Insets left="10.0" right="10.0"/>
         </VBox.margin>
     </HBox>
+    <fx:include fx:id="imageChooser" source="ImageChooser.fxml"/>
     <Button onAction="#addCar" text="Add Car"/>
 </VBox>

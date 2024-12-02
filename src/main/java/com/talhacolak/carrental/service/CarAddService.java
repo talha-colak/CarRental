@@ -5,8 +5,6 @@ import com.talhacolak.carrental.entity.Car;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
-import java.util.List;
-
 public class CarAddService {
 
     public void save(Car car) {

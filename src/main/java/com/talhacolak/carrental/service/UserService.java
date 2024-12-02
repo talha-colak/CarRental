@@ -8,6 +8,15 @@ import org.mindrot.jbcrypt.BCrypt;
 
 public class UserService {
 
+
+    public static String hashPassword(String password) {
+        return BCrypt.hashpw(password, BCrypt.gensalt());
+    }
+
+    public static boolean checkPassword(String plainPassword, String hashedPassword) {
+        return BCrypt.checkpw(plainPassword, hashedPassword);
+    }
+
     // Kullanıcı eklemek için metod
     public void addUser(User user) {
 

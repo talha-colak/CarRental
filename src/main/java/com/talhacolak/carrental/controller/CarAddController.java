@@ -9,13 +9,18 @@ import com.talhacolak.carrental.entity.Car;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.layout.VBox;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 public class CarAddController {
 
     private final CarAddService carAddService = new CarAddService();
 
+    @FXML
+    private VBox imageChooser;
+    private ImageChooserController imageChooserController;
     @FXML
     private TextField plateField, brandField, modelField, yearField, priceField;    // 22 ABC 123
     @FXML
@@ -29,6 +34,8 @@ public class CarAddController {
 
     @FXML
     public void initialize() {
+        imageChooserController = (ImageChooserController) imageChooser.getProperties().get("controller");
+
         bodyDropdown.setItems(FXCollections.observableArrayList(Category.values()));
         fuelDropdown.setItems(FXCollections.observableArrayList(Fuel.values()));
         gearDropdown.setItems(FXCollections.observableArrayList(Gear.values()));
@@ -41,7 +48,6 @@ public class CarAddController {
 
         priceField.setTextFormatter(new TextFormatter<>(change ->
                 change.getControlNewText().matches("\\d*(\\.\\d{0,2})?") ? change : null));
-
     }
 
     @FXML
@@ -52,10 +58,14 @@ public class CarAddController {
         String plate = plateField.getText().trim();
         String year = yearField.getText().trim();
         String price = priceField.getText().trim();
+        String imagePath = imageChooserController.getImagePath();
 
         if (brand.isEmpty() || model.isEmpty() || plate.isEmpty() || year.isEmpty() || price.isEmpty()) {
-            showAlert("Hata!", "Tüm kutucuklar doldurulmalı!");
+            showAlert("Hata!", "Tüm kutucuklar doldurulmalı ve Resim seçilmeli!");
             return;
+        }
+        if (imagePath == null || imagePath.isEmpty()) {
+            imagePath = "resources/images/placeholder.jpg";
         }
         if (!plate.matches("\\d{0,2}[A-Z]{0,3}\\d{0,3}")) {
             showAlert("Hata!", "Plaka '00ABC000' formatında girilmeli!");
@@ -78,6 +88,7 @@ public class CarAddController {
         car.setModel(model);
         car.setYear(yearText);
         car.setPrice((int) priceText);
+        car.setImageUrl("file:///" + imagePath);
         car.setCategory(bodyDropdown.getValue());
         car.setFuel(fuelDropdown.getValue());
         car.setGear(gearDropdown.getValue());
@@ -110,6 +121,7 @@ public class CarAddController {
         modelField.clear();
         yearField.clear();
         priceField.clear();
+        imageChooserController.clearImage();
         bodyDropdown.getSelectionModel().select(Category.UNDEFINED);
         fuelDropdown.getSelectionModel().select(Fuel.UNDEFINED);
         gearDropdown.getSelectionModel().select(Gear.UNDEFINED);

@@ -6,7 +6,8 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.type.SqlTypes;
-import java.time.LocalDateTime;
+
+import java.time.LocalDate;
 import java.util.UUID;
 
 @MappedSuperclass
@@ -23,10 +24,10 @@ public class BaseEntity {
 
     @CreationTimestamp
     @Column(nullable = false, updatable = false)
-    private LocalDateTime created;
+    private LocalDate created;
 
     @JsonFormat(pattern = "dd-mm-yyyy")
     @UpdateTimestamp
     @Column(nullable = false)
-    private LocalDateTime updated;
+    private LocalDate updated;
 }

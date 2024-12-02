@@ -16,6 +16,7 @@ import java.util.Objects;
 public class CarRentalApplication extends Application {
 
     UserService userService;
+
     //yeni
     public static Scene loadscene(String fxmlpath, int width, int height) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(CarRentalApplication.class.getResource(fxmlpath));
@@ -29,7 +30,7 @@ public class CarRentalApplication extends Application {
         userService = new UserService();
         User user = userService.getUserByUsername("admin");
         if (Objects.isNull(user)) {
-            User adminUser = new User("admin", "123456", Role.ADMIN);
+            User adminUser = new User("admin", UserService.hashPassword("alyattes"), Role.ADMIN);
             userService.addUser(adminUser);
         }
 

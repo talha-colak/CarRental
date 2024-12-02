@@ -18,6 +18,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Car extends BaseEntity {
 
+
     @Column(unique = true, nullable = false, length = 8)
     private String licensePlate;
 

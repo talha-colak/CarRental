@@ -1,301 +1,53 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.TilePane?>
-<?import javafx.scene.layout.VBox?>
 
-
-<ScrollPane fx:id="carGalleryScrollPane" vbarPolicy="AS_NEEDED" hbarPolicy="NEVER" xmlns="http://javafx.com/javafx/"
-            xmlns:fx="http://javafx.com/fxml/"
+<ScrollPane fx:id="carGalleryScrollPane" hbarPolicy="NEVER" vbarPolicy="AS_NEEDED" xmlns="http://javafx.com/javafx/23"
+            xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="com.talhacolak.carrental.controller.CarGalleryController">
     <content>
-        <TilePane fx:id="carTilePane" alignment="CENTER" hgap="45.0" maxHeight="-Infinity" maxWidth="-Infinity"
-                  minHeight="-Infinity" minWidth="-Infinity" prefColumns="3" prefHeight="680.0" prefRows="3"
-                  prefTileHeight="210.0" prefTileWidth="280.0" prefWidth="1090.0" style="-fx-background-color: #8ECAE6;"
+        <TilePane fx:id="carTilePane" alignment="CENTER" hgap="45.0" prefColumns="3" prefHeight="680.0"
+                  prefTileHeight="210.0" prefTileWidth="280.0" prefWidth="1090.0" style="-fx-background-color: #219ebc;"
                   vgap="15.0">
             <children>
-                <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
-                            prefHeight="210.0" prefWidth="280.0"
-                            style="-fx-border-color: black; -fx-border-width: 1; -fx-background-color: White;">
+                <!--Araç ekleme butonu-->
+                <AnchorPane prefHeight="210.0" prefWidth="280.0"
+                            style="-fx-border-color: black; -fx-border-width: 1;                             -fx-background-color: White;">
                     <children>
-                        <FontAwesomeIconView fx:id="carAdd" boundsType="VISUAL" glyphName="PLUS" layoutX="65.0"
-                                             layoutY="105.0" onMouseClicked="#carAdd" size="16em" textOrigin="CENTER"/>
+                        <FontAwesomeIconView fx:id="carAdd" glyphName="PLUS" layoutX="65.0" layoutY="105.0"
+                                             onMouseClicked="#carAdd" size="16em" textOrigin="CENTER"/>
                     </children>
-                    <TilePane.margin>
-                        <Insets/>
-                    </TilePane.margin>
                 </AnchorPane>
-                <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
-                      minWidth="-Infinity" prefHeight="210.0" prefWidth="280.0"
-                      style="-fx-border-width: 1; -fx-border-color: black; -fx-background-color: White;">
-                    <children>
-                        <ImageView fitHeight="200.0" fitWidth="260.0" pickOnBounds="true" preserveRatio="true">
-                            <image>
-                                <Image url="@images/dacia-BI1-Sandero_Stepway.jpg"/>
-                            </image>
-                            <VBox.margin>
-                                <Insets left="5.0" right="5.0" top="10.0"/>
-                            </VBox.margin>
-                        </ImageView>
-                        <Label text="Label"/>
-                        <Label text="Label"/>
-                        <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
-                              minWidth="-Infinity" prefHeight="35.0" prefWidth="280.0" spacing="5.0">
-                            <children>
-                                <Button fx:id="viewButton" mnemonicParsing="false" text="Details"/>
-                                <Button fx:id="editButton" layoutX="10.0" layoutY="10.0" mnemonicParsing="false"
-                                        text="Edit"/>
-                                <Button fx:id="deleteButton" layoutX="62.0" layoutY="10.0" mnemonicParsing="false"
-                                        text="Delete"/>
-                                <Button layoutX="114.0" layoutY="10.0" mnemonicParsing="false" text="Button"/>
-                            </children>
-                            <VBox.margin>
-                                <Insets/>
-                            </VBox.margin>
-                            <padding>
-                                <Insets bottom="10.0"/>
-                            </padding>
-                        </HBox>
-                    </children>
-                    <TilePane.margin>
-                        <Insets/>
-                    </TilePane.margin>
-                </VBox>
-                <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
-                      minWidth="-Infinity" prefHeight="210.0" prefWidth="280.0"
-                      style="-fx-border-width: 1; -fx-border-color: black; -fx-background-color: White;">
-                    <children>
-                        <ImageView fitHeight="200.0" fitWidth="260.0" pickOnBounds="true" preserveRatio="true">
-                            <image>
-                                <Image url="@images/peugeot-208.jpg"/>
-                            </image>
-                            <VBox.margin>
-                                <Insets left="5.0" right="5.0" top="10.0"/>
-                            </VBox.margin>
-                        </ImageView>
-                        <Label text="Label"/>
-                        <Label text="Label"/>
-                        <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
-                              minWidth="-Infinity" prefHeight="35.0" prefWidth="280.0" spacing="5.0">
-                            <children>
-                                <Button mnemonicParsing="false" text="Button"/>
-                                <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" text="Button"/>
-                                <Button layoutX="62.0" layoutY="10.0" mnemonicParsing="false" text="Button"/>
-                                <Button layoutX="114.0" layoutY="10.0" mnemonicParsing="false" text="Button"/>
-                            </children>
-                            <padding>
-                                <Insets bottom="10.0"/>
-                            </padding>
-                        </HBox>
-                    </children>
-                    <TilePane.margin>
-                        <Insets/>
-                    </TilePane.margin>
-                </VBox>
-                <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
-                      minWidth="-Infinity" prefHeight="210.0" prefWidth="280.0"
-                      style="-fx-border-width: 1; -fx-border-color: black; -fx-background-color: White;">
-                    <children>
-                        <ImageView fitHeight="200.0" fitWidth="260.0" pickOnBounds="true" preserveRatio="true">
-                            <image>
-                                <Image url="@images/renault-DN1-Rafale.jpg"/>
-                            </image>
-                            <VBox.margin>
-                                <Insets left="5.0" right="5.0" top="10.0"/>
-                            </VBox.margin>
-                        </ImageView>
-                        <Label text="Label"/>
-                        <Label text="Label"/>
-                        <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
-                              minWidth="-Infinity" prefHeight="35.0" prefWidth="280.0" spacing="5.0">
-                            <children>
-                                <Button mnemonicParsing="false" text="Button"/>
-                                <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" text="Button"/>
-                                <Button layoutX="62.0" layoutY="10.0" mnemonicParsing="false" text="Button"/>
-                                <Button layoutX="114.0" layoutY="10.0" mnemonicParsing="false" text="Button"/>
-                            </children>
-                            <padding>
-                                <Insets bottom="10.0"/>
-                            </padding>
-                        </HBox>
-                    </children>
-                    <TilePane.margin>
-                        <Insets/>
-                    </TilePane.margin>
-                </VBox>
-                <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
-                      minWidth="-Infinity" prefHeight="210.0" prefWidth="280.0"
-                      style="-fx-border-width: 1; -fx-border-color: black; -fx-background-color: White;">
-                    <children>
-                        <ImageView fitHeight="200.0" fitWidth="260.0" pickOnBounds="true" preserveRatio="true">
-                            <image>
-                                <Image url="@images/renault-HN1-Austral.jpg"/>
-                            </image>
-                            <VBox.margin>
-                                <Insets left="5.0" right="5.0" top="10.0"/>
-                            </VBox.margin>
-                        </ImageView>
-                        <Label text="Label"/>
-                        <Label text="Label"/>
-                        <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
-                              minWidth="-Infinity" prefHeight="35.0" prefWidth="280.0" spacing="5.0">
-                            <children>
-                                <Button mnemonicParsing="false" text="Button"/>
-                                <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" text="Button"/>
-                                <Button layoutX="62.0" layoutY="10.0" mnemonicParsing="false" text="Button"/>
-                                <Button layoutX="114.0" layoutY="10.0" mnemonicParsing="false" text="Button"/>
-                            </children>
-                            <padding>
-                                <Insets bottom="10.0"/>
-                            </padding>
-                        </HBox>
-                    </children>
-                    <TilePane.margin>
-                        <Insets/>
-                    </TilePane.margin>
-                </VBox>
-                <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
-                      minWidth="-Infinity" prefHeight="210.0" prefWidth="280.0"
-                      style="-fx-border-width: 1; -fx-border-color: black; -fx-background-color: White;">
-                    <children>
-                        <ImageView fitHeight="200.0" fitWidth="260.0" pickOnBounds="true" preserveRatio="true">
-                            <image>
-                                <Image url="@images/renault-KV2-Kangoo_E-Tech.jpg"/>
-                            </image>
-                            <VBox.margin>
-                                <Insets left="5.0" right="5.0" top="10.0"/>
-                            </VBox.margin>
-                        </ImageView>
-                        <Label text="Label"/>
-                        <Label text="Label"/>
-                        <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
-                              minWidth="-Infinity" prefHeight="30.0" prefWidth="280.0" spacing="5.0">
-                            <children>
-                                <Button maxHeight="-Infinity" minHeight="-Infinity" mnemonicParsing="false"
-                                        prefHeight="25.0" text="Button"/>
-                                <Button layoutX="10.0" layoutY="10.0" maxHeight="-Infinity" minHeight="-Infinity"
-                                        mnemonicParsing="false" prefHeight="25.0" text="Button"/>
-                                <Button layoutX="62.0" layoutY="10.0" maxHeight="-Infinity" minHeight="-Infinity"
-                                        mnemonicParsing="false" prefHeight="25.0" text="Button"/>
-                                <Button layoutX="114.0" layoutY="10.0" maxHeight="-Infinity" minHeight="-Infinity"
-                                        mnemonicParsing="false" prefHeight="25.0" text="Button"/>
-                            </children>
-                            <VBox.margin>
-                                <Insets/>
-                            </VBox.margin>
-                            <padding>
-                                <Insets bottom="10.0"/>
-                            </padding>
-                        </HBox>
-                    </children>
-                    <TilePane.margin>
-                        <Insets/>
-                    </TilePane.margin>
-                </VBox>
-                <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
-                      minWidth="-Infinity" prefHeight="210.0" prefWidth="280.0"
-                      style="-fx-border-width: 1; -fx-border-color: black; -fx-background-color: White;">
-                    <children>
-                        <ImageView fitHeight="200.0" fitWidth="260.0" pickOnBounds="true" preserveRatio="true">
-                            <image>
-                                <Image url="@images/renault-LF1-Taliant.jpg"/>
-                            </image>
-                            <VBox.margin>
-                                <Insets left="5.0" right="5.0" top="10.0"/>
-                            </VBox.margin>
-                        </ImageView>
-                        <Label text="Label"/>
-                        <Label text="Label"/>
-                        <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
-                              minWidth="-Infinity" prefHeight="35.0" prefWidth="280.0" spacing="5.0">
-                            <children>
-                                <Button mnemonicParsing="false" text="Button"/>
-                                <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" text="Button"/>
-                                <Button layoutX="62.0" layoutY="10.0" mnemonicParsing="false" text="Button"/>
-                                <Button layoutX="114.0" layoutY="10.0" mnemonicParsing="false" text="Button"/>
-                            </children>
-                            <padding>
-                                <Insets bottom="10.0"/>
-                            </padding>
-                        </HBox>
-                    </children>
-                    <TilePane.margin>
-                        <Insets/>
-                    </TilePane.margin>
-                </VBox>
-                <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
-                      minWidth="-Infinity" prefHeight="210.0" prefWidth="280.0"
-                      style="-fx-border-width: 1; -fx-border-color: black; -fx-background-color: White;">
-                    <children>
-                        <ImageView fitHeight="200.0" fitWidth="260.0" pickOnBounds="true" preserveRatio="true">
-                            <image>
-                                <Image url="@images/renault-ZO1-Megane_E-Tech.jpg"/>
-                            </image>
-                            <VBox.margin>
-                                <Insets left="5.0" right="5.0" top="10.0"/>
-                            </VBox.margin>
-                        </ImageView>
-                        <Label text="Label"/>
-                        <Label text="Label"/>
-                        <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
-                              minWidth="-Infinity" prefHeight="35.0" prefWidth="280.0" spacing="5.0">
-                            <children>
-                                <Button mnemonicParsing="false" text="Button"/>
-                                <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" text="Button"/>
-                                <Button layoutX="62.0" layoutY="10.0" mnemonicParsing="false" text="Button"/>
-                                <Button layoutX="114.0" layoutY="10.0" mnemonicParsing="false" text="Button"/>
-                            </children>
-                            <padding>
-                                <Insets bottom="11.0"/>
-                            </padding>
-                        </HBox>
-                    </children>
-                    <TilePane.margin>
-                        <Insets/>
-                    </TilePane.margin>
-                </VBox>
-                <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
-                      minWidth="-Infinity" prefHeight="210.0" prefWidth="280.0"
-                      style="-fx-border-width: 1; -fx-border-color: black; -fx-background-color: White;">
-                    <children>
-                        <ImageView fitHeight="200.0" fitWidth="260.0" pickOnBounds="true" preserveRatio="true">
-                            <image>
-                                <Image url="@images/fabia-hero.jpg"/>
-                            </image>
-                            <VBox.margin>
-                                <Insets left="5.0" right="5.0" top="10.0"/>
-                            </VBox.margin>
-                        </ImageView>
-                        <Label text="Label"/>
-                        <Label text="Label"/>
-                        <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
-                              minWidth="-Infinity" prefHeight="35.0" prefWidth="280.0" spacing="5.0">
-                            <children>
-                                <Button mnemonicParsing="false" text="Button"/>
-                                <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" text="Button"/>
-                                <Button layoutX="62.0" layoutY="10.0" mnemonicParsing="false" text="Button"/>
-                                <Button layoutX="114.0" layoutY="10.0" mnemonicParsing="false" text="Button"/>
-                            </children>
-                            <padding>
-                                <Insets bottom="10.0" top="10.0"/>
-                            </padding>
-                            <VBox.margin>
-                                <Insets/>
-                            </VBox.margin>
-                        </HBox>
-                    </children>
-                    <TilePane.margin>
-                        <Insets/>
-                    </TilePane.margin>
-                </VBox>
+                <!-- Araç şablonu-->
+                <!--                <VBox alignment="CENTER" prefHeight="210.0" prefWidth="280.0"-->
+                <!--                      style="-fx-border-width: 1; -fx-border-color: black; -fx-background-color: White;">-->
+                <!--                    <children>-->
+                <!--                        <ImageView fitHeight="200.0" fitWidth="260.0" preserveRatio="true">-->
+                <!--                            <image>-->
+                <!--                                <Image url="@images/placeholder.jpg"/>-->
+                <!--                            </image>-->
+                <!--                            <VBox.margin>-->
+                <!--                                <Insets left="5.0" right="5.0" top="10.0"/>-->
+                <!--                            </VBox.margin>-->
+                <!--                        </ImageView>-->
+                <!--                        <Label text="Car Brand and Model" style="-fx-font-weight: bold;"/>-->
+                <!--                        <Label text="Price: ₺2000/Günlük"/>-->
+                <!--                        <HBox alignment="CENTER" prefHeight="35.0" prefWidth="280.0" spacing="5.0">-->
+                <!--                            <children>-->
+                <!--                                <Button fx:id="viewButton" text="Details"/>-->
+                <!--                                <Button fx:id="editButton" layoutX="10.0" layoutY="10.0" text="Edit"/>-->
+                <!--                                <Button fx:id="deleteButton" layoutX="62.0" layoutY="10.0" text="Delete"/>-->
+                <!--                            </children>-->
+                <!--                            <padding>-->
+                <!--                                <Insets bottom="10.0"/>-->
+                <!--                            </padding>-->
+                <!--                        </HBox>-->
+                <!--                    </children>-->
+                <!--                </VBox>-->
+
             </children>
         </TilePane>
     </content>

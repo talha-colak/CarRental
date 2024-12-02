@@ -2,6 +2,7 @@ package com.talhacolak.carrental.controller;
 
 import com.talhacolak.carrental.CarRentalApplication;
 import com.talhacolak.carrental.config.HibernateUtil;
+import com.talhacolak.carrental.dto.Role;
 import com.talhacolak.carrental.entity.User;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
@@ -11,6 +12,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.mindrot.jbcrypt.BCrypt;
 
 import java.io.IOException;
 
@@ -36,24 +38,6 @@ public class LoginController {
         Stage stage = (Stage) login_form.getScene().getWindow();
         stage.close();
     }
-//    @FXML
-//    private void goNext() throws IOException {
-//
-//        Stage stage = (Stage) goNext.getScene().getWindow();
-//        stage.setScene(CarRentalApplication.loadscene("dashboard.fxml", 1280, 720));
-//        stage.setTitle("Dashboard");
-//        stage.centerOnScreen();
-//        stage.setResizable(false);
-//        stage.show();
-//    }
-//        Car car = new Car();
-//        car.setBrand("BMW");
-//        car.setModel("M3");
-//        Session session = HibernateUtil.getSessionFactory().openSession();
-//        Transaction transaction = session.beginTransaction();
-//        session.save(car);
-//        transaction.commit();
-//        session.close();
 
     //TODO: loginAction metodunu düzenle.
     @FXML
@@ -64,6 +48,7 @@ public class LoginController {
 
         if (usernameInput.isEmpty() || passwordInput.isEmpty()) {
             errorLabel.setText("Kullanıcı adı ve şifre giriniz!");
+            return;
         }
 
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
@@ -73,7 +58,7 @@ public class LoginController {
                     " :username", User.class).setParameter("username", usernameInput).uniqueResult();
             transaction.commit();
 
-            if (user != null /*&& BCrypt.checkpw(passwordInput, user.getPassword())*/) {
+            if (user != null && BCrypt.checkpw(passwordInput, user.getPassword())) {
                 navigateToDashboard();
             } else {
                 errorLabel.setText("Geçersiz kullanıcı adı veya şifre!");
