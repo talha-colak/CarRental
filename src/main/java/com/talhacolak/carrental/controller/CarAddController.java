@@ -1,6 +1,6 @@
 package com.talhacolak.carrental.controller;
 
-import com.talhacolak.carrental.service.CarAddService;
+import com.talhacolak.carrental.service.CarService;
 import com.talhacolak.carrental.dto.CarStatus;
 import com.talhacolak.carrental.dto.Category;
 import com.talhacolak.carrental.dto.Fuel;
@@ -17,7 +17,7 @@ import static com.talhacolak.carrental.service.AlertUtil.showAlert;
 
 public class CarAddController {
 
-    private final CarAddService carAddService = new CarAddService();
+    private final CarService carService = new CarService();
 
     @FXML
     private VBox imageChooser;
@@ -64,7 +64,7 @@ public class CarAddController {
             return;
         }
         if (imagePath == null || imagePath.isEmpty()) {
-            imagePath = "resources/images/placeholder.jpg";
+            imagePath = "C:\\Users\\Talha Çolak\\IdeaProjects\\CarRentalSystem\\src\\main\\resources\\com\\talhacolak\\carrental\\images\\placeholder.jpg";
         }
         if (!plate.matches("\\d{0,2}[A-Z]{0,3}\\d{0,3}")) {
             //showAlert("Hata!", "Plaka '00ABC000' formatında girilmeli!");
@@ -107,7 +107,7 @@ public class CarAddController {
     }
 
     private void saveCar(Car car) {
-        carAddService.save(car);
+        carService.save(car);
     }
 
 /*

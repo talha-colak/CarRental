@@ -5,7 +5,7 @@ import com.talhacolak.carrental.entity.Car;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
-public class CarAddService {
+public class CarService {
 
     public void save(Car car) {
         Transaction transaction = null;

@@ -1,9 +1,13 @@
 package com.talhacolak.carrental.service;
 
 import com.talhacolak.carrental.config.HibernateUtil;
+import com.talhacolak.carrental.entity.Car;
 import com.talhacolak.carrental.entity.Inspection;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
+
+import java.util.List;
 
 public class CarInspectionService {
 
@@ -23,4 +27,24 @@ public class CarInspectionService {
         }
     }
 
+    public Car findInspectionByPlate(String licensePlate) {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            Query<Car> query = session.createQuery("from Car where licensePlate = :plate ", Car.class);
+            query.setParameter("plate", licensePlate);
+            return query.uniqueResult();
+        } catch (Exception e) {
+            System.err.println("" + e.getMessage());
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public List<Inspection> getAllInspections() {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            return session.createQuery("from Inspection ", Inspection.class).list();
+        } catch (Exception e) {
+            System.err.println("İnceleme bilgileri getirilemedi" + e.getMessage());
+        }
+        return List.of();
+    }
 }

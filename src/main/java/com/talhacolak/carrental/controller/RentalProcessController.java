@@ -4,7 +4,7 @@ import com.talhacolak.carrental.entity.Customer;
 import com.talhacolak.carrental.entity.Inspection;
 import com.talhacolak.carrental.entity.Rental;
 import com.talhacolak.carrental.service.CarInspectionService;
-import com.talhacolak.carrental.service.CustomerAddService;
+import com.talhacolak.carrental.service.CustomerService;
 import com.talhacolak.carrental.service.RentalService;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -46,12 +46,16 @@ public class RentalProcessController {
     @FXML
     private Button registerButton, inspectionButton, finalizeButton, refreshInspectionButton, refreshCustomerButton, refreshCarButton;
 
-    private final CustomerAddService customerAddService = new CustomerAddService();
+    private final CustomerService customerService = new CustomerService();
+    private final CarInspectionService inspectionService = new CarInspectionService();
+
     private final ObservableList<String> customerObservableList = FXCollections.observableArrayList();
+    private final ObservableList<String> inspectionObservableList = FXCollections.observableArrayList();
 
     @FXML
     public void initialize() {
         refreshCustomerList();
+        refreshInspectionList();
     }
 
     @FXML
@@ -77,7 +81,7 @@ public class RentalProcessController {
 
         //TODO: Müşteri bilgileri kaydedilecek ve Bir sonraki sekme açılacak!!
         try {
-            customerAddService.save(customer);
+            customerService.save(customer);
             showAlert(Alert.AlertType.INFORMATION, "Başarılı", "Müşteri Başarıyla Kaydedildi!");
             clearCustomerField();
             refreshCustomerList();
@@ -93,7 +97,7 @@ public class RentalProcessController {
             showAlert(Alert.AlertType.ERROR, "Hata", "Lütfen Lisans Numaranızı Girin!");
         }
 
-        Customer customer = customerAddService.findCustomerById(registeredCustomerField.getText());
+        Customer customer = customerService.findCustomerById(registeredCustomerField.getText());
 
         if (customer != null) {
             showAlert(Alert.AlertType.INFORMATION, "Müşteri Bulundu!", customer.toString());
@@ -107,14 +111,13 @@ public class RentalProcessController {
     private void refreshCustomerList() {
         customerObservableList.clear();
 
-        List<Customer> customers = customerAddService.getAllCustomer();
+        List<Customer> customers = customerService.getAllCustomer();
         if (customers != null && !customers.isEmpty()) {
             for (Customer customer : customers) {
                 customerObservableList.add(customer.toString());
             }
         }
         customerListView.setItems(customerObservableList);
-
     }
 
     @FXML
@@ -135,6 +138,12 @@ public class RentalProcessController {
     @FXML
     private void saveInspection() {
 
+        if (kilometerField.getText().isEmpty() ||
+                descriptionField.getText().isEmpty()) {
+            showAlert(Alert.AlertType.ERROR, "Hata", "Lütfen tüm alanları doldurun!");
+            return;
+        }
+
         Inspection inspection = new Inspection();
         inspection.setKilometer(Integer.parseInt(kilometerField.getText()));
         inspection.setFuelStatus((int) fuelSlider.getValue());
@@ -149,14 +158,43 @@ public class RentalProcessController {
         inspection.setDescription(descriptionField.getText());
 
         //TODO: Araç inceleme formundaki bilgiler kaydedilecek ve Bir sonraki sekme açılacak!!
+        try {
+            inspectionService.save(inspection);
+            showAlert(Alert.AlertType.INFORMATION, "Başarılı", "İnceleme bilgileri başarıylya kaydedildi");
 
-        CarInspectionService carInspectionService = new CarInspectionService();
-        carInspectionService.save(inspection);
+        } catch (Exception e) {
+            showAlert(Alert.AlertType.ERROR, "Hata", "İnceleme bilgileri kaydedilemedi: " + e.getMessage());
+        }
     }
 
     @FXML
     private void refreshInspectionList() {
+        inspectionObservableList.clear();
 
+        List<Inspection> inspections = inspectionService.getAllInspections();
+        if (inspections != null && !inspections.isEmpty()) {
+            for (Inspection carInspection : inspections) {
+                inspectionObservableList.add(carInspection.toString());
+            }
+        }
+        inspectionListView.setItems(customerObservableList);
+    }
+
+    @FXML
+    private void clearInspectionsList() {
+        inspectionObservableList.clear();
+    }
+
+    @FXML
+    private void clearInspectionsField() {
+        kilometerField.clear();
+        descriptionField.clear();
+        registrationCheck.setSelected(false);
+        aerialCheck.setSelected(false);
+        babySeatCheck.setSelected(false);
+        firstAidKitCheck.setSelected(false);
+        fireExtinguisherCheck.setSelected(false);
+        toolSetCheck.setSelected(false);
     }
 
     @FXML

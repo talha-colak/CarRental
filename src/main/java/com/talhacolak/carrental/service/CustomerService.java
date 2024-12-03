@@ -8,7 +8,7 @@ import org.hibernate.query.Query;
 
 import java.util.List;
 
-public class CustomerAddService {
+public class CustomerService {
 
     public void save(Customer customer) {
         Transaction transaction = null;
