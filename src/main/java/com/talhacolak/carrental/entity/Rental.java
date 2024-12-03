@@ -3,6 +3,7 @@ package com.talhacolak.carrental.entity;
 import com.talhacolak.carrental.dto.RentalStatus;
 import jakarta.persistence.*;
 import lombok.Data;
+
 import java.time.LocalDateTime;
 
 @Entity
@@ -17,6 +18,14 @@ public class Rental extends BaseEntity {
     private Double totalPrice;
 
     private RentalStatus rentalStatus;
+
+    @ManyToOne
+    @JoinColumn(name = "beforeinspection_id")
+    private Inspection beforeInspection;
+
+    @ManyToOne
+    @JoinColumn(name = "afterinspection_id")
+    private Inspection afterInspection;
 
     @ManyToOne
     @JoinColumn(name = "car_id", nullable = false)

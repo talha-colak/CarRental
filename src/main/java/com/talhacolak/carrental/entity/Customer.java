@@ -23,11 +23,10 @@ public class Customer extends BaseEntity {
     @Column(nullable = false, length = 50)
     private String lastName;
 
-    @Column(nullable = false)
     private LocalDate birthday;
 
     @Column(nullable = false)
-    private Integer phoneNumber;
+    private String phoneNumber;
 
     @Column(nullable = false)
     private String email;

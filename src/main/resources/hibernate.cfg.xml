@@ -17,7 +17,10 @@
         <property name="hibernate.format_sql">true</property>
         <property name="hibernate.archive.autodetection">class</property>
         <mapping package="com.talhacolak.carrental.entity"/>
-        <mapping class="com.talhacolak.carrental.entity.Car"/>
         <mapping class="com.talhacolak.carrental.entity.User"/>
+        <mapping class="com.talhacolak.carrental.entity.Car"/>
+        <mapping class="com.talhacolak.carrental.entity.Customer"/>
+        <mapping class="com.talhacolak.carrental.entity.Inspection"/>
+        <mapping class="com.talhacolak.carrental.entity.Rental"/>
     </session-factory>
 </hibernate-configuration>

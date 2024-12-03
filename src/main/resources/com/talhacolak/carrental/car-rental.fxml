@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
-<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
@@ -22,147 +24,293 @@
          fx:controller="com.talhacolak.carrental.controller.RentalProcessController">
     <tabs>
         <Tab text="Müşteri Kayıt">
-            <VBox alignment="CENTER" fillWidth="false" spacing="25.0">
+            <HBox>
                 <children>
-                    <Label style="-fx-font-size: 32px; -fx-font-weight: bold;" text="Müşteri Kayıt Formu"/>
-                    <HBox alignment="CENTER">
+                    <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+                                prefHeight="651.2" prefWidth="380.0" HBox.hgrow="NEVER">
                         <children>
-                            <Label text="Sicil Numarası">
-                                <padding>
-                                    <Insets right="5.0"/>
-                                </padding>
-                            </Label>
-                            <TextField fx:id="licenseNumberField" promptText="Sürücü Sicil Numarası">
-                            </TextField>
+                            <ListView fx:id="customerListView" layoutX="50.0" layoutY="50.0" prefHeight="510.0"
+                                      prefWidth="300.0"/>
+                            <HBox alignment="CENTER" layoutX="160.0" layoutY="560.0">
+                                <children>
+                                    <Button fx:id="refreshCustomerButton" alignment="CENTER"
+                                            contentDisplay="GRAPHIC_ONLY" mnemonicParsing="false"
+                                            onAction="#refreshCustomerList" style="-fx-background-color: transparent;"
+                                            text="Button">
+                                        <graphic>
+                                            <FontAwesomeIconView glyphName="REFRESH" scaleX="2.0" scaleY="2.0"/>
+                                        </graphic>
+                                    </Button>
+                                    <Button fx:id="deleteCustomerButton" onAction="#clearCustomerList"
+                                            alignment="CENTER"
+                                            contentDisplay="GRAPHIC_ONLY" layoutX="10.0" layoutY="10.0"
+                                            mnemonicParsing="false" style="-fx-background-color: transparent;"
+                                            text="Button">
+                                        <graphic>
+                                            <FontAwesomeIconView glyphName="TRASH" scaleX="2.0" scaleY="2.0"/>
+                                        </graphic>
+                                    </Button>
+                                </children>
+                            </HBox>
                         </children>
-                    </HBox>
-                    <HBox alignment="CENTER">
+                    </AnchorPane>
+                    <VBox alignment="CENTER" fillWidth="false" spacing="50.0" HBox.hgrow="ALWAYS">
                         <children>
-                            <Label text="Adı"/>
-                            <TextField fx:id="firstNameField" promptText="Müşteri Adı"/>
+                            <Label alignment="CENTER" style="-fx-font-size: 32px; -fx-font-weight: bold;"
+                                   text="Müşteri Kayıt Formu"/>
+                            <GridPane alignment="TOP_CENTER" hgap="50.0" vgap="15.0">
+                                <columnConstraints>
+                                    <ColumnConstraints/>
+                                    <ColumnConstraints/>
+                                </columnConstraints>
+                                <rowConstraints>
+                                    <RowConstraints vgrow="SOMETIMES"/>
+                                    <RowConstraints vgrow="SOMETIMES"/>
+                                    <RowConstraints vgrow="SOMETIMES"/>
+                                    <RowConstraints vgrow="SOMETIMES"/>
+                                    <RowConstraints vgrow="SOMETIMES"/>
+                                    <RowConstraints vgrow="SOMETIMES"/>
+                                </rowConstraints>
+                                <children>
+                                    <Label style="-fx-font-size: 20px;" text="Soyadı" GridPane.rowIndex="3"/>
+                                    <Label style="-fx-font-size: 20px;" text="Adı" GridPane.rowIndex="2"/>
+                                    <Label style="-fx-font-size: 20px;" text="Sicil Numarası" GridPane.rowIndex="1">
+                                        <padding>
+                                            <Insets right="5.0"/>
+                                        </padding>
+                                    </Label>
+                                    <Label style="-fx-font-size: 20px;" text="Kayıtlı Müşteri Arama">
+                                        <padding>
+                                            <Insets right="5.0"/>
+                                        </padding>
+                                    </Label>
+                                    <Label style="-fx-font-size: 20px;" text="E-posta" GridPane.rowIndex="5"/>
+                                    <Label style="-fx-font-size: 20px;" text="Telefon Numarası" GridPane.rowIndex="4"/>
+                                    <TextField fx:id="phoneNumberField" promptText="Müşteri Telefon Numarası"
+                                               style="-fx-font-size: 14px;" GridPane.columnIndex="1"
+                                               GridPane.rowIndex="4"/>
+                                    <TextField fx:id="emailField" promptText="Müşteri e-posta"
+                                               style="-fx-font-size: 14px;" GridPane.columnIndex="1"
+                                               GridPane.rowIndex="5"/>
+                                    <TextField fx:id="registeredCustomerField" onAction="#findCustomerbyLicense"
+                                               promptText="Müşteri Sicil Numarası" style="-fx-font-size: 14px;"
+                                               GridPane.columnIndex="1"/>
+                                    <TextField fx:id="licenseNumberField" promptText="Sürücü Sicil Numarası"
+                                               style="-fx-font-size: 14px;" GridPane.columnIndex="1"
+                                               GridPane.rowIndex="1">
+                                    </TextField>
+                                    <TextField fx:id="firstNameField" promptText="Müşteri Adı"
+                                               style="-fx-font-size: 14px;" GridPane.columnIndex="1"
+                                               GridPane.rowIndex="2"/>
+                                    <TextField fx:id="lastNameField" promptText="Müşteri Soyadı"
+                                               style="-fx-font-size: 14px;" GridPane.columnIndex="1"
+                                               GridPane.rowIndex="3"/>
+                                </children>
+                            </GridPane>
+                            <Button fx:id="registerButton" mnemonicParsing="false" onAction="#registerCustomer"
+                                    style="-fx-font-size: 14px;" text="Kaydet"/>
                         </children>
-                    </HBox>
-                    <HBox alignment="CENTER">
-                        <children>
-                            <Label text="Soyadı"/>
-                            <TextField fx:id="lastNameField" promptText="Müşteri Soyadı"/>
-                        </children>
-                    </HBox>
-                    <HBox alignment="CENTER">
-                        <children>
-                            <Label text="Telefon Numarası"/>
-                            <TextField fx:id="phoneNumberField" promptText="Müşteri Telefon Numarası"/>
-                        </children>
-                    </HBox>
-                    <HBox alignment="CENTER">
-                        <children>
-                            <Label text="E-posta"/>
-                            <TextField fx:id="emailField" promptText="Müşteri e-posta"/>
-                        </children>
-                    </HBox>
-                    <Button fx:id="registerButton" mnemonicParsing="false" onAction="#registerCustomer" text="Kaydet"/>
+                    </VBox>
                 </children>
-            </VBox>
+            </HBox>
         </Tab>
         <Tab text="Araç İnceleme">
             <content>
-                <VBox alignment="CENTER" spacing="20.0">
+                <HBox>
                     <children>
-                        <Label style="-fx-font-size: 32px; -fx-font-weight: bold;" text="Araç İnceleme Formu"/>
-                        <HBox alignment="CENTER" layoutX="10.0" layoutY="327.0" spacing="15.0">
+                        <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
+                                    minWidth="-Infinity" prefHeight="651.2" prefWidth="380.0">
                             <children>
-                                <Label text="Kilometre"/>
-                                <TextField fx:id="kilometerField"/>
+                                <ListView fx:id="inspectionListView" layoutX="50.0" layoutY="50.0" prefHeight="510.0"
+                                          prefWidth="300.0"/>
+                                <HBox alignment="CENTER" layoutX="160.0" layoutY="560.0">
+                                    <children>
+                                        <Button fx:id="refreshInspectionButton" alignment="CENTER"
+                                                contentDisplay="GRAPHIC_ONLY" mnemonicParsing="false"
+                                                onAction="#refreshInspectionList"
+                                                style="-fx-background-color: transparent;" text="Button">
+                                            <graphic>
+                                                <FontAwesomeIconView glyphName="REFRESH" scaleX="2.0" scaleY="2.0"/>
+                                            </graphic>
+                                        </Button>
+                                        <Button fx:id="deleteInspectionButton" alignment="CENTER"
+                                                contentDisplay="GRAPHIC_ONLY" layoutX="10.0" layoutY="10.0"
+                                                mnemonicParsing="false" style="-fx-background-color: transparent;"
+                                                text="Button">
+                                            <graphic>
+                                                <FontAwesomeIconView glyphName="TRASH" scaleX="2.0" scaleY="2.0"/>
+                                            </graphic>
+                                        </Button>
+                                    </children>
+                                </HBox>
                             </children>
-                        </HBox>
-                        <HBox alignment="CENTER" layoutX="10.0" layoutY="294.0" spacing="15.0">
+                        </AnchorPane>
+                        <VBox alignment="CENTER" fillWidth="false" spacing="50.0" HBox.hgrow="ALWAYS">
                             <children>
-                                <Label text="Yakıt Durumu (%)"/>
-                                <Slider fx:id="fuelSlider" blockIncrement="5.0" majorTickUnit="20.0" max="80.0"
-                                        showTickLabels="true" showTickMarks="true"/>
+                                <Label style="-fx-font-size: 32px; -fx-font-weight: bold;" text="Araç İnceleme Formu"/>
+                                <GridPane hgap="50.0" vgap="15.0">
+                                    <columnConstraints>
+                                        <ColumnConstraints fillWidth="false"/>
+                                        <ColumnConstraints/>
+                                    </columnConstraints>
+                                    <rowConstraints>
+                                        <RowConstraints fillHeight="false"/>
+                                        <RowConstraints fillHeight="false"/>
+                                        <RowConstraints fillHeight="false"/>
+                                        <RowConstraints fillHeight="false"/>
+                                    </rowConstraints>
+                                    <children>
+                                        <Label style="-fx-font-size: 20px;" text="Yapılmış İnceleme Ara"/>
+                                        <TextField fx:id="madeInspectionField" promptText="Araba Plakası"
+                                                   style="-fx-font-size: 14px;" GridPane.columnIndex="1"/>
+                                        <Label style="-fx-font-size: 20px;" text="Kilometre" GridPane.rowIndex="1"/>
+                                        <TextField fx:id="kilometerField" style="-fx-font-size: 14px;"
+                                                   GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+                                        <Label style="-fx-font-size: 20px;" text="Yakıt Durumu (%)"
+                                               GridPane.rowIndex="2"/>
+                                        <Slider fx:id="fuelSlider" blockIncrement="1.0" majorTickUnit="4.0" max="8.0"
+                                                showTickLabels="true" showTickMarks="true" snapToTicks="true"
+                                                style="-fx-blend-mode: multiply;" GridPane.columnIndex="1"
+                                                GridPane.rowIndex="2">
+                                            <GridPane.margin>
+                                                <Insets left="50.0" right="50.0"/>
+                                            </GridPane.margin>
+                                        </Slider>
+                                        <Label alignment="CENTER" style="-fx-font-size: 20px;" text="Açıklama"
+                                               GridPane.rowIndex="3"/>
+                                        <TextField fx:id="descriptionField" alignment="CENTER" prefHeight="26.0"
+                                                   prefWidth="299.0" style="-fx-font-size: 14px;"
+                                                   GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+                                    </children>
+                                </GridPane>
+                                <GridPane alignment="CENTER" hgap="15.0" vgap="15.0">
+                                    <columnConstraints>
+                                        <ColumnConstraints halignment="LEFT"/>
+                                        <ColumnConstraints halignment="LEFT"/>
+                                        <ColumnConstraints halignment="LEFT"/>
+                                        <ColumnConstraints halignment="LEFT"/>
+                                        <ColumnConstraints halignment="LEFT"/>
+                                    </columnConstraints>
+                                    <children>
+                                        <CheckBox fx:id="floorMatCheck" mnemonicParsing="false"
+                                                  style="-fx-font-size: 16px;" text="Paspas" GridPane.columnIndex="0"
+                                                  GridPane.rowIndex="0"/>
+                                        <CheckBox fx:id="aerialCheck" mnemonicParsing="false"
+                                                  style="-fx-font-size: 16px;" text="Anten" GridPane.columnIndex="0"
+                                                  GridPane.rowIndex="1"/>
+                                        <CheckBox fx:id="firstAidKitCheck" mnemonicParsing="false"
+                                                  style="-fx-font-size: 16px;" text="İlk Yardım Çantası"
+                                                  GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+                                        <CheckBox fx:id="fireExtinguisherCheck" mnemonicParsing="false"
+                                                  style="-fx-font-size: 16px;" text="Yangın Söndürme Tüpü"
+                                                  GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+                                        <CheckBox fx:id="spareTyreCheck" mnemonicParsing="false"
+                                                  style="-fx-font-size: 16px;" text="Stepne" GridPane.columnIndex="2"
+                                                  GridPane.rowIndex="0"/>
+                                        <CheckBox fx:id="babySeatCheck" mnemonicParsing="false"
+                                                  style="-fx-font-size: 16px;" text="Bebek Koltuğu"
+                                                  GridPane.columnIndex="2" GridPane.rowIndex="1"/>
+                                        <CheckBox fx:id="registrationCheck" mnemonicParsing="false"
+                                                  style="-fx-font-size: 16px;" text="Ruhsat" GridPane.columnIndex="3"
+                                                  GridPane.rowIndex="0"/>
+                                        <CheckBox fx:id="toolSetCheck" mnemonicParsing="false"
+                                                  style="-fx-font-size: 16px;" text="Avandalık" GridPane.columnIndex="3"
+                                                  GridPane.rowIndex="1"/>
+                                    </children>
+                                    <VBox.margin>
+                                        <Insets bottom="20.0" top="20.0"/>
+                                    </VBox.margin>
+                                    <rowConstraints>
+                                        <RowConstraints/>
+                                        <RowConstraints/>
+                                    </rowConstraints>
+                                </GridPane>
+                                <Button fx:id="inspectionButton" mnemonicParsing="false" onAction="#saveInspection"
+                                        style="-fx-font-size: 14px;" text="Kaydet"/>
                             </children>
-                        </HBox>
-                        <GridPane alignment="CENTER" hgap="15.0" vgap="15.0" VBox.vgrow="NEVER">
-                            <columnConstraints>
-                                <ColumnConstraints halignment="LEFT"/>
-                                <ColumnConstraints halignment="LEFT"/>
-                                <ColumnConstraints halignment="LEFT"/>
-                                <ColumnConstraints halignment="LEFT"/>
-                                <ColumnConstraints halignment="LEFT"/>
-                            </columnConstraints>
-                            <children>
-                                <CheckBox fx:id="floorMatCheck" mnemonicParsing="false" text="Paspas"
-                                          GridPane.columnIndex="0" GridPane.rowIndex="0"/>
-                                <CheckBox fx:id="aerialCheck" mnemonicParsing="false" text="Anten"
-                                          GridPane.columnIndex="0" GridPane.rowIndex="1"/>
-                                <CheckBox fx:id="firstAidKitCheck" mnemonicParsing="false" text="İlk Yardım Çantası"
-                                          GridPane.columnIndex="1" GridPane.rowIndex="0"/>
-                                <CheckBox fx:id="fireExtinguisherCheck" mnemonicParsing="false"
-                                          text="Yangın Söndürme Tüpü" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
-                                <CheckBox fx:id="spareTyreCheck" mnemonicParsing="false" text="Stepne"
-                                          GridPane.columnIndex="2" GridPane.rowIndex="0"/>
-                                <CheckBox fx:id="babySeatCheck" mnemonicParsing="false" text="Bebek Koltuğu"
-                                          GridPane.columnIndex="2" GridPane.rowIndex="1"/>
-                                <CheckBox fx:id="registrationCheck" mnemonicParsing="false" text="Ruhsat"
-                                          GridPane.columnIndex="3" GridPane.rowIndex="0"/>
-                                <CheckBox fx:id="toolSetCheck" mnemonicParsing="false" text="Avandalık"
-                                          GridPane.columnIndex="3" GridPane.rowIndex="1"/>
-                            </children>
-                            <VBox.margin>
-                                <Insets bottom="20.0" top="20.0"/>
-                            </VBox.margin>
-                            <rowConstraints>
-                                <RowConstraints/>
-                                <RowConstraints/>
-                            </rowConstraints>
-                        </GridPane>
-                        <HBox alignment="CENTER" layoutX="60.0" layoutY="268.0" spacing="15.0">
-                            <children>
-                                <Label alignment="CENTER" text="Açıklama"/>
-                                <TextField fx:id="descriptionField" alignment="CENTER" prefHeight="26.0"
-                                           prefWidth="299.0"/>
-                            </children>
-                        </HBox>
-                        <Button fx:id="inspectionButton" mnemonicParsing="false" onAction="#saveInspection"
-                                text="Kaydet"/>
+                        </VBox>
                     </children>
-                </VBox>
+                </HBox>
             </content>
         </Tab>
         <Tab text="Kiralama İşlemi Tamamla">
             <content>
-                <VBox alignment="CENTER">
+                <HBox alignment="CENTER_LEFT">
                     <children>
-                        <Label alignment="CENTER" style="-fx-font-size: 32px; -fx-font-weight: bold;"
-                               text="Kiralama İşlemi Tamamla"/>
-                        <GridPane>
-                            <columnConstraints>
-                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0"/>
-                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
-                            </columnConstraints>
-                            <rowConstraints>
-                                <RowConstraints minHeight="10.0" vgrow="SOMETIMES"/>
-                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-                            </rowConstraints>
+                        <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
+                                    minWidth="-Infinity" prefHeight="651.2" prefWidth="380.0">
                             <children>
-                                <Label alignment="CENTER" text="Araç Seçimi"/>
-                                <Label alignment="CENTER" layoutX="10.0" layoutY="489.0" text="Kiralama Tarihi"
-                                       GridPane.rowIndex="1"/>
-                                <Label alignment="CENTER" layoutX="10.0" layoutY="163.0" text="İade Tarihi"
-                                       GridPane.rowIndex="2"/>
-                                <ComboBox fx:id="carSelection" prefWidth="150.0" GridPane.columnIndex="1"/>
-                                <DatePicker fx:id="rentalDatePicker" layoutX="519.0" layoutY="485.0"
-                                            GridPane.columnIndex="1" GridPane.rowIndex="1"/>
-                                <DatePicker fx:id="returnDatePicker" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
-                                <TextField fx:id="totalPriceField" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
-                                <Label text="Toplam Ücret (TL)" GridPane.rowIndex="3"/>
+                                <ListView fx:id="carListView" layoutX="50.0" layoutY="50.0" prefHeight="510.0"
+                                          prefWidth="300.0"/>
+                                <HBox alignment="CENTER" layoutX="160.0" layoutY="560.0">
+                                    <children>
+                                        <Button fx:id="refreshRentalButton" alignment="CENTER"
+                                                contentDisplay="GRAPHIC_ONLY" mnemonicParsing="false"
+                                                style="-fx-background-color: transparent;"
+                                                text="Button">
+                                            <graphic>
+                                                <FontAwesomeIconView glyphName="REFRESH" scaleX="2.0" scaleY="2.0"/>
+                                            </graphic>
+                                        </Button>
+                                        <Button fx:id="deleteRentalButton" alignment="CENTER"
+                                                contentDisplay="GRAPHIC_ONLY" layoutX="36.0" layoutY="10.0"
+                                                mnemonicParsing="false" style="-fx-background-color: transparent;"
+                                                text="Button">
+                                            <graphic>
+                                                <FontAwesomeIconView glyphName="TRASH" scaleX="2.0" scaleY="2.0"/>
+                                            </graphic>
+                                        </Button>
+                                    </children>
+                                </HBox>
                             </children>
-                        </GridPane>
-                        <Button mnemonicParsing="false" text="Kaydet"/>
+                        </AnchorPane>
+                        <VBox alignment="CENTER" spacing="50.0" HBox.hgrow="ALWAYS">
+                            <children>
+                                <Label alignment="CENTER" style="-fx-font-size: 32px; -fx-font-weight: bold;"
+                                       text="Kiralama İşlemi Tamamla">
+                                </Label>
+                                <GridPane alignment="CENTER" hgap="50.0" vgap="15.0">
+                                    <columnConstraints>
+                                        <ColumnConstraints/>
+                                        <ColumnConstraints/>
+                                    </columnConstraints>
+                                    <rowConstraints>
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0"/>
+                                        <RowConstraints/>
+                                        <RowConstraints/>
+                                        <RowConstraints/>
+                                    </rowConstraints>
+                                    <children>
+                                        <Label alignment="CENTER" layoutX="10.0" layoutY="489.0"
+                                               style="-fx-font-size: 20px;" text="Kiralama Tarihi"
+                                               GridPane.rowIndex="1"/>
+                                        <Label alignment="CENTER" layoutX="10.0" layoutY="163.0"
+                                               style="-fx-font-size: 20px;" text="İade Tarihi" GridPane.rowIndex="2"/>
+                                        <DatePicker fx:id="rentalDatePicker" layoutX="519.0" layoutY="485.0"
+                                                    style="-fx-font-size: 14px;" GridPane.columnIndex="1"
+                                                    GridPane.rowIndex="1"/>
+                                        <DatePicker fx:id="returnDatePicker" style="-fx-font-size: 14px;"
+                                                    GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+                                        <TextField fx:id="totalPriceField" style="-fx-font-size: 14px;"
+                                                   GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+                                        <Label style="-fx-font-size: 20px;" text="Toplam Ücret (TL)"
+                                               GridPane.rowIndex="3">
+                                        </Label>
+                                        <Label alignment="CENTER" style="-fx-font-size: 20px;" text="Araba Plakası"/>
+                                        <TextField fx:id="registeredCarField" style="-fx-font-size: 14px;"
+                                                   GridPane.columnIndex="1"/>
+                                    </children>
+                                </GridPane>
+                                <Button fx:id="finalizeButton" mnemonicParsing="false" onAction="#finalizeRental"
+                                        style="-fx-font-size: 14px;" text="Kaydet">
+                                    <VBox.margin>
+                                        <Insets bottom="20.0"/>
+                                    </VBox.margin>
+                                </Button>
+                            </children>
+                        </VBox>
                     </children>
-                </VBox>
+                </HBox>
             </content>
         </Tab>
     </tabs>

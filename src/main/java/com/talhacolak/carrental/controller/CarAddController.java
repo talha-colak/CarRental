@@ -12,7 +12,8 @@ import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 
 import java.time.LocalDate;
-import java.util.Objects;
+
+import static com.talhacolak.carrental.service.AlertUtil.showAlert;
 
 public class CarAddController {
 
@@ -40,14 +41,11 @@ public class CarAddController {
         fuelDropdown.setItems(FXCollections.observableArrayList(Fuel.values()));
         gearDropdown.setItems(FXCollections.observableArrayList(Gear.values()));
         statusDropdown.setItems(FXCollections.observableArrayList(CarStatus.values()));
-        plateField.setTextFormatter(new TextFormatter<>(change ->
-                change.getControlNewText().matches("\\d{0,2}[A-Z]{0,3}\\d{0,3}") ? change : null));
+        plateField.setTextFormatter(new TextFormatter<>(change -> change.getControlNewText().matches("\\d{0,2}[A-Z]{0,3}\\d{0,3}") ? change : null));
 
-        yearField.setTextFormatter(new TextFormatter<>(change ->
-                change.getControlNewText().matches("\\d{0,4}") ? change : null));
+        yearField.setTextFormatter(new TextFormatter<>(change -> change.getControlNewText().matches("\\d{0,4}") ? change : null));
 
-        priceField.setTextFormatter(new TextFormatter<>(change ->
-                change.getControlNewText().matches("\\d*(\\.\\d{0,2})?") ? change : null));
+        priceField.setTextFormatter(new TextFormatter<>(change -> change.getControlNewText().matches("\\d*(\\.\\d{0,2})?") ? change : null));
     }
 
     @FXML
@@ -61,22 +59,25 @@ public class CarAddController {
         String imagePath = imageChooserController.getImagePath();
 
         if (brand.isEmpty() || model.isEmpty() || plate.isEmpty() || year.isEmpty() || price.isEmpty()) {
-            showAlert("Hata!", "Tüm kutucuklar doldurulmalı ve Resim seçilmeli!");
+            //showAlert("Hata!", "Tüm kutucuklar doldurulmalı ve Resim seçilmeli!");
+            showAlert(Alert.AlertType.INFORMATION, "Hata!", "Tüm kutucuklar doldurulmalı ve Resim seçilmeli!");
             return;
         }
         if (imagePath == null || imagePath.isEmpty()) {
             imagePath = "resources/images/placeholder.jpg";
         }
         if (!plate.matches("\\d{0,2}[A-Z]{0,3}\\d{0,3}")) {
-            showAlert("Hata!", "Plaka '00ABC000' formatında girilmeli!");
+            //showAlert("Hata!", "Plaka '00ABC000' formatında girilmeli!");
+            showAlert(Alert.AlertType.INFORMATION, "Hata!", "Plaka '00ABC000' formatında girilmeli!");
             return;
         }
         if (!year.matches("\\d{4}") || Integer.parseInt(year) < 1900 || Integer.parseInt(year) > LocalDate.now().getYear()) {
-            showAlert("Hata!", "Yıl değeri bugünden büyük olamaz!");
+            //showAlert("Hata!", "Yıl değeri bugünden büyük olamaz!");
+            showAlert(Alert.AlertType.INFORMATION, "Hata!", "Yıl değeri bugünden büyük olamaz!");
             return;
         }
         if (!price.matches("\\d*(\\.\\d{0,2})?")) {
-            showAlert("Hata!", "Günlük fiyatı doğru giriniz!");
+            showAlert(Alert.AlertType.INFORMATION, "Hata!", "Günlük fiyatı doğru giriniz!");
             return;
         }
 
@@ -96,10 +97,11 @@ public class CarAddController {
 
         try {
             saveCar(car);
-            showAlert("Başarlı!", "Bilgiler başarıyla eklendi!");
+            //showAlert("Başarlı!", "Bilgiler başarıyla eklendi!");
+            showAlert(Alert.AlertType.INFORMATION, "Başarlı!", "Bilgiler başarıyla eklendi!");
             clearFields();
         } catch (Exception e) {
-            showAlert("Hata!", "Araba kaydedilirken bir sorun oluştu!");
+            showAlert(Alert.AlertType.INFORMATION, "Hata!", "Araba kaydedilirken bir sorun oluştu!");
             e.printStackTrace();
         }
     }
@@ -108,12 +110,14 @@ public class CarAddController {
         carAddService.save(car);
     }
 
+/*
     private void showAlert(String title, String content) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(title);
         alert.setContentText(content);
         alert.showAndWait();
     }
+*/
 
     private void clearFields() {
         plateField.clear();
