@@ -13,31 +13,23 @@ import java.time.LocalDate;
 
 public class Inspection extends BaseEntity {
 
-    @Column(nullable = false)
+    @Column
     private LocalDate inspectionDate;
 
-    @Column(nullable = false)
     private Boolean registration;
 
-    @Column(nullable = false)
     private Boolean firstAidKit;
 
-    @Column(nullable = false)
     private Boolean fireExtinguisher;
 
-    @Column(nullable = false)
     private Boolean babySeat;
 
-    @Column(nullable = false)
     private Boolean floorMat;
 
-    @Column(nullable = false)
     private Boolean aerial;
 
-    @Column(nullable = false)
     private Boolean spareTyre;
 
-    @Column(nullable = false)
     private Boolean toolSet;
 /*
     @Column(nullable = false)
@@ -46,12 +38,9 @@ public class Inspection extends BaseEntity {
     private String tyres;
 */
 
-    @Column(nullable = false)
     private Integer kilometer;
 
-    @Column(nullable = false)
     private Integer fuelStatus;
 
-    @Column(nullable = false)
     private String description;
 }

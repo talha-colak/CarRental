@@ -5,6 +5,8 @@ import com.talhacolak.carrental.entity.Car;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import java.util.List;
+
 public class CarService {
 
     public void save(Car car) {
@@ -24,6 +26,13 @@ public class CarService {
             }
             System.err.println("Araç kaydedilemedi!" + e.getMessage());
             e.printStackTrace();
+        }
+    }
+
+    public List<Car> getAllCars() {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            return session.createQuery("from Car", Car.class).list();
+
         }
     }
 }

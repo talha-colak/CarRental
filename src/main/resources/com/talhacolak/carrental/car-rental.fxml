@@ -25,63 +25,83 @@
          xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1"
          fx:controller="com.talhacolak.carrental.controller.RentalProcessController">
     <tabs>
-        <Tab text="Araba Seçimi">
+        <Tab fx:id="carSelectionTab" text="Araba Seçimi">
             <content>
-                <HBox>
+                <VBox alignment="CENTER" fillWidth="false" spacing="20.0">
                     <children>
-                        <VBox alignment="CENTER" fillWidth="false" spacing="20.0" HBox.hgrow="ALWAYS">
-                            <children>
-                                <Label alignment="CENTER" style="-fx-font-size: 32px; -fx-font-weight: bold;"
-                                       text="Envanterdeki Arabalar">
-                                    <VBox.margin>
-                                        <Insets bottom="20.0"/>
-                                    </VBox.margin>
-                                </Label>
-                                <Button fx:id="nextTabButton" mnemonicParsing="false" style="-fx-font-size: 14px;"
-                                        text="Kaydet"/>
-                                <TableView prefHeight="458.0" prefWidth="803.0">
-                                    <columns>
-                                        <TableColumn text="Plaka"/>
-                                        <TableColumn text="Marka"/>
-                                        <TableColumn text="Model"/>
-                                        <TableColumn text="Ücret(GünlükTL)"/>
-                                        <TableColumn text="Araba Durumu"/>
-                                    </columns>
-                                    <columnResizePolicy>
-                                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
-                                    </columnResizePolicy>
-                                    <VBox.margin>
-                                        <Insets/>
-                                    </VBox.margin>
-                                </TableView>
-                            </children>
-                        </VBox>
+                        <Label alignment="CENTER" style="-fx-font-size: 32px; -fx-font-weight: bold;"
+                               text="Envanterdeki Arabalar">
+                            <VBox.margin>
+                                <Insets top="15.0"/>
+                            </VBox.margin>
+                        </Label>
+                        <Button fx:id="nextTabButton" mnemonicParsing="false" style="-fx-font-size: 14px;"
+                                text="Kaydet"/>
+                        <TableView fx:id="carTableView" prefHeight="466.0" prefWidth="803.0" VBox.vgrow="ALWAYS">
+                            <columns>
+                                <TableColumn fx:id="licensePlateColumn" text="Plaka"/>
+                                <TableColumn fx:id="brandColumn" text="Marka"/>
+                                <TableColumn fx:id="modelColumn" text="Model"/>
+                                <TableColumn fx:id="priceColumn" text="Ücret(GünlükTL)"/>
+                                <TableColumn fx:id="statusColumn" text="Araba Durumu"/>
+                            </columns>
+                            <columnResizePolicy>
+                                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+                            </columnResizePolicy>
+                            <VBox.margin>
+                                <Insets bottom="20.0"/>
+                            </VBox.margin>
+                        </TableView>
                     </children>
-                </HBox>
+                </VBox>
             </content>
         </Tab>
-        <Tab text="Müşteri Kayıt">
+        <Tab fx:id="customerRegistrationTab" text="Müşteri Kayıt">
             <HBox>
                 <children>
                     <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
                                 prefHeight="651.2" prefWidth="380.0" HBox.hgrow="NEVER">
                         <children>
-                            <ListView fx:id="customerListView" layoutX="50.0" layoutY="50.0" prefHeight="510.0"
-                                      prefWidth="300.0"/>
-                            <HBox alignment="CENTER" layoutX="160.0" layoutY="560.0">
+                            <VBox alignment="CENTER" layoutX="50.0" layoutY="50.0" nodeOrientation="LEFT_TO_RIGHT"
+                                  prefHeight="510.0" prefWidth="300.0" spacing="20.0">
+                                <children>
+                                    <Label fx:id="licenseNumberLabel" layoutX="160.0" layoutY="174.0"
+                                           style="-fx-font-size: 20px;"/>
+                                    <Label fx:id="firstNameLabel" style="-fx-font-size: 20px;">
+                                        <VBox.margin>
+                                            <Insets/>
+                                        </VBox.margin>
+                                    </Label>
+                                    <Label fx:id="lastNameLabel" style="-fx-font-size: 20px;">
+                                        <VBox.margin>
+                                            <Insets/>
+                                        </VBox.margin>
+                                    </Label>
+                                    <Label fx:id="phoneNumberLabel" style="-fx-font-size: 20px;">
+                                        <VBox.margin>
+                                            <Insets/>
+                                        </VBox.margin>
+                                    </Label>
+                                    <Label fx:id="emailLabel" style="-fx-font-size: 20px;">
+                                        <VBox.margin>
+                                            <Insets/>
+                                        </VBox.margin>
+                                    </Label>
+                                </children>
+                            </VBox>
+                            <HBox alignment="CENTER" layoutX="160.0" layoutY="560.0" visible="false">
                                 <children>
                                     <Button fx:id="refreshCustomerButton" alignment="CENTER"
                                             contentDisplay="GRAPHIC_ONLY" mnemonicParsing="false"
-                                            onAction="#refreshCustomerList" style="-fx-background-color: transparent;"
-                                            text="Button">
+                                            style="-fx-background-color: transparent;" text="Button">
                                         <graphic>
                                             <FontAwesomeIconView glyphName="REFRESH" scaleX="2.0" scaleY="2.0"/>
                                         </graphic>
                                     </Button>
                                     <Button fx:id="deleteCustomerButton" alignment="CENTER"
                                             contentDisplay="GRAPHIC_ONLY" layoutX="10.0" layoutY="10.0"
-                                            mnemonicParsing="false" onAction="#clearCustomerList"
-                                            style="-fx-background-color: transparent;" text="Button">
+                                            mnemonicParsing="false" style="-fx-background-color: transparent;"
+                                            text="Button">
                                         <graphic>
                                             <FontAwesomeIconView glyphName="TRASH" scaleX="2.0" scaleY="2.0"/>
                                         </graphic>
@@ -98,6 +118,7 @@
                                 <columnConstraints>
                                     <ColumnConstraints/>
                                     <ColumnConstraints/>
+                                    <ColumnConstraints/>
                                 </columnConstraints>
                                 <rowConstraints>
                                     <RowConstraints vgrow="SOMETIMES"/>
@@ -108,9 +129,9 @@
                                     <RowConstraints vgrow="SOMETIMES"/>
                                 </rowConstraints>
                                 <children>
-                                    <Label style="-fx-font-size: 20px;" text="Soyadı" GridPane.rowIndex="3"/>
-                                    <Label style="-fx-font-size: 20px;" text="Adı" GridPane.rowIndex="2"/>
-                                    <Label style="-fx-font-size: 20px;" text="Sicil Numarası" GridPane.rowIndex="1">
+                                    <Label style="-fx-font-size: 20px;" text="Soyad" GridPane.rowIndex="3"/>
+                                    <Label style="-fx-font-size: 20px;" text="Ad" GridPane.rowIndex="2"/>
+                                    <Label style="-fx-font-size: 20px;" text="Sicil Numara" GridPane.rowIndex="1">
                                         <padding>
                                             <Insets right="5.0"/>
                                         </padding>
@@ -121,16 +142,15 @@
                                         </padding>
                                     </Label>
                                     <Label style="-fx-font-size: 20px;" text="E-posta" GridPane.rowIndex="5"/>
-                                    <Label style="-fx-font-size: 20px;" text="Telefon Numarası" GridPane.rowIndex="4"/>
+                                    <Label style="-fx-font-size: 20px;" text="Telefon" GridPane.rowIndex="4"/>
                                     <TextField fx:id="phoneNumberField" promptText="Müşteri Telefon Numarası"
                                                style="-fx-font-size: 14px;" GridPane.columnIndex="1"
                                                GridPane.rowIndex="4"/>
                                     <TextField fx:id="emailField" promptText="Müşteri e-posta"
                                                style="-fx-font-size: 14px;" GridPane.columnIndex="1"
                                                GridPane.rowIndex="5"/>
-                                    <TextField fx:id="registeredCustomerField" onAction="#findCustomerbyLicense"
-                                               promptText="Müşteri Sicil Numarası" style="-fx-font-size: 14px;"
-                                               GridPane.columnIndex="1"/>
+                                    <TextField fx:id="registeredCustomerField" promptText="Müşteri Sicil Numarası"
+                                               style="-fx-font-size: 14px;" GridPane.columnIndex="1"/>
                                     <TextField fx:id="licenseNumberField" promptText="Sürücü Sicil Numarası"
                                                style="-fx-font-size: 14px;" GridPane.columnIndex="1"
                                                GridPane.rowIndex="1">
@@ -141,16 +161,24 @@
                                     <TextField fx:id="lastNameField" promptText="Müşteri Soyadı"
                                                style="-fx-font-size: 14px;" GridPane.columnIndex="1"
                                                GridPane.rowIndex="3"/>
+                                    <FontAwesomeIconView fx:id="searchButton" glyphName="SEARCH"
+                                                         onMouseClicked="#findCustomerByLicense" scaleX="1.5"
+                                                         scaleY="1.5" textAlignment="RIGHT" GridPane.columnIndex="1"
+                                                         GridPane.halignment="RIGHT">
+                                        <GridPane.margin>
+                                            <Insets right="5.0"/>
+                                        </GridPane.margin>
+                                    </FontAwesomeIconView>
                                 </children>
                             </GridPane>
-                            <Button fx:id="registerButton" mnemonicParsing="false" onAction="#registerCustomer"
-                                    style="-fx-font-size: 14px;" text="Kaydet"/>
+                            <Button fx:id="registerButton" defaultButton="true" mnemonicParsing="false"
+                                    onAction="#registerCustomer" style="-fx-font-size: 14px;" text="Kaydet"/>
                         </children>
                     </VBox>
                 </children>
             </HBox>
         </Tab>
-        <Tab text="Araç İnceleme">
+        <Tab fx:id="inspectionTab" text="Araç İnceleme">
             <content>
                 <HBox>
                     <children>
@@ -171,8 +199,8 @@
                                         </Button>
                                         <Button fx:id="deleteInspectionButton" alignment="CENTER"
                                                 contentDisplay="GRAPHIC_ONLY" layoutX="10.0" layoutY="10.0"
-                                                mnemonicParsing="false" style="-fx-background-color: transparent;"
-                                                text="Button">
+                                                mnemonicParsing="false" onAction="#clearInspectionsList"
+                                                style="-fx-background-color: transparent;" text="Button">
                                             <graphic>
                                                 <FontAwesomeIconView glyphName="TRASH" scaleX="2.0" scaleY="2.0"/>
                                             </graphic>
@@ -265,7 +293,7 @@
                 </HBox>
             </content>
         </Tab>
-        <Tab text="Kiralama İşlemi Tamamla">
+        <Tab fx:id="rentalFinalizationTab" text="Kiralama İşlemi Tamamla">
             <content>
                 <HBox alignment="CENTER_LEFT">
                     <children>

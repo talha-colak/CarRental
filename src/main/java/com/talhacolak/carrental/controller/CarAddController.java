@@ -98,7 +98,7 @@ public class CarAddController {
         try {
             saveCar(car);
             //showAlert("Başarlı!", "Bilgiler başarıyla eklendi!");
-            showAlert(Alert.AlertType.INFORMATION, "Başarlı!", "Bilgiler başarıyla eklendi!");
+            showAlert(Alert.AlertType.INFORMATION, "Başarılı!", "Bilgiler başarıyla eklendi!");
             clearFields();
         } catch (Exception e) {
             showAlert(Alert.AlertType.INFORMATION, "Hata!", "Araba kaydedilirken bir sorun oluştu!");
