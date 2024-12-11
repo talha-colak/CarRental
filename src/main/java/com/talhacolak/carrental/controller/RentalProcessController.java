@@ -1,6 +1,8 @@
 package com.talhacolak.carrental.controller;
 
 import com.talhacolak.carrental.config.HibernateUtil;
+import com.talhacolak.carrental.dto.CarStatus;
+import com.talhacolak.carrental.dto.RentalStatus;
 import com.talhacolak.carrental.entity.Car;
 import com.talhacolak.carrental.entity.Customer;
 import com.talhacolak.carrental.entity.Inspection;
@@ -16,37 +18,37 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 import java.time.LocalDate;
-import java.util.List;
+import java.time.LocalDateTime;
 
 import static com.talhacolak.carrental.service.AlertUtil.showAlert;
 
 public class RentalProcessController {
+    @FXML
     public Label firstNameLabel, lastNameLabel, phoneNumberLabel, emailLabel, licenseNumberLabel;
+
     @FXML
-    private Button nextTabButton, deleteCustomerButton, deleteInspectionButton,
-            refreshRentalButton, deleteRentalButton;
-    @FXML
-    FontAwesomeIconView searchButton;
+    FontAwesomeIconView searchButton, searchCar;
 
     @FXML
     private TabPane tabPane;
 
     @FXML
     private Tab carSelectionTab, customerRegistrationTab, inspectionTab, rentalFinalizationTab;
-    @FXML
-    private TextField licenseNumberField, firstNameField, lastNameField,
-            phoneNumberField, emailField, madeInspectionField, registeredCustomerField, registeredCarField;
 
     @FXML
-    private ListView customerListView, inspectionListView, carListView;
+    private TextField licenseNumberField, firstNameField, lastNameField, phoneNumberField, emailField, registeredCustomerField, registeredCarField;
 
     @FXML
     private TableView<Car> carTableView;
 
     @FXML
     private TableColumn<Car, String> licensePlateColumn, brandColumn, modelColumn, statusColumn;
+
+    @FXML
+    private TableColumn<Car, LocalDateTime> inspectionColumn;
 
     @FXML
     private TableColumn<Car, Integer> priceColumn;
@@ -61,30 +63,27 @@ public class RentalProcessController {
     private DatePicker rentalDatePicker, returnDatePicker;
 
     @FXML
-    private CheckBox floorMatCheck, aerialCheck, firstAidKitCheck, fireExtinguisherCheck,
-            spareTyreCheck, babySeatCheck, registrationCheck, toolSetCheck;
+    private CheckBox floorMatCheck, aerialCheck, firstAidKitCheck, fireExtinguisherCheck, spareTyreCheck, babySeatCheck, registrationCheck, toolSetCheck;
 
     @FXML
     private Slider fuelSlider;
 
     @FXML
-    private Button registerButton, inspectionButton, finalizeButton,
-            refreshInspectionButton, refreshCustomerButton;
+    private Button registerButton, inspectionButton, finalizeButton;
 
     private final CarService carService = new CarService();
     private final CustomerService customerService = new CustomerService();
     private final CarInspectionService inspectionService = new CarInspectionService();
-
-    private final ObservableList<String> customerObservableList = FXCollections.observableArrayList();
-    private final ObservableList<String> inspectionObservableList = FXCollections.observableArrayList();
+    private final RentalService rentalService = new RentalService();
 
     private Car selectedCar;
     private Customer selectedCustomer;
     private Inspection completedInspection;
+    private Rental finalizedRental;
 
     private boolean isCarSelected = false;
     private boolean isCustomerSelected = false;
-    private boolean isInspectiodCompleted = false;
+    private boolean isInspectionedCompleted = false;
     private boolean isRentalFinalized = false;
 
     @FXML
@@ -98,24 +97,21 @@ public class RentalProcessController {
         customerRegistrationTab.setOnSelectionChanged(event -> {
             if (!isCarSelected) {
                 event.consume();
-                showAlert(Alert.AlertType.WARNING, "Araba Seç", "Bir Sonraki Aşamaya Geçmek" +
-                        " İçin Araba Seçmek Gerekmektedir!");
+                showAlert(Alert.AlertType.WARNING, "Araba Seç", "Bir Sonraki Aşamaya Geçmek" + " İçin Araba Seçmek Gerekmektedir!");
             }
         });
 
         inspectionTab.setOnSelectionChanged(event -> {
             if (!isCustomerSelected) {
                 event.consume();
-                showAlert(Alert.AlertType.WARNING, "Müşteri Seç", "Bir Sonraki Aşamaya Geçmek" +
-                        " İçin Müşteri Seçmek Gerekmektedir!");
+                showAlert(Alert.AlertType.WARNING, "Müşteri Seç", "Bir Sonraki Aşamaya Geçmek" + " İçin Müşteri Seçmek Gerekmektedir!");
             }
         });
 
         rentalFinalizationTab.setOnSelectionChanged(event -> {
-            if (!isInspectiodCompleted) {
+            if (!isInspectionedCompleted) {
                 event.consume();
-                showAlert(Alert.AlertType.WARNING, "İncelemeyi Tamamla", "Bir Sonraki Aşamaya Geçmek" +
-                        " İçin İncelemeyi Tamamlamak Gerekmektedir!");
+                showAlert(Alert.AlertType.WARNING, "İncelemeyi Tamamla", "Bir Sonraki Aşamaya Geçmek" + " İçin İncelemeyi Tamamlamak Gerekmektedir!");
             }
         });
 
@@ -127,8 +123,6 @@ public class RentalProcessController {
             }
         });
 
-//      refreshCustomerList();
-        refreshInspectionList();
         populateCarTableView();
     }
 
@@ -139,9 +133,10 @@ public class RentalProcessController {
         if (isCustomerSelected) {
             inspectionTab.setDisable(false);
         }
-        if (isInspectiodCompleted) {
+        if (isInspectionedCompleted) {
             rentalFinalizationTab.setDisable(false);
         }
+
     }
 
     private void populateCarTableView() {
@@ -150,26 +145,16 @@ public class RentalProcessController {
         modelColumn.setCellValueFactory(new PropertyValueFactory<>("model"));
         priceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
         statusColumn.setCellValueFactory(new PropertyValueFactory<>("status"));
-
+        inspectionColumn.setCellValueFactory(new PropertyValueFactory<>("inspectionList"));
         ObservableList<Car> carObservableList = FXCollections.observableArrayList(carService.getAllCars());
         carTableView.setItems(carObservableList);
 
-/*        carTableView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue != null) {
-                selectedCar = newValue;
-            }
-        });*/
     }
 
     @FXML
     private void registerCustomer() {
 
-        if (licenseNumberField.getText().isEmpty() ||
-                firstNameField.getText().isEmpty() ||
-                lastNameField.getText().isEmpty() ||
-                phoneNumberField.getText().isEmpty() ||
-                emailField.getText().isEmpty()
-        ) {
+        if (licenseNumberField.getText().isEmpty() || firstNameField.getText().isEmpty() || lastNameField.getText().isEmpty() || phoneNumberField.getText().isEmpty() || emailField.getText().isEmpty()) {
             showAlert(Alert.AlertType.ERROR, "Hata", "Lütfen tüm alanları doldurun!");
             return;
         }
@@ -188,19 +173,45 @@ public class RentalProcessController {
             showAlert(Alert.AlertType.INFORMATION, "Başarılı", "Müşteri Başarıyla Kaydedildi!");
             clearCustomerField();
 
-            licenseNumberLabel.setText("Sicil Numarası: " + newcustomer.getLicenseNumber());
-            firstNameLabel.setText("Ad: " + newcustomer.getFirstName());
-            lastNameLabel.setText("Soyad: " + newcustomer.getLastName());
-            phoneNumberLabel.setText("Telefon: " + newcustomer.getPhoneNumber());
-            emailLabel.setText("E-posta: " + newcustomer.getEmail());
+            licenseNumberField.setEditable(false);
+
+            firstNameField.setText(newcustomer.getFirstName());
+            firstNameField.setEditable(false);
+
+            lastNameField.setText(newcustomer.getLastName());
+            lastNameField.setEditable(false);
+
+            phoneNumberField.setText(newcustomer.getPhoneNumber());
+            phoneNumberField.setEditable(false);
+
+            emailField.setText(newcustomer.getEmail());
+            emailField.setEditable(false);
 
             selectedCustomer = newcustomer;
             isCustomerSelected = true;
             enableNextPhase();
-//          refreshCustomerList();
 
         } catch (Exception e) {
             showAlert(Alert.AlertType.ERROR, "Hata", "Müşteri Kaydedilemedi: " + e.getMessage());
+        }
+    }
+
+    @FXML
+    private void findCarByPlate() {
+        String licensePlate = registeredCarField.getText().trim();
+        if (licensePlate.isEmpty()) {
+            showAlert(Alert.AlertType.WARNING, "Uyarı", "Lütfen Plaka Giriniz!");
+            return;
+        }
+
+        Car car = CarService.findCarByPlate(licensePlate);
+        if (car != null) {
+            selectedCar = car;
+            isCarSelected = true;
+            enableNextPhase();
+            showAlert(Alert.AlertType.INFORMATION, "Başarılı", "Araba Bulundu");
+        } else {
+            showAlert(Alert.AlertType.WARNING, "Başarısız", "Araba Bulunamadı");
         }
     }
 
@@ -216,50 +227,29 @@ public class RentalProcessController {
         Customer customer = customerService.findCustomerById(licenseNumber);
         if (customer != null) {
             selectedCustomer = customer;
-            firstNameLabel.setText("Ad: " + customer.getFirstName());
-            lastNameLabel.setText("Soyad: " + customer.getLastName());
-            phoneNumberLabel.setText("Telefon: " + customer.getPhoneNumber());
-            emailLabel.setText("E-posta: " + customer.getEmail());
+
+            firstNameField.setText(customer.getFirstName());
+            firstNameField.setEditable(false);
+
+            lastNameField.setText(customer.getLastName());
+            lastNameField.setEditable(false);
+
+            phoneNumberField.setText(customer.getPhoneNumber());
+            phoneNumberField.setEditable(false);
+
+            emailField.setText(customer.getEmail());
+            emailField.setEditable(false);
+
             isCustomerSelected = true;
+
             enableNextPhase();
+
             showAlert(Alert.AlertType.INFORMATION, "Başarılı", "Müşteri Bulundu!");
         } else {
             showAlert(Alert.AlertType.WARNING, "Başarısız", "Müşteri Bulunamadı!");
+            registeredCustomerField.selectAll();
         }
-
-        /*
-        if (registeredCustomerField.getText().isEmpty()) {
-            showAlert(Alert.AlertType.ERROR, "Hata", "Lütfen Lisans Numaranızı Girin!");
-        }
-
-        Customer customer = customerService.findCustomerById(registeredCustomerField.getText());
-
-        if (customer != null) {
-            showAlert(Alert.AlertType.INFORMATION, "Müşteri Bulundu!", customer.toString());
-        } else {
-            showAlert(Alert.AlertType.ERROR, "Hata", "Müşteri Bulunamadı!");
-        }
-        */
-
     }
-
-/*    @FXML
-    private void refreshCustomerList() {
-        customerObservableList.clear();
-
-        List<Customer> customers = customerService.getAllCustomer();
-        if (customers != null && !customers.isEmpty()) {
-            for (Customer customer : customers) {
-                customerObservableList.add(customer.toString());
-            }
-        }
-        customerListView.setItems(customerObservableList);
-    }
-
-    @FXML
-    private void clearCustomerList() {
-        customerObservableList.clear();
-    }*/
 
     @FXML
     private void clearCustomerField() {
@@ -273,8 +263,7 @@ public class RentalProcessController {
     @FXML
     private void saveInspection() {
 
-        if (kilometerField.getText().isEmpty() ||
-                descriptionField.getText().isEmpty()) {
+        if (kilometerField.getText().isEmpty() || descriptionField.getText().isEmpty()) {
             showAlert(Alert.AlertType.ERROR, "Hata", "Lütfen tüm alanları doldurun!");
             return;
         }
@@ -282,6 +271,7 @@ public class RentalProcessController {
         Inspection inspection = new Inspection();
         inspection.setKilometer(Integer.parseInt(kilometerField.getText()));
         inspection.setFuelStatus((int) fuelSlider.getValue());
+
         inspection.setFloorMat(floorMatCheck.isSelected());
         inspection.setAerial(aerialCheck.isSelected());
         inspection.setFirstAidKit(firstAidKitCheck.isSelected());
@@ -290,49 +280,38 @@ public class RentalProcessController {
         inspection.setBabySeat(babySeatCheck.isSelected());
         inspection.setRegistration(registrationCheck.isSelected());
         inspection.setToolSet(toolSetCheck.isSelected());
+
         inspection.setDescription(descriptionField.getText());
+        inspection.setInspectionDate(LocalDateTime.now());
 
         //TODO: Araç inceleme formundaki bilgiler kaydedilecek ve Bir sonraki sekme açılacak!!
-        try {
-            inspectionService.save(inspection);
-            showAlert(Alert.AlertType.INFORMATION, "Başarılı", "İnceleme bilgileri başarıylya kaydedildi");
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            Transaction transaction = session.beginTransaction();
+            Inspection savedInspection = inspectionService.save(session, inspection);
+
+            if (savedInspection != null) {
+                Car car = session.merge(selectedCar);
+                car.getInspectionList().add(savedInspection);
+
+                session.merge(car);
+                transaction.commit();
+
+                isInspectionedCompleted = true;
+                completedInspection = savedInspection;
+                enableNextPhase();
+
+                showAlert(Alert.AlertType.INFORMATION, "Başarılı", "İnceleme bilgileri başarıyla kaydedildi");
+                System.out.println("Worked" + savedInspection);
+            } else {
+                transaction.rollback();
+                throw new RuntimeException("kaydedilen inceleme bilgileri NULL!!");
+            }
 
         } catch (Exception e) {
             showAlert(Alert.AlertType.ERROR, "Hata", "İnceleme bilgileri kaydedilemedi: ");
             System.err.println(e.getMessage());
             e.printStackTrace();
         }
-    }
-
-
-    @FXML
-    private void refreshInspectionList() {
-        inspectionObservableList.clear();
-
-        List<Inspection> inspections = inspectionService.getAllInspections();
-        if (inspections != null && !inspections.isEmpty()) {
-            for (Inspection carInspection : inspections) {
-                inspectionObservableList.add(carInspection.toString());
-            }
-        }
-        inspectionListView.setItems(customerObservableList);
-    }
-
-    @FXML
-    private void clearInspectionsList() {
-        inspectionObservableList.clear();
-    }
-
-    @FXML
-    private void clearInspectionsField() {
-        kilometerField.clear();
-        descriptionField.clear();
-        registrationCheck.setSelected(false);
-        aerialCheck.setSelected(false);
-        babySeatCheck.setSelected(false);
-        firstAidKitCheck.setSelected(false);
-        fireExtinguisherCheck.setSelected(false);
-        toolSetCheck.setSelected(false);
     }
 
     @FXML
@@ -348,10 +327,8 @@ public class RentalProcessController {
             return;
         }
 
-        if (rentalDatePicker.getValue() == null ||
-                returnDatePicker.getValue() == null) {
-            showAlert(Alert.AlertType.ERROR, "Hata", "Lütfen Kiralama Ve Geri Dönüş" +
-                    " Tarihlerini Seçin!");
+        if (rentalDatePicker.getValue() == null || returnDatePicker.getValue() == null) {
+            showAlert(Alert.AlertType.ERROR, "Hata", "Lütfen Kiralama Ve Geri Dönüş" + " Tarihlerini Seçin!");
             return;
         }
 
@@ -363,46 +340,43 @@ public class RentalProcessController {
         Rental rental = new Rental();
         rental.setCar(selectedCar);
         rental.setCustomer(selectedCustomer);
+        rental.setBeforeInspection(completedInspection);
         rental.setRentalDate(rentalDatePicker.getValue().atStartOfDay());
         rental.setReturnDate(returnDatePicker.getValue().atStartOfDay());
         rental.setTotalPrice(Double.parseDouble(totalPriceField.getText()));
+        rental.setRentalStatus(RentalStatus.ONGOING);
+        selectedCar.setStatus(CarStatus.RENTED);
 
         //TODO: Kiralama bilgileri kaydedilip işlem sonlanacak!!
 
-        try {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            Transaction transaction = session.beginTransaction();
+            rentalService.save(session, rental);
 
-            RentalService rentalService = new RentalService();
-            rentalService.save(rental);
+            isRentalFinalized = true;
+            finalizedRental = rental;
 
+            transaction.commit();
             showAlert(Alert.AlertType.INFORMATION, "Başarılı", "Kiralama İşlemi Başarıyla Tamamlandı!");
 
             resetRentalFields();
 
         } catch (Exception e) {
-            showAlert(Alert.AlertType.ERROR, "Hata", "Kiralama İşlemi Sırasında Hata Oluştu" + e.getMessage());
+            showAlert(Alert.AlertType.ERROR, "Hata", "Kiralama İşlemi Sırasında Hata Oluştu");
+            System.err.println(e.getMessage());
+            e.printStackTrace();
         }
     }
 
     private void resetRentalFields() {
+
         rentalDatePicker.setValue(LocalDate.now());
         returnDatePicker.setValue(null);
         totalPriceField.clear();
+
         isCarSelected = false;
         isCustomerSelected = false;
-        isInspectiodCompleted = false;
+        isInspectionedCompleted = false;
         isRentalFinalized = false;
-
-        enableNextPhase();
-
-//        carSelectionTab.setDisable(false);
-//        customerRegistrationTab.setDisable(true);
-//        inspectionTab.setDisable(true);
-//        rentalFinalizationTab.setDisable(true);
-
-    }
-
-    @FXML
-    private void refreshCarList() {
-
     }
 }

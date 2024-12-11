@@ -1,5 +1,6 @@
 package com.talhacolak.carrental.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.talhacolak.carrental.dto.RentalStatus;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -11,8 +12,10 @@ import java.time.LocalDateTime;
 @Data
 public class Rental extends BaseEntity {
 
+    @JsonFormat(pattern = "dd-mm-yyyy HH:mm:ss")
     private LocalDateTime rentalDate;
 
+    @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
     private LocalDateTime returnDate;
 
     private Double totalPrice;

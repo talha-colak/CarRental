@@ -1,11 +1,10 @@
 package com.talhacolak.carrental.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import jakarta.persistence.*;
 import lombok.Data;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "inspection")
@@ -14,7 +13,8 @@ import java.time.LocalDate;
 public class Inspection extends BaseEntity {
 
     @Column
-    private LocalDate inspectionDate;
+    @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
+    private LocalDateTime inspectionDate;
 
     private Boolean registration;
 
@@ -43,4 +43,9 @@ public class Inspection extends BaseEntity {
     private Integer fuelStatus;
 
     private String description;
+
+    @ManyToOne
+    @JoinColumn(name = "car_id", nullable = false)
+    private Car car;
+
 }

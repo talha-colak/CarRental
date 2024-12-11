@@ -8,6 +8,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.type.SqlTypes;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @MappedSuperclass
@@ -23,11 +24,12 @@ public class BaseEntity {
     private boolean deleted;
 
     @CreationTimestamp
+//    @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
     @Column(nullable = false, updatable = false)
-    private LocalDate created;
+    private LocalDateTime created;
 
-    @JsonFormat(pattern = "dd-mm-yyyy")
     @UpdateTimestamp
+//    @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
     @Column(nullable = false)
-    private LocalDate updated;
+    private LocalDateTime updated;
 }
