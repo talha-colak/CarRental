@@ -3,12 +3,14 @@ package com.talhacolak.carrental.entity;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.ToString;
 
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "inspection")
 @Data
+@ToString(exclude = "car")
 
 public class Inspection extends BaseEntity {
 
@@ -31,21 +33,14 @@ public class Inspection extends BaseEntity {
     private Boolean spareTyre;
 
     private Boolean toolSet;
-/*
-    @Column(nullable = false)
-    private Boolean lighter;
-    @Column(nullable = false)
-    private String tyres;
-*/
 
     private Integer kilometer;
 
     private Integer fuelStatus;
 
     private String description;
-
-    @ManyToOne
-    @JoinColumn(name = "car_id", nullable = false)
-    private Car car;
-
+//
+//    @ManyToOne
+//    @JoinColumn(name = "car_id")
+//    private Car car;
 }

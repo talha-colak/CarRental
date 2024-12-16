@@ -9,7 +9,6 @@ public class CarInspectionService {
     public Inspection save(Session session, Inspection inspection) {
 
         try {
-            //session açık mı değil mi diye kontrol
             System.out.println("SessionFactory is open: " + HibernateUtil.getSessionFactory().isOpen());
             session.persist(inspection);
 

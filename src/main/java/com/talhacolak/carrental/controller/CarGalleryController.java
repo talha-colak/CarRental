@@ -144,6 +144,4 @@ public class CarGalleryController {
             carAddStage.toFront();
         }
     }
-
-
 }

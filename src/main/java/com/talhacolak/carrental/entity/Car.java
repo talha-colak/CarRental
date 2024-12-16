@@ -1,20 +1,21 @@
 package com.talhacolak.carrental.entity;
 
-import com.google.protobuf.ListValueOrBuilder;
 import com.talhacolak.carrental.dto.Fuel;
 import com.talhacolak.carrental.dto.Gear;
 import com.talhacolak.carrental.dto.Category;
 import com.talhacolak.carrental.dto.CarStatus;
 import jakarta.persistence.*;
-import jakarta.persistence.criteria.CriteriaBuilder;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Data //getter setter metodları için
+@ToString(exclude = "inspectionList")
 @AllArgsConstructor
 @NoArgsConstructor
 public class Car extends BaseEntity {
@@ -46,7 +47,8 @@ public class Car extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private CarStatus status = CarStatus.UNDEFINED;
 
-    @OneToMany(mappedBy = "car", cascade = CascadeType.ALL, orphanRemoval = true)
-//    @JoinColumn(name = "inspectionList")
-    private List<Inspection> inspectionList;
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+//    @JoinColumn(name = "car_id", referencedColumnName = "id")
+    private List<Inspection> inspectionList = new ArrayList<>();
+
 }

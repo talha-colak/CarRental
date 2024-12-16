@@ -1,5 +1,6 @@
 package com.talhacolak.carrental.controller;
 
+import com.talhacolak.carrental.entity.Inspection;
 import com.talhacolak.carrental.service.CarService;
 import com.talhacolak.carrental.dto.CarStatus;
 import com.talhacolak.carrental.dto.Category;
@@ -12,6 +13,8 @@ import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 import static com.talhacolak.carrental.service.AlertUtil.showAlert;
 
@@ -71,11 +74,13 @@ public class CarAddController {
             showAlert(Alert.AlertType.INFORMATION, "Hata!", "Plaka '00ABC000' formatında girilmeli!");
             return;
         }
+
         if (!year.matches("\\d{4}") || Integer.parseInt(year) < 1900 || Integer.parseInt(year) > LocalDate.now().getYear()) {
             //showAlert("Hata!", "Yıl değeri bugünden büyük olamaz!");
             showAlert(Alert.AlertType.INFORMATION, "Hata!", "Yıl değeri bugünden büyük olamaz!");
             return;
         }
+
         if (!price.matches("\\d*(\\.\\d{0,2})?")) {
             showAlert(Alert.AlertType.INFORMATION, "Hata!", "Günlük fiyatı doğru giriniz!");
             return;
@@ -95,6 +100,9 @@ public class CarAddController {
         car.setGear(gearDropdown.getValue());
         car.setStatus(statusDropdown.getValue());
 
+        //yeni
+        car.setInspectionList(createDefaultInspections(car));
+        //---
         try {
             saveCar(car);
             //showAlert("Başarlı!", "Bilgiler başarıyla eklendi!");
@@ -106,18 +114,30 @@ public class CarAddController {
         }
     }
 
+    private ArrayList<Inspection> createDefaultInspections(Car car) {
+        ArrayList<Inspection> inspections = new ArrayList<>();
+
+        Inspection inspection = new Inspection();
+        inspection.setInspectionDate(LocalDateTime.now());
+        inspection.setFirstAidKit(true);
+        inspection.setFireExtinguisher(true);
+        inspection.setToolSet(true);
+        inspection.setAerial(true);
+        inspection.setBabySeat(true);
+        inspection.setFloorMat(true);
+        inspection.setRegistration(true);
+        inspection.setKilometer(0);
+        inspection.setFuelStatus(8);
+        inspection.setDescription(car.getBrand() + " " + car.getModel());
+
+        inspections.add(inspection);
+
+        return inspections;
+    }
+
     private void saveCar(Car car) {
         carService.save(car);
     }
-
-/*
-    private void showAlert(String title, String content) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle(title);
-        alert.setContentText(content);
-        alert.showAndWait();
-    }
-*/
 
     private void clearFields() {
         plateField.clear();

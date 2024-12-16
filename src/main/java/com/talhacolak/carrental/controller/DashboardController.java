@@ -30,7 +30,8 @@ public class DashboardController {
         Stage currentStage = (Stage) signout.getScene().getWindow();
 
         // login-view.fxml'i yükler
-        FXMLLoader loader = new FXMLLoader(CarRentalApplication.class.getResource("login-view.fxml"));
+        FXMLLoader loader = new FXMLLoader(CarRentalApplication.class
+                .getResource("login-view.fxml"));
         Parent root = loader.load();
 
         // yeni Scene ataması yapar ve özellikler verir
@@ -44,7 +45,8 @@ public class DashboardController {
     @FXML
     private void addformview() throws IOException {
         //loadview("car-add.fxml");
-        FXMLLoader loader = new FXMLLoader(CarRentalApplication.class.getResource("car-add.fxml"));
+        FXMLLoader loader = new FXMLLoader(CarRentalApplication.class
+                .getResource("car-add.fxml"));
         Node view = loader.load();
         BorderPane.setMargin(view, new javafx.geometry.Insets(10));
         view.prefHeight(510);
@@ -75,7 +77,8 @@ public class DashboardController {
 
     private void loadview(String fxmlFile) {
         try {
-            FXMLLoader loader = new FXMLLoader(CarRentalApplication.class.getResource(fxmlFile));
+            FXMLLoader loader = new FXMLLoader(CarRentalApplication.class
+                    .getResource(fxmlFile));
             Node view = loader.load();
             contents.setCenter(view);
         } catch (IOException e) {

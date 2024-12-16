@@ -1,7 +1,6 @@
 package com.talhacolak.carrental.controller;
 
 import com.talhacolak.carrental.config.HibernateUtil;
-import com.talhacolak.carrental.dto.CarStatus;
 import com.talhacolak.carrental.dto.RentalStatus;
 import com.talhacolak.carrental.entity.Car;
 import com.talhacolak.carrental.entity.Customer;
@@ -94,6 +93,23 @@ public class RentalProcessController {
         inspectionTab.setDisable(true);
         rentalFinalizationTab.setDisable(true);
 
+        /*----------------------------------START--------------------------------------*/
+        //TODO
+        if (inspectionTab.isSelected()) {
+            spareTyreCheck.setSelected(true);
+            floorMatCheck.setSelected(true);
+            registrationCheck.setSelected(true);
+            aerialCheck.setSelected(true);
+            babySeatCheck.setSelected(true);
+            firstAidKitCheck.setSelected(true);
+            toolSetCheck.setSelected(true);
+            fireExtinguisherCheck.setSelected(true);
+            fuelSlider.setValue(8);
+        } else {
+            showAlert(Alert.AlertType.WARNING, "Uyarı", "Sorun Var!");
+        }
+        /*----------------------------------END--------------------------------------*/
+
         customerRegistrationTab.setOnSelectionChanged(event -> {
             if (!isCarSelected) {
                 event.consume();
@@ -145,7 +161,6 @@ public class RentalProcessController {
         modelColumn.setCellValueFactory(new PropertyValueFactory<>("model"));
         priceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
         statusColumn.setCellValueFactory(new PropertyValueFactory<>("status"));
-        inspectionColumn.setCellValueFactory(new PropertyValueFactory<>("inspectionList"));
         ObservableList<Car> carObservableList = FXCollections.observableArrayList(carService.getAllCars());
         carTableView.setItems(carObservableList);
 
@@ -280,18 +295,29 @@ public class RentalProcessController {
         inspection.setBabySeat(babySeatCheck.isSelected());
         inspection.setRegistration(registrationCheck.isSelected());
         inspection.setToolSet(toolSetCheck.isSelected());
-
         inspection.setDescription(descriptionField.getText());
         inspection.setInspectionDate(LocalDateTime.now());
 
         //TODO: Araç inceleme formundaki bilgiler kaydedilecek ve Bir sonraki sekme açılacak!!
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             Transaction transaction = session.beginTransaction();
-            Inspection savedInspection = inspectionService.save(session, inspection);
+
+            inspectionService.save(session, inspection);
+
+            selectedCar.getInspectionList().add(inspection);
+            session.merge(selectedCar);
+
+            transaction.commit();
+
+            isInspectionedCompleted = true;
+            completedInspection = inspection;
+            enableNextPhase();
+
+/*            Inspection savedInspection = inspectionService.save(session, inspection);
+
 
             if (savedInspection != null) {
                 Car car = session.merge(selectedCar);
-                car.getInspectionList().add(savedInspection);
 
                 session.merge(car);
                 transaction.commit();
@@ -301,12 +327,11 @@ public class RentalProcessController {
                 enableNextPhase();
 
                 showAlert(Alert.AlertType.INFORMATION, "Başarılı", "İnceleme bilgileri başarıyla kaydedildi");
-                System.out.println("Worked" + savedInspection);
+                System.out.println("Worked " + savedInspection);
             } else {
                 transaction.rollback();
                 throw new RuntimeException("kaydedilen inceleme bilgileri NULL!!");
-            }
-
+            }*/
         } catch (Exception e) {
             showAlert(Alert.AlertType.ERROR, "Hata", "İnceleme bilgileri kaydedilemedi: ");
             System.err.println(e.getMessage());
@@ -345,7 +370,7 @@ public class RentalProcessController {
         rental.setReturnDate(returnDatePicker.getValue().atStartOfDay());
         rental.setTotalPrice(Double.parseDouble(totalPriceField.getText()));
         rental.setRentalStatus(RentalStatus.ONGOING);
-        selectedCar.setStatus(CarStatus.RENTED);
+
 
         //TODO: Kiralama bilgileri kaydedilip işlem sonlanacak!!
 
@@ -379,4 +404,5 @@ public class RentalProcessController {
         isInspectionedCompleted = false;
         isRentalFinalized = false;
     }
+
 }
