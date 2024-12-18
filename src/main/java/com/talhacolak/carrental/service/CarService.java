@@ -10,7 +10,6 @@ import java.util.List;
 
 public class CarService {
 
-
     public void save(Car car) {
         Transaction transaction = null;
 
@@ -41,7 +40,6 @@ public class CarService {
             e.printStackTrace();
             return null;
         }
-
     }
 
     public List<Car> getAllCars() {

@@ -46,19 +46,3 @@ public class CarRentalApplication extends Application {
         launch();
     }
 }
-
-//eski
-/*
-    //
-    @Override
-    public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(CarRentalApplication.class.getResource("login-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 600, 400);
-        stage.setScene(scene);
-        stage.setTitle("Login Screen");
-        stage.initStyle(StageStyle.TRANSPARENT);
-        stage.setResizable(false);
-        stage.centerOnScreen();
-        stage.show();
-    }
-*/

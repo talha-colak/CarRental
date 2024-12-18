@@ -10,11 +10,9 @@ public enum Role {
     Role(String trName, String engName) {
         this.trName = trName;
         this.engName = engName;
-
     }
 
     @Override
-
     public String toString() {
         return trName;
     }

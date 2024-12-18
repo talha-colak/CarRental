@@ -36,14 +36,4 @@ public class CustomerService {
             return null;
         }
     }
-
-    public List<Customer> getAllCustomer() {
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            return session.createQuery("from Customer ", Customer.class).list();
-        } catch (Exception e) {
-            System.err.println("Müşteriler Getirilemedi" + e.getMessage());
-            e.printStackTrace();
-            return null;
-        }
-    }
 }

@@ -95,19 +95,7 @@ public class RentalProcessController {
 
         /*----------------------------------START--------------------------------------*/
         //TODO
-        if (inspectionTab.isSelected()) {
-            spareTyreCheck.setSelected(true);
-            floorMatCheck.setSelected(true);
-            registrationCheck.setSelected(true);
-            aerialCheck.setSelected(true);
-            babySeatCheck.setSelected(true);
-            firstAidKitCheck.setSelected(true);
-            toolSetCheck.setSelected(true);
-            fireExtinguisherCheck.setSelected(true);
-            fuelSlider.setValue(8);
-        } else {
-            showAlert(Alert.AlertType.WARNING, "Uyarı", "Sorun Var!");
-        }
+
         /*----------------------------------END--------------------------------------*/
 
         customerRegistrationTab.setOnSelectionChanged(event -> {
@@ -258,6 +246,7 @@ public class RentalProcessController {
             isCustomerSelected = true;
 
             enableNextPhase();
+            setInspectionItems();
 
             showAlert(Alert.AlertType.INFORMATION, "Başarılı", "Müşteri Bulundu!");
         } else {
@@ -265,6 +254,7 @@ public class RentalProcessController {
             registeredCustomerField.selectAll();
         }
     }
+
 
     @FXML
     private void clearCustomerField() {
@@ -403,6 +393,24 @@ public class RentalProcessController {
         isCustomerSelected = false;
         isInspectionedCompleted = false;
         isRentalFinalized = false;
+    }
+
+    private void setInspectionItems() {
+
+        if (isCustomerSelected) {
+            spareTyreCheck.setSelected(true);
+            floorMatCheck.setSelected(true);
+            registrationCheck.setSelected(true);
+            aerialCheck.setSelected(true);
+            babySeatCheck.setSelected(true);
+            firstAidKitCheck.setSelected(true);
+            toolSetCheck.setSelected(true);
+            fireExtinguisherCheck.setSelected(true);
+            kilometerField.setText("0");
+            fuelSlider.setValue(8);
+        } else {
+            showAlert(Alert.AlertType.WARNING, "Uyarı", "Sorun Var!");
+        }
     }
 
 }

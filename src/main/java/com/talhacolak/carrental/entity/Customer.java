@@ -23,6 +23,7 @@ public class Customer extends BaseEntity {
     @Column(nullable = false, length = 50)
     private String lastName;
 
+    //TODO: Yaş sorgulaması için lazım
     private LocalDate birthday;
 
     @Column(nullable = false)
@@ -30,4 +31,5 @@ public class Customer extends BaseEntity {
 
     @Column(nullable = false)
     private String email;
+
 }

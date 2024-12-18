@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "inspection")
 @Data
-@ToString(exclude = "car")
+//@ToString(exclude = "car")
 
 public class Inspection extends BaseEntity {
 
@@ -39,8 +39,4 @@ public class Inspection extends BaseEntity {
     private Integer fuelStatus;
 
     private String description;
-//
-//    @ManyToOne
-//    @JoinColumn(name = "car_id")
-//    private Car car;
 }

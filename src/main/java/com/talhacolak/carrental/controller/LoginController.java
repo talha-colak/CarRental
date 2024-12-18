@@ -2,7 +2,6 @@ package com.talhacolak.carrental.controller;
 
 import com.talhacolak.carrental.CarRentalApplication;
 import com.talhacolak.carrental.config.HibernateUtil;
-import com.talhacolak.carrental.dto.Role;
 import com.talhacolak.carrental.entity.User;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
@@ -10,6 +9,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import lombok.Getter;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.mindrot.jbcrypt.BCrypt;
@@ -33,6 +33,9 @@ public class LoginController {
     @FXML
     private Button goNext, loginButton, close;
 
+    @Getter
+    private static User loggedInUser;
+
     @FXML
     private void close() {
         Stage stage = (Stage) login_form.getScene().getWindow();
@@ -55,11 +58,14 @@ public class LoginController {
             Transaction transaction = session.beginTransaction();
 
             User user = session.createQuery("FROM User WHERE userName =" +
-                    " :username", User.class).setParameter("username", usernameInput).uniqueResult();
+                    " :username", User.class).setParameter("username",
+                    usernameInput).uniqueResult();
             transaction.commit();
 
             if (user != null && BCrypt.checkpw(passwordInput, user.getPassword())) {
                 navigateToDashboard();
+                loggedInUser = user;
+
             } else {
                 errorLabel.setText("Geçersiz kullanıcı adı veya şifre!");
             }
@@ -76,7 +82,6 @@ public class LoginController {
             Stage currentStage = (Stage) login_form.getScene().getWindow();
             Scene dashboardScene = CarRentalApplication.loadscene("dashboard.fxml", 1280, 720);
             setStage(dashboardScene);
-            currentStage.close();
             currentStage.close();
 
         } catch (IOException e) {

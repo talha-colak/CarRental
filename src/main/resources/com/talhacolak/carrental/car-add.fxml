@@ -17,20 +17,21 @@
     </Label>
     <Separator prefHeight="35.0" prefWidth="600.0">
     </Separator>
-    <TextField fx:id="plateField" promptText="Plate Number"/>
-    <TextField fx:id="brandField" promptText="Brand"/>
-    <TextField fx:id="modelField" promptText="Model"/>
-    <TextField fx:id="yearField" promptText="Year"/>
-    <TextField fx:id="priceField" promptText="Price-per-Day"/>
-    <HBox alignment="TOP_CENTER" prefHeight="30.0" prefWidth="600.0" spacing="30.0">
+    <TextField fx:id="plateField" maxWidth="-Infinity" prefWidth="510.0" promptText="Plate Number" VBox.vgrow="NEVER"/>
+    <TextField fx:id="brandField" maxWidth="-Infinity" prefWidth="510.0" promptText="Brand" VBox.vgrow="NEVER"/>
+    <TextField fx:id="modelField" maxWidth="-Infinity" prefWidth="510.0" promptText="Model" VBox.vgrow="NEVER"/>
+    <TextField fx:id="yearField" maxWidth="-Infinity" prefWidth="510.0" promptText="Year" VBox.vgrow="NEVER"/>
+    <TextField fx:id="priceField" maxWidth="-Infinity" prefWidth="510.0" promptText="Price-per-Day" VBox.vgrow="NEVER"/>
+    <HBox alignment="TOP_CENTER" prefHeight="30.0" prefWidth="600.0" spacing="20.0">
         <children>
-            <ComboBox fx:id="bodyDropdown" prefWidth="150.0" promptText="Gövde Tipi" visibleRowCount="4"/>
+            <ComboBox fx:id="bodyDropdown" prefWidth="150.0" promptText="Gövde Tipi" visibleRowCount="4"
+                      HBox.hgrow="NEVER"/>
             <ComboBox fx:id="fuelDropdown" layoutX="224.0" layoutY="10.0" prefWidth="150.0" promptText="Yakıt Tipi"
-                      visibleRowCount="5"/>
+                      visibleRowCount="5" HBox.hgrow="NEVER"/>
             <ComboBox fx:id="gearDropdown" layoutX="315.0" layoutY="10.0" prefWidth="150.0" promptText="Vites Tipi"
-                      visibleRowCount="3"/>
+                      visibleRowCount="3" HBox.hgrow="NEVER"/>
             <ComboBox fx:id="statusDropdown" layoutX="405.0" layoutY="10.0" prefWidth="150.0" promptText="Durumu"
-                      visibleRowCount="5"/>
+                      visibleRowCount="5" HBox.hgrow="NEVER"/>
         </children>
         <VBox.margin>
             <Insets left="10.0" right="10.0"/>

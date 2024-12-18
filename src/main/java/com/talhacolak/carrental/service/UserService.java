@@ -8,7 +8,6 @@ import org.mindrot.jbcrypt.BCrypt;
 
 public class UserService {
 
-
     public static String hashPassword(String password) {
         return BCrypt.hashpw(password, BCrypt.gensalt());
     }
@@ -19,20 +18,27 @@ public class UserService {
 
     // Kullanıcı eklemek için metod
     public void addUser(User user) {
-
-        Session session = HibernateUtil.getSessionFactory().openSession();
-
+        Session session = null;
         Transaction transaction = null;
-        try (session) {
+
+        try {
+
+            session = HibernateUtil.getSessionFactory().openSession();
+
             transaction = session.beginTransaction();
             session.save(user); // kullanıyı tabloya kaydeder
             transaction.commit();
+
             System.out.println("Kullanıcı başarıyla eklendi!");
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
             }
             e.printStackTrace();
+        } finally {
+            if (session != null && session.isOpen()) {
+                session.close();
+            }
         }
     }
 

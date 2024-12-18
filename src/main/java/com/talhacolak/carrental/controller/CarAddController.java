@@ -24,6 +24,7 @@ public class CarAddController {
 
     @FXML
     private VBox imageChooser;
+    @FXML
     private ImageChooserController imageChooserController;
     @FXML
     private TextField plateField, brandField, modelField, yearField, priceField;    // 22 ABC 123
@@ -66,9 +67,11 @@ public class CarAddController {
             showAlert(Alert.AlertType.INFORMATION, "Hata!", "Tüm kutucuklar doldurulmalı ve Resim seçilmeli!");
             return;
         }
+
         if (imagePath == null || imagePath.isEmpty()) {
             imagePath = "C:\\Users\\Talha Çolak\\IdeaProjects\\CarRentalSystem\\src\\main\\resources\\com\\talhacolak\\carrental\\images\\placeholder.jpg";
         }
+
         if (!plate.matches("\\d{0,2}[A-Z]{0,3}\\d{0,3}")) {
             //showAlert("Hata!", "Plaka '00ABC000' formatında girilmeli!");
             showAlert(Alert.AlertType.INFORMATION, "Hata!", "Plaka '00ABC000' formatında girilmeli!");

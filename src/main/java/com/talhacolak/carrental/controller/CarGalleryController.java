@@ -34,6 +34,7 @@ public class CarGalleryController {
     @FXML
     FontAwesomeIconView carAdd;
 
+    //TODO
     @FXML
     public void initialize() {
         loadCarGallery();
@@ -134,6 +135,7 @@ public class CarGalleryController {
                 carAddStage.setScene(scene);
                 carAddStage.initStyle(StageStyle.UTILITY);
                 carAddStage.setTitle("Car Adding Forms");
+                carAddStage.setAlwaysOnTop(true);
                 carAddStage.show();
                 carAddStage.setOnCloseRequest(e -> carAddStage = null);
 
