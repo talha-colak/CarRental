@@ -37,8 +37,10 @@ public class DashboardController {
         System.out.println(currentUser);
         if (currentUser != null && currentUser.getRole() == Role.ADMIN) {
             useradd.setDisable(true);
+            useradd.setVisible(false);
         } else {
             useradd.setDisable(false);
+            useradd.setVisible(true);
         }
 
     }
@@ -62,7 +64,8 @@ public class DashboardController {
 
     @FXML
     private void close() {
-        Stage stage = (Stage) dashboard_form.getScene().getWindow();
+//        Stage stage = (Stage) dashboard_form.getScene().getWindow();
+        Stage stage = (Stage) contents.getScene().getWindow();
         stage.close();
     }
 
@@ -77,6 +80,15 @@ public class DashboardController {
         view.prefWidth(480);
         contents.setCenter(view);*/
     }
+
+//    @FXML
+//    private void helloWorld() {
+//        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+//        alert.setHeaderText("Test");
+//        alert.setTitle("Demo");
+//        alert.setContentText("HelloWorld");
+//        alert.showAndWait();
+//    }
 
     @FXML
     private void carviewer() throws IOException {

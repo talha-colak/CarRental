@@ -9,7 +9,8 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox alignment="CENTER" prefHeight="565.0" prefWidth="510.0" spacing="10" style="-fx-background-color: #8ecae6;"
+<VBox fx:id="carAddForm" alignment="CENTER" prefHeight="565.0" prefWidth="510.0" spacing="10"
+      style="-fx-background-color: #8ecae6;"
       xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="com.talhacolak.carrental.controller.CarAddController">
     <Label alignment="TOP_CENTER" contentDisplay="TOP" style="-fx-font-size: 32px; -fx-font-weight: bold;"
@@ -22,7 +23,7 @@
     <TextField fx:id="modelField" maxWidth="-Infinity" prefWidth="510.0" promptText="Model" VBox.vgrow="NEVER"/>
     <TextField fx:id="yearField" maxWidth="-Infinity" prefWidth="510.0" promptText="Year" VBox.vgrow="NEVER"/>
     <TextField fx:id="priceField" maxWidth="-Infinity" prefWidth="510.0" promptText="Price-per-Day" VBox.vgrow="NEVER"/>
-    <HBox alignment="TOP_CENTER" prefHeight="30.0" prefWidth="600.0" spacing="20.0">
+    <HBox alignment="TOP_CENTER" prefHeight="30.0" prefWidth="500.0" spacing="20.0">
         <children>
             <ComboBox fx:id="bodyDropdown" prefWidth="150.0" promptText="Gövde Tipi" visibleRowCount="4"
                       HBox.hgrow="NEVER"/>

@@ -3,7 +3,6 @@ package com.talhacolak.carrental.entity;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.Data;
-import lombok.ToString;
 
 import java.time.LocalDateTime;
 

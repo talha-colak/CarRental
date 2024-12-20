@@ -1,6 +1,5 @@
 package com.talhacolak.carrental.service;
 
-import com.talhacolak.carrental.config.HibernateUtil;
 import com.talhacolak.carrental.entity.Rental;
 import org.hibernate.Session;
 import org.hibernate.Transaction;

@@ -23,7 +23,9 @@ public class ImageChooserController {
     @FXML
     public void initialize() {
         imageChooser.getProperties().put("controller", this);
-        uploadButton.setOnAction(event -> handleImageUpload());
+        uploadButton.setOnAction(event -> {
+            handleImageUpload();
+        });
     }
 
     private void handleImageUpload() {
@@ -32,8 +34,8 @@ public class ImageChooserController {
         fileChooser.getExtensionFilters().add(
                 new FileChooser.ExtensionFilter("Resim Dosyaları", "*.png", "*.jpg", "*.jpeg")
         );
-//        File file = fileChooser.showOpenDialog(uploadButton.getScene().getWindow());
-        File file = fileChooser.showOpenDialog(null);
+        File file = fileChooser.showOpenDialog(uploadButton.getScene().getWindow());
+//      File file = fileChooser.showOpenDialog(null);
         if (file != null) {
             Image image = new Image(file.toURI().toString());
             imageView.setImage(image);
@@ -46,7 +48,6 @@ public class ImageChooserController {
 
     public void clearImage() {
         imageView.setImage(null);
-        imageView = null;
         imagePath = null;
     }
 }

@@ -23,17 +23,23 @@ public class CarAddController {
     private final CarService carService = new CarService();
 
     @FXML
-    private VBox imageChooser;
+    private VBox imageChooser, carAddForm;
+
     @FXML
     private ImageChooserController imageChooserController;
+
     @FXML
     private TextField plateField, brandField, modelField, yearField, priceField;    // 22 ABC 123
+
     @FXML
     private ComboBox<Category> bodyDropdown;
+
     @FXML
     private ComboBox<Fuel> fuelDropdown;
+
     @FXML
     private ComboBox<Gear> gearDropdown;
+
     @FXML
     private ComboBox<CarStatus> statusDropdown;
 
@@ -46,10 +52,9 @@ public class CarAddController {
         gearDropdown.setItems(FXCollections.observableArrayList(Gear.values()));
         statusDropdown.setItems(FXCollections.observableArrayList(CarStatus.values()));
         plateField.setTextFormatter(new TextFormatter<>(change -> change.getControlNewText().matches("\\d{0,2}[A-Z]{0,3}\\d{0,3}") ? change : null));
-
         yearField.setTextFormatter(new TextFormatter<>(change -> change.getControlNewText().matches("\\d{0,4}") ? change : null));
-
         priceField.setTextFormatter(new TextFormatter<>(change -> change.getControlNewText().matches("\\d*(\\.\\d{0,2})?") ? change : null));
+        clearFields();
     }
 
     @FXML

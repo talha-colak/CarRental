@@ -5,7 +5,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import lombok.Data;
 
-import java.sql.Date;
 import java.time.LocalDate;
 
 @Entity

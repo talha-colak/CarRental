@@ -6,6 +6,8 @@ import com.talhacolak.carrental.entity.Car;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -16,8 +18,10 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.stage.Window;
 import org.hibernate.Session;
 
 import java.io.IOException;
@@ -57,10 +61,10 @@ public class CarGalleryController {
 
     private VBox createCarTile(Car car) {
         VBox carTile = new VBox();
-        carTile.setStyle("-fx-border-width: 1;" +
-                " -fx-border-color: black; -fx-background-color: White;");
+        carTile.setStyle("-fx-border-width: 1; -fx-border-color: black; -fx-background-color: White; -fx-alignment: CENTER ");
         carTile.setSpacing(10);
         carTile.setPrefSize(220.0, 300.0); //220,300 210,280
+        carTile.setAlignment(Pos.CENTER_LEFT);
 
 //      ImageView carImage = new ImageView(new Image(car.getImageUrl()));
         String imageUrl = car.getImageUrl() != null ? car.getImageUrl() : "file:///C:/Users/Talha Çolak/IdeaProjects/CarRentalSystem/src/main/resources/com/talhacolak/carrental/images/placeholder.jpg";
@@ -68,10 +72,16 @@ public class CarGalleryController {
         carImage.setFitHeight(120); //120
         carImage.setFitWidth(200);  //200
         carImage.setPreserveRatio(true);
+        carImage.setStyle("-fx-border-width: 1;-fx-border-color: black;");
+        VBox.setMargin(carImage, new Insets(10, 5, 0, 5));
+//      setOpaqueInsets(new Insets(10, 5, 10, 5));
 
         Text brandText = new Text(car.getBrand());
+        brandText.setStyle("-fx-font-weight: bold;");
         Text modelText = new Text(car.getModel());
+        modelText.setStyle("-fx-font-weight: bold;");
         Text priceText = new Text(car.getPrice() + "TL/Günlük");
+        priceText.setStyle("-fx-font-weight: bold;");
 
         Button viewButton = new Button("Details");
         viewButton.setOnAction(e -> showCarDetails(car));
@@ -82,7 +92,10 @@ public class CarGalleryController {
         Button deleteButton = new Button("Delete");
         deleteButton.setOnAction(e -> deleteCar(car));
 
-        HBox buttonBox = new HBox(10, viewButton, editButton, deleteButton);
+        HBox buttonBox = new HBox(viewButton, editButton, deleteButton);
+        buttonBox.setPadding(new Insets(0, 0, 5, 5));
+        buttonBox.setAlignment(Pos.CENTER);
+//        VBox.setMargin(buttonBox, new Insets(0, 0, 5, 0));
 
         carTile.getChildren().addAll(carImage, brandText, modelText, priceText, buttonBox);
         return carTile;
@@ -108,7 +121,7 @@ public class CarGalleryController {
         if (confirmAlert.showAndWait().orElse(ButtonType.CANCEL) == ButtonType.OK) {
             try (Session session = HibernateUtil.getSessionFactory().openSession()) {
                 session.beginTransaction();
-                session.remove(car); // Remove the car
+                session.delete(car); // Remove the car
                 session.getTransaction().commit();
 
                 // Remove from UI
@@ -128,14 +141,17 @@ public class CarGalleryController {
         if (carAddStage == null) {
             carAddStage = new Stage();
             try {
-                FXMLLoader loader = new FXMLLoader(CarRentalApplication.
-                        class.getResource("car-add.fxml"));
+                FXMLLoader loader = new FXMLLoader(CarRentalApplication.class.getResource("car-add.fxml"));
                 Parent root = loader.load();
                 Scene scene = new Scene(root);
                 carAddStage.setScene(scene);
                 carAddStage.initStyle(StageStyle.UTILITY);
+
+                Window currentWindow = carGalleryScrollPane.getScene().getWindow();
+                carAddStage.initOwner(currentWindow);
+                carAddStage.initModality(Modality.WINDOW_MODAL);
+
                 carAddStage.setTitle("Car Adding Forms");
-                carAddStage.setAlwaysOnTop(true);
                 carAddStage.show();
                 carAddStage.setOnCloseRequest(e -> carAddStage = null);
 
@@ -145,5 +161,7 @@ public class CarGalleryController {
         } else {
             carAddStage.toFront();
         }
+
+
     }
 }

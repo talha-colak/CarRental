@@ -3,7 +3,6 @@ package com.talhacolak.carrental.service;
 import com.talhacolak.carrental.config.HibernateUtil;
 import com.talhacolak.carrental.entity.Car;
 import com.talhacolak.carrental.entity.Inspection;
-import jakarta.persistence.criteria.CriteriaBuilder;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 

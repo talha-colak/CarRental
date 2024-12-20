@@ -1,7 +1,6 @@
 module com.talhacolak.carrental {
     requires javafx.controls;
     requires javafx.fxml;
-//  requires java.desktop;
     requires org.hibernate.orm.core;
     requires java.naming;
     requires jakarta.persistence;
