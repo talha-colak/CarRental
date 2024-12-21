@@ -10,22 +10,22 @@
 <?import javafx.scene.text.Font?>
 
 <BorderPane fx:id="login_form" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
-            prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/" xmlns:fx="http://javafx.com/fxml/"
+            prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="com.talhacolak.carrental.controller.LoginController">
     <left>
         <AnchorPane prefHeight="400.0" prefWidth="347.0" style="-fx-background-color: #219ebc;"
                     BorderPane.alignment="CENTER">
-            <Label layoutX="36.0" layoutY="85.0" text="CAR" textFill="#fb8500" underline="true">
+            <Label layoutX="36.0" layoutY="85.0" text="%login.form.title1" textFill="#fb8500" underline="true">
                 <font>
                     <Font name="System Bold" size="30.0"/>
                 </font>
             </Label>
-            <Label layoutX="96.0" layoutY="154.0" text="RENTAL" textFill="#fb8500" underline="true">
+            <Label layoutX="96.0" layoutY="154.0" text="%login.form.title2" textFill="#fb8500" underline="true">
                 <font>
                     <Font name="System Bold" size="30.0"/>
                 </font>
             </Label>
-            <Label layoutX="198.0" layoutY="219.0" text="SYSTEM" textFill="#fb8500" underline="true">
+            <Label layoutX="198.0" layoutY="219.0" text="%login.form.title3" textFill="#fb8500" underline="true">
                 <font>
                     <Font name="System Bold" size="30.0"/>
                 </font>
@@ -36,15 +36,14 @@
     <right>
         <AnchorPane prefHeight="400.0" prefWidth="266.0" style="-fx-background-color: #023047;"
                     BorderPane.alignment="CENTER">
-            <TextField fx:id="username" layoutX="51.0" layoutY="124.0" promptText="Username"
+            <TextField fx:id="username" layoutX="51.0" layoutY="124.0" promptText="%login.form.usernameLabel"
                        style="-fx-background-color: #8ecae6;"/>
-            <PasswordField fx:id="password" layoutX="51.0" layoutY="174.0" promptText="Password"
+            <PasswordField fx:id="password" layoutX="51.0" layoutY="174.0" promptText="%login.form.passwordLabel"
                            style="-fx-background-color: #8ecae6;"/>
             <Button fx:id="loginButton" defaultButton="true" layoutX="103.0" layoutY="218.0" mnemonicParsing="false"
-                    onAction="#loginAction" style="-fx-background-color: #8ecae6;" text="Login" textFill="#696969"/>
+                    onAction="#loginAction" style="-fx-background-color: #8ecae6;" text="%login.form.loginButtonLabel"
+                    textFill="#696969"/>
             <Label fx:id="errorLabel" layoutX="59.0" layoutY="97.0" textFill="RED"/>
-            <Button fx:id="goNext" layoutX="175.0" layoutY="342.0" mnemonicParsing="false"
-                    text="Button" visible="false"/>
             <Button fx:id="close" blendMode="OVERLAY" layoutX="223.0" layoutY="1.0" mnemonicParsing="false"
                     onAction="#close" prefHeight="30.0" prefWidth="30.0">
                 <graphic>
