@@ -29,7 +29,7 @@ public class RentalProcessController {
     public Label firstNameLabel, lastNameLabel, phoneNumberLabel, emailLabel, licenseNumberLabel;
 
     @FXML
-    FontAwesomeIconView searchButton, searchCar;
+    FontAwesomeIconView searchButton;
 
     @FXML
     private TabPane tabPane;
@@ -68,7 +68,7 @@ public class RentalProcessController {
     private Slider fuelSlider;
 
     @FXML
-    private Button registerButton, inspectionButton, finalizeButton;
+    private Button registerButton, inspectionButton, finalizeButton, searchCar;
 
     private final CarService carService = new CarService();
     private final CustomerService customerService = new CustomerService();
@@ -93,8 +93,7 @@ public class RentalProcessController {
         inspectionTab.setDisable(true);
         rentalFinalizationTab.setDisable(true);
 
-
-        customerRegistrationTab.setOnSelectionChanged(event -> {
+/*        customerRegistrationTab.setOnSelectionChanged(event -> {
             if (!isCarSelected) {
                 event.consume();
                 showAlert(Alert.AlertType.WARNING, "Araba Seç", "Bir Sonraki Aşamaya Geçmek" + " İçin Araba Seçmek Gerekmektedir!");
@@ -113,7 +112,7 @@ public class RentalProcessController {
                 event.consume();
                 showAlert(Alert.AlertType.WARNING, "İncelemeyi Tamamla", "Bir Sonraki Aşamaya Geçmek" + " İçin İncelemeyi Tamamlamak Gerekmektedir!");
             }
-        });
+        });*/
 
         carTableView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {

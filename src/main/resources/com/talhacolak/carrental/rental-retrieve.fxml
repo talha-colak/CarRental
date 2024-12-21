@@ -21,14 +21,14 @@
 <TabPane fx:id="tabPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
          prefHeight="680.0" prefWidth="1090.0" style="-fx-background-color: #8ecae6;" tabClosingPolicy="UNAVAILABLE"
          xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1"
-         fx:controller="com.talhacolak.carrental.controller.RentalProcessController">
+         fx:controller="com.talhacolak.carrental.controller.RentalFinalizationController">
     <tabs>
         <Tab fx:id="carSelectionTab" text="Araba Seçimi">
             <content>
                 <VBox alignment="CENTER" fillWidth="false" spacing="20.0">
                     <children>
                         <Label alignment="CENTER" style="-fx-font-size: 32px; -fx-font-weight: bold;"
-                               text="Müsait Arabalar">
+                               text="Kiradaki Arabalar">
                             <VBox.margin>
                                 <Insets top="15.0"/>
                             </VBox.margin>
@@ -48,12 +48,12 @@
                         </HBox>
                         <TableView fx:id="carTableView" prefHeight="466.0" prefWidth="803.0" VBox.vgrow="ALWAYS">
                             <columns>
+                                <TableColumn fx:id="customerNameColumn" text="Kiracı"/>
                                 <TableColumn fx:id="licensePlateColumn" text="Plaka"/>
                                 <TableColumn fx:id="brandColumn" text="Marka"/>
                                 <TableColumn fx:id="modelColumn" text="Model"/>
                                 <TableColumn fx:id="priceColumn" text="Ücret(GünlükTL)"/>
-                                <TableColumn fx:id="statusColumn" text="Araba Durumu"/>
-                                <TableColumn fx:id="inspectionColumn" text="İnceleme Tarihi"/>
+                                <TableColumn fx:id="rentaltimeColumn" text="Kiralama Aralığı"/>
                             </columns>
                             <columnResizePolicy>
                                 <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
@@ -67,66 +67,67 @@
             </content>
         </Tab>
         <Tab fx:id="customerRegistrationTab" text="Müşteri Kayıt">
-            <VBox alignment="CENTER" fillWidth="false" spacing="50.0">
-                <children>
-                    <Label alignment="CENTER" style="-fx-font-size: 32px; -fx-font-weight: bold;"
-                           text="Müşteri Kayıt Formu"/>
-                    <GridPane alignment="TOP_CENTER" hgap="50.0" vgap="15.0">
-                        <columnConstraints>
-                            <ColumnConstraints/>
-                            <ColumnConstraints/>
-                            <ColumnConstraints/>
-                        </columnConstraints>
-                        <rowConstraints>
-                            <RowConstraints vgrow="SOMETIMES"/>
-                            <RowConstraints vgrow="SOMETIMES"/>
-                            <RowConstraints vgrow="SOMETIMES"/>
-                            <RowConstraints vgrow="SOMETIMES"/>
-                            <RowConstraints vgrow="SOMETIMES"/>
-                            <RowConstraints vgrow="SOMETIMES"/>
-                        </rowConstraints>
-                        <children>
-                            <Label style="-fx-font-size: 20px;" text="Soyad" GridPane.rowIndex="3"/>
-                            <Label style="-fx-font-size: 20px;" text="Ad" GridPane.rowIndex="2"/>
-                            <Label style="-fx-font-size: 20px;" text="Sicil Numara" GridPane.rowIndex="1">
-                                <padding>
-                                    <Insets right="5.0"/>
-                                </padding>
-                            </Label>
-                            <Label style="-fx-font-size: 20px;" text="Kayıtlı Müşteri Arama">
-                                <padding>
-                                    <Insets right="5.0"/>
-                                </padding>
-                            </Label>
-                            <Label style="-fx-font-size: 20px;" text="E-posta" GridPane.rowIndex="5"/>
-                            <Label style="-fx-font-size: 20px;" text="Telefon" GridPane.rowIndex="4"/>
-                            <TextField fx:id="phoneNumberField" promptText="Müşteri Telefon Numarası"
-                                       style="-fx-font-size: 14px;" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
-                            <TextField fx:id="emailField" promptText="Müşteri e-posta" style="-fx-font-size: 14px;"
-                                       GridPane.columnIndex="1" GridPane.rowIndex="5"/>
-                            <TextField fx:id="registeredCustomerField" promptText="Müşteri Sicil Numarası"
-                                       style="-fx-font-size: 14px;" GridPane.columnIndex="1"/>
-                            <TextField fx:id="licenseNumberField" promptText="Sürücü Sicil Numarası"
-                                       style="-fx-font-size: 14px;" GridPane.columnIndex="1" GridPane.rowIndex="1">
-                            </TextField>
-                            <TextField fx:id="firstNameField" promptText="Müşteri Adı" style="-fx-font-size: 14px;"
-                                       GridPane.columnIndex="1" GridPane.rowIndex="2"/>
-                            <TextField fx:id="lastNameField" promptText="Müşteri Soyadı" style="-fx-font-size: 14px;"
-                                       GridPane.columnIndex="1" GridPane.rowIndex="3"/>
-                            <FontAwesomeIconView fx:id="searchButton" glyphName="SEARCH"
-                                                 onMouseClicked="#findCustomerByLicense" scaleX="1.5" scaleY="1.5"
-                                                 textAlignment="RIGHT" GridPane.columnIndex="1"
-                                                 GridPane.halignment="RIGHT">
-                                <GridPane.margin>
-                                    <Insets right="5.0"/>
-                                </GridPane.margin>
-                            </FontAwesomeIconView>
-                        </children>
-                    </GridPane>
-                    <Button fx:id="registerButton" defaultButton="true" mnemonicParsing="false"
-                            onAction="#registerCustomer" style="-fx-font-size: 14px;" text="Kaydet"/>
-                </children>
-            </VBox>
+            <content>
+                <VBox alignment="CENTER" fillWidth="false" spacing="50.0">
+                    <children>
+                        <Label alignment="CENTER" style="-fx-font-size: 32px; -fx-font-weight: bold;"
+                               text="Müşteri Kayıt Formu"/>
+                        <GridPane alignment="TOP_CENTER" hgap="50.0" vgap="15.0">
+                            <columnConstraints>
+                                <ColumnConstraints/>
+                                <ColumnConstraints/>
+                                <ColumnConstraints/>
+                            </columnConstraints>
+                            <rowConstraints>
+                                <RowConstraints vgrow="SOMETIMES"/>
+                                <RowConstraints vgrow="SOMETIMES"/>
+                                <RowConstraints vgrow="SOMETIMES"/>
+                                <RowConstraints vgrow="SOMETIMES"/>
+                                <RowConstraints vgrow="SOMETIMES"/>
+                                <RowConstraints vgrow="SOMETIMES"/>
+                            </rowConstraints>
+                            <children>
+                                <Label style="-fx-font-size: 20px;" text="Soyad" GridPane.rowIndex="3"/>
+                                <Label style="-fx-font-size: 20px;" text="Ad" GridPane.rowIndex="2"/>
+                                <Label style="-fx-font-size: 20px;" text="Sicil Numara" GridPane.rowIndex="1">
+                                    <padding>
+                                        <Insets right="5.0"/>
+                                    </padding>
+                                </Label>
+                                <Label style="-fx-font-size: 20px;" text="Kayıtlı Müşteri Arama">
+                                    <padding>
+                                        <Insets right="5.0"/>
+                                    </padding>
+                                </Label>
+                                <Label style="-fx-font-size: 20px;" text="E-posta" GridPane.rowIndex="5"/>
+                                <Label style="-fx-font-size: 20px;" text="Telefon" GridPane.rowIndex="4"/>
+                                <TextField fx:id="phoneNumberField" promptText="Müşteri Telefon Numarası"
+                                           style="-fx-font-size: 14px;" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
+                                <TextField fx:id="emailField" promptText="Müşteri e-posta" style="-fx-font-size: 14px;"
+                                           GridPane.columnIndex="1" GridPane.rowIndex="5"/>
+                                <TextField fx:id="registeredCustomerField" promptText="Müşteri Sicil Numarası"
+                                           style="-fx-font-size: 14px;" GridPane.columnIndex="1"/>
+                                <TextField fx:id="licenseNumberField" promptText="Sürücü Sicil Numarası"
+                                           style="-fx-font-size: 14px;" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+                                <TextField fx:id="firstNameField" promptText="Müşteri Adı" style="-fx-font-size: 14px;"
+                                           GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+                                <TextField fx:id="lastNameField" promptText="Müşteri Soyadı"
+                                           style="-fx-font-size: 14px;" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+                                <FontAwesomeIconView fx:id="searchButton" glyphName="SEARCH"
+                                                     onMouseClicked="#findCustomerByLicense" scaleX="1.5" scaleY="1.5"
+                                                     textAlignment="RIGHT" GridPane.columnIndex="1"
+                                                     GridPane.halignment="RIGHT">
+                                    <GridPane.margin>
+                                        <Insets right="5.0"/>
+                                    </GridPane.margin>
+                                </FontAwesomeIconView>
+                            </children>
+                        </GridPane>
+                        <Button fx:id="registerButton" defaultButton="true" mnemonicParsing="false"
+                                onAction="#registerCustomer" style="-fx-font-size: 14px;" text="Kaydet"/>
+                    </children>
+                </VBox>
+            </content>
         </Tab>
         <Tab fx:id="inspectionTab" text="Araç İnceleme">
             <content>
@@ -209,8 +210,7 @@
                 <VBox alignment="CENTER" spacing="50.0">
                     <children>
                         <Label alignment="CENTER" style="-fx-font-size: 32px; -fx-font-weight: bold;"
-                               text="Kiralama İşlemi Başlat">
-                        </Label>
+                               text="Kiralama İşlemi Sonlandır"/>
                         <GridPane alignment="CENTER" hgap="50.0" vgap="15.0">
                             <columnConstraints>
                                 <ColumnConstraints/>
@@ -232,8 +232,7 @@
                                             GridPane.columnIndex="1" GridPane.rowIndex="1"/>
                                 <TextField fx:id="totalPriceField" style="-fx-font-size: 14px;" GridPane.columnIndex="1"
                                            GridPane.rowIndex="2"/>
-                                <Label style="-fx-font-size: 20px;" text="Toplam Ücret (TL)" GridPane.rowIndex="2">
-                                </Label>
+                                <Label style="-fx-font-size: 20px;" text="Toplam Ücret (TL)" GridPane.rowIndex="2"/>
                             </children>
                         </GridPane>
                         <Button fx:id="finalizeButton" mnemonicParsing="false" onAction="#finalizeRental"

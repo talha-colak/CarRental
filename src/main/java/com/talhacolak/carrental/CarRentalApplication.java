@@ -11,15 +11,19 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 import java.io.IOException;
+import java.util.Locale;
 import java.util.Objects;
+import java.util.ResourceBundle;
 
 public class CarRentalApplication extends Application {
 
     UserService userService;
 
     //yeni
-    public static Scene loadscene(String fxmlpath, int width, int height) throws IOException {
+    public static Scene loadscene(String fxmlpath, int width, int height, Locale locale) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(CarRentalApplication.class.getResource(fxmlpath));
+        ResourceBundle resourceBundle = ResourceBundle.getBundle("languages.crs_localization", locale);
+        fxmlLoader.setResources(resourceBundle);
         Parent root = fxmlLoader.load();
         return new Scene(root, width, height);
     }
@@ -34,7 +38,10 @@ public class CarRentalApplication extends Application {
             userService.addUser(adminUser);
         }
 
-        stage.setScene(loadscene("login-view.fxml", 600, 400));
+        Locale defaultLocale = new Locale("tr", "TR");
+        Locale.setDefault(defaultLocale);
+
+        stage.setScene(loadscene("login-view.fxml", 600, 400, defaultLocale));
         stage.initStyle(StageStyle.TRANSPARENT);
         stage.setTitle("Login Screen");
         stage.setResizable(false);

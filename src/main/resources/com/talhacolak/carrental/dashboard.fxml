@@ -3,13 +3,13 @@
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
-
 
 <BorderPane fx:id="contents" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
             prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/23"
@@ -18,31 +18,33 @@
         <VBox alignment="TOP_CENTER" prefHeight="680.0" prefWidth="190.0" style="-fx-background-color: #023047;">
             <Button fx:id="cars" alignment="CENTER" layoutX="19.0" layoutY="82.0" mnemonicParsing="false"
                     onAction="#carviewer" prefHeight="26.0" prefWidth="182.0" style="-fx-background-color: none;"
-                    text="Araçlar" textFill="#fb8500">
+                    text="Araçlar" textFill="#ffb703">
                 <font>
                     <Font name="System Bold" size="24.0"/>
                 </font>
             </Button>
             <Button fx:id="caradd" layoutX="19.0" layoutY="94.0" mnemonicParsing="false" onAction="#addformview"
                     prefHeight="26.0" prefWidth="182.0" style="-fx-background-color: none;" text="Araç Ekle"
-                    textFill="#9c9c9c">
+                    textFill="#ffb703">
                 <font>
                     <Font name="System Bold" size="24.0"/>
                 </font>
             </Button>
             <Button fx:id="carrent" mnemonicParsing="false" onAction="#carrent" prefHeight="26.0" prefWidth="182.0"
-                    style="-fx-background-color: none;" text="Araç Kirala" textFill="#9c9c9c">
+                    style="-fx-background-color: none;" text="Araç Kirala" textFill="#ffb703">
+                <font>
+                    <Font name="System Bold" size="24.0"/>
+                </font>
+            </Button>
+            <Button layoutX="19.0" layoutY="267.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="182.0"
+                    style="-fx-background-color: none;" text="Teslim Al" textFill="#ffb703">
                 <font>
                     <Font name="System Bold" size="24.0"/>
                 </font>
             </Button>
             <Pane VBox.vgrow="ALWAYS"/>
-            <Button layoutX="19.0" layoutY="267.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="182.0"
-                    style="-fx-background-color: none;" text="Müşteriden Teslim Al" textFill="#9c9c9c" visible="false">
-                <font>
-                    <Font name="System Bold" size="24.0"/>
-                </font>
-            </Button>
+            <FontAwesomeIconView fill="#ffb703" glyphName="GLOBE" size="36" textAlignment="CENTER"/>
+            <ComboBox fx:id="languageSelector"/>
             <HBox alignment="BOTTOM_CENTER" prefHeight="100.0" prefWidth="200.0">
                 <children>
                     <Button fx:id="useradd" alignment="CENTER" contentDisplay="CENTER" disable="true"

@@ -16,6 +16,8 @@ import javafx.stage.Stage;
 
 
 import java.io.IOException;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 public class DashboardController {
 
@@ -32,17 +34,20 @@ public class DashboardController {
     private FontAwesomeIconView userAdd;
 
     @FXML
-    public void initialize() {
+    public void initialize() throws IOException {
+        loadview("car-gallery.fxml");
+
         User currentUser = LoginController.getLoggedInUser();
         System.out.println(currentUser);
         if (currentUser != null && currentUser.getRole() == Role.ADMIN) {
+            useradd.setDisable(false);
+            useradd.setVisible(true);
+        } else if (currentUser != null && currentUser.getRole() == Role.USER) {
             useradd.setDisable(true);
             useradd.setVisible(false);
         } else {
-            useradd.setDisable(false);
-            useradd.setVisible(true);
+            signOut();
         }
-
     }
 
     @FXML
@@ -50,8 +55,15 @@ public class DashboardController {
         // Aktif Stage'i alır (get)
         Stage currentStage = (Stage) signout.getScene().getWindow();
 
+        Locale defaultLocale = new Locale("tr", "TR");
+        Locale.setDefault(defaultLocale);
+
         // login-view.fxml'i yükler
         FXMLLoader loader = new FXMLLoader(CarRentalApplication.class.getResource("login-view.fxml"));
+
+        ResourceBundle bundle = ResourceBundle.getBundle("languages.crs_localization", defaultLocale);
+        loader.setResources(bundle);
+
         Parent root = loader.load();
 
         // yeni Scene ataması yapar ve özellikler verir
@@ -72,23 +84,7 @@ public class DashboardController {
     @FXML
     private void addformview() throws IOException {
         loadview("car-add.fxml");
-
-        /*FXMLLoader loader = new FXMLLoader(CarRentalApplication.class.getResource("car-add.fxml"));
-        Node view = loader.load();
-        BorderPane.setMargin(view, new javafx.geometry.Insets(10));
-        view.prefHeight(510);
-        view.prefWidth(480);
-        contents.setCenter(view);*/
     }
-
-//    @FXML
-//    private void helloWorld() {
-//        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-//        alert.setHeaderText("Test");
-//        alert.setTitle("Demo");
-//        alert.setContentText("HelloWorld");
-//        alert.showAndWait();
-//    }
 
     @FXML
     private void carviewer() throws IOException {
@@ -108,7 +104,6 @@ public class DashboardController {
     @FXML
     private void goHome() throws IOException {
         loadview("car-gallery.fxml");
-//        contents.setCenter(contentArea);
     }
 
     private void loadview(String fxmlFile) {
