@@ -44,8 +44,26 @@ public class CarService {
 
     public List<Car> getAllCars() {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            return session.createQuery("from Car", Car.class).list();
+            return session.createQuery("from Car where status = 'AVAILABLE' ", Car.class).list();
+        }
+    }
 
+    public void modifyCarStatus(Car car) {
+        Transaction transaction = null;
+
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            transaction = session.beginTransaction();
+
+            session.merge(car);
+            transaction.commit();
+            System.out.println("Araç durumu değiştirildi: " + car.getStatus());
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            System.err.println("Araç durumu değiştirilemedi" + e.getMessage());
+            e.printStackTrace();
+            throw new RuntimeException(e);
         }
     }
 }

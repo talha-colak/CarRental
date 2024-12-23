@@ -10,6 +10,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
@@ -22,7 +23,10 @@ import java.util.ResourceBundle;
 public class DashboardController {
 
     @FXML
-    private Button goHome, close, carrent, cars, caradd, signout, useradd;
+    private ComboBox languageSelector;
+
+    @FXML
+    private Button goHome, close, carrent, cars, caradd, signout, useradd, carretrieve;
 
     @FXML
     private AnchorPane dashboard_form, contentArea;
@@ -33,9 +37,11 @@ public class DashboardController {
     @FXML
     private FontAwesomeIconView userAdd;
 
+    private ResourceBundle bundle;
+    private Locale currentLocale;
+
     @FXML
     public void initialize() throws IOException {
-        loadview("car-gallery.fxml");
 
         User currentUser = LoginController.getLoggedInUser();
         System.out.println(currentUser);
@@ -48,6 +54,8 @@ public class DashboardController {
         } else {
             signOut();
         }
+
+        loadview("car-gallery.fxml");
     }
 
     @FXML
@@ -82,8 +90,8 @@ public class DashboardController {
     }
 
     @FXML
-    private void addformview() throws IOException {
-        loadview("car-add.fxml");
+    private void goHome() throws IOException {
+        loadview("car-gallery.fxml");
     }
 
     @FXML
@@ -92,18 +100,23 @@ public class DashboardController {
     }
 
     @FXML
+    private void addformview() throws IOException {
+        loadview("car-add.fxml");
+    }
+
+    @FXML
     private void carrent() {
         loadview("car-rental.fxml");
     }
 
     @FXML
-    private void userAdd() {
-        loadview("user-add.fxml");
+    private void retrievecar() {
+        loadview("rental-retrieve.fxml");
     }
 
     @FXML
-    private void goHome() throws IOException {
-        loadview("car-gallery.fxml");
+    private void userAdd() {
+        loadview("user-add.fxml");
     }
 
     private void loadview(String fxmlFile) {

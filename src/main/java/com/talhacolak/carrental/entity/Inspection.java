@@ -5,11 +5,11 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Entity
 @Table(name = "inspection")
 @Data
-//@ToString(exclude = "car")
 
 public class Inspection extends BaseEntity {
 
@@ -38,4 +38,5 @@ public class Inspection extends BaseEntity {
     private Integer fuelStatus;
 
     private String description;
+
 }

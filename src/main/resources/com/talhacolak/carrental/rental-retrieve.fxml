@@ -37,7 +37,7 @@
                             <children>
                                 <TextField fx:id="registeredCarField" style="-fx-font-size: 14px;"/>
                                 <Button fx:id="searchCar" contentDisplay="GRAPHIC_ONLY" defaultButton="true"
-                                        mnemonicParsing="false" onAction="#findCarByPlate"
+                                        mnemonicParsing="false" onAction="#findRentedCarByPlate"
                                         style="-fx-background-color: none;">
                                     <graphic>
                                         <FontAwesomeIconView glyphName="SEARCH" scaleX="2.0" scaleY="2.0"
@@ -52,8 +52,8 @@
                                 <TableColumn fx:id="licensePlateColumn" text="Plaka"/>
                                 <TableColumn fx:id="brandColumn" text="Marka"/>
                                 <TableColumn fx:id="modelColumn" text="Model"/>
-                                <TableColumn fx:id="priceColumn" text="Ücret(GünlükTL)"/>
-                                <TableColumn fx:id="rentaltimeColumn" text="Kiralama Aralığı"/>
+                                <TableColumn fx:id="rentalDateColumn" text="Kira Başlangıç"/>
+                                <TableColumn fx:id="returnDateColumn" text="Kira Bitiş"/>
                             </columns>
                             <columnResizePolicy>
                                 <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>

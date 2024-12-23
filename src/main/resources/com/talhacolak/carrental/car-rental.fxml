@@ -4,6 +4,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Slider?>
@@ -220,20 +221,35 @@
                                 <RowConstraints/>
                                 <RowConstraints/>
                                 <RowConstraints/>
+                                <RowConstraints/>
+                                <RowConstraints/>
                             </rowConstraints>
                             <children>
                                 <Label alignment="CENTER" layoutX="10.0" layoutY="489.0" style="-fx-font-size: 20px;"
                                        text="Kiralama Tarihi"/>
                                 <Label alignment="CENTER" layoutX="10.0" layoutY="163.0" style="-fx-font-size: 20px;"
-                                       text="İade Tarihi" GridPane.rowIndex="1"/>
+                                       text="İade Tarihi" GridPane.rowIndex="2"/>
                                 <DatePicker fx:id="rentalDatePicker" layoutX="519.0" layoutY="485.0"
+                                            maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
                                             style="-fx-font-size: 14px;" GridPane.columnIndex="1"/>
-                                <DatePicker fx:id="returnDatePicker" style="-fx-font-size: 14px;"
-                                            GridPane.columnIndex="1" GridPane.rowIndex="1"/>
-                                <TextField fx:id="totalPriceField" style="-fx-font-size: 14px;" GridPane.columnIndex="1"
-                                           GridPane.rowIndex="2"/>
-                                <Label style="-fx-font-size: 20px;" text="Toplam Ücret (TL)" GridPane.rowIndex="2">
+                                <DatePicker fx:id="returnDatePicker" maxHeight="1.7976931348623157E308"
+                                            maxWidth="1.7976931348623157E308" style="-fx-font-size: 14px;"
+                                            GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+                                <TextField fx:id="totalPriceField" maxHeight="1.7976931348623157E308"
+                                           maxWidth="1.7976931348623157E308" style="-fx-font-size: 14px;"
+                                           GridPane.columnIndex="1" GridPane.rowIndex="4"/>
+                                <Label style="-fx-font-size: 20px;" text="Toplam Ücret (TL)" GridPane.rowIndex="4">
                                 </Label>
+                                <Label alignment="CENTER" style="-fx-font-size: 20px;" text="Kiralama Saati"
+                                       GridPane.rowIndex="1"/>
+                                <ComboBox fx:id="rentalDateBox" maxHeight="1.7976931348623157E308"
+                                          maxWidth="1.7976931348623157E308" visibleRowCount="4" GridPane.columnIndex="1"
+                                          GridPane.rowIndex="1" GridPane.valignment="CENTER"/>
+                                <ComboBox fx:id="returnDateBox" maxHeight="1.7976931348623157E308"
+                                          maxWidth="1.7976931348623157E308" visibleRowCount="4" GridPane.columnIndex="1"
+                                          GridPane.rowIndex="3"/>
+                                <Label alignment="CENTER" style="-fx-font-size: 20px;" text="İade Saati"
+                                       GridPane.rowIndex="3"/>
                             </children>
                         </GridPane>
                         <Button fx:id="finalizeButton" mnemonicParsing="false" onAction="#finalizeRental"

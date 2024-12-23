@@ -1,6 +1,7 @@
 package com.talhacolak.carrental.controller;
 
 import com.talhacolak.carrental.config.HibernateUtil;
+import com.talhacolak.carrental.dto.CarStatus;
 import com.talhacolak.carrental.dto.RentalStatus;
 import com.talhacolak.carrental.entity.Car;
 import com.talhacolak.carrental.entity.Customer;
@@ -11,6 +12,7 @@ import com.talhacolak.carrental.service.CarService;
 import com.talhacolak.carrental.service.CustomerService;
 import com.talhacolak.carrental.service.RentalService;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -21,10 +23,13 @@ import org.hibernate.Transaction;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 
 import static com.talhacolak.carrental.service.AlertUtil.showAlert;
 
 public class RentalProcessController {
+
     @FXML
     public Label firstNameLabel, lastNameLabel, phoneNumberLabel, emailLabel, licenseNumberLabel;
 
@@ -66,6 +71,9 @@ public class RentalProcessController {
 
     @FXML
     private Slider fuelSlider;
+
+    @FXML
+    private ComboBox<String> rentalDateBox, returnDateBox = new ComboBox<>();
 
     @FXML
     private Button registerButton, inspectionButton, finalizeButton, searchCar;
@@ -132,9 +140,12 @@ public class RentalProcessController {
         }
         if (isCustomerSelected) {
             inspectionTab.setDisable(false);
+            setInspectionFields();
         }
         if (isInspectionedCompleted) {
+            resetRentalFields();
             rentalFinalizationTab.setDisable(false);
+            populateComboBox();
         }
 
     }
@@ -145,9 +156,37 @@ public class RentalProcessController {
         modelColumn.setCellValueFactory(new PropertyValueFactory<>("model"));
         priceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
         statusColumn.setCellValueFactory(new PropertyValueFactory<>("status"));
+
+        inspectionColumn.setCellValueFactory(cellData -> {
+            Car car = cellData.getValue();
+            LocalDateTime recentInspectionDate = car.getInspectionList().stream()
+                    .map(Inspection::getInspectionDate)
+                    .max(LocalDateTime::compareTo)
+                    .orElse(null);
+            return new SimpleObjectProperty<>(recentInspectionDate);
+        });
+
         ObservableList<Car> carObservableList = FXCollections.observableArrayList(carService.getAllCars());
         carTableView.setItems(carObservableList);
+    }
 
+    @FXML
+    private void findCarByPlate() {
+        String licensePlate = registeredCarField.getText().trim();
+        if (licensePlate.isEmpty()) {
+            showAlert(Alert.AlertType.WARNING, "Uyarı", "Lütfen Plaka Giriniz!");
+            return;
+        }
+
+        Car car = CarService.findCarByPlate(licensePlate);
+        if (car != null) {
+            selectedCar = car;
+            isCarSelected = true;
+            enableNextPhase();
+            showAlert(Alert.AlertType.INFORMATION, "Başarılı", "Araba Bulundu");
+        } else {
+            showAlert(Alert.AlertType.WARNING, "Başarısız", "Araba Bulunamadı");
+        }
     }
 
     @FXML
@@ -197,25 +236,6 @@ public class RentalProcessController {
     }
 
     @FXML
-    private void findCarByPlate() {
-        String licensePlate = registeredCarField.getText().trim();
-        if (licensePlate.isEmpty()) {
-            showAlert(Alert.AlertType.WARNING, "Uyarı", "Lütfen Plaka Giriniz!");
-            return;
-        }
-
-        Car car = CarService.findCarByPlate(licensePlate);
-        if (car != null) {
-            selectedCar = car;
-            isCarSelected = true;
-            enableNextPhase();
-            showAlert(Alert.AlertType.INFORMATION, "Başarılı", "Araba Bulundu");
-        } else {
-            showAlert(Alert.AlertType.WARNING, "Başarısız", "Araba Bulunamadı");
-        }
-    }
-
-    @FXML
     private void findCustomerByLicense() {
 
         String licenseNumber = registeredCustomerField.getText().trim();
@@ -252,7 +272,6 @@ public class RentalProcessController {
             registeredCustomerField.selectAll();
         }
     }
-
 
     @FXML
     private void clearCustomerField() {
@@ -340,13 +359,27 @@ public class RentalProcessController {
             return;
         }
 
-        if (rentalDatePicker.getValue() == null || returnDatePicker.getValue() == null) {
-            showAlert(Alert.AlertType.ERROR, "Hata", "Lütfen Kiralama Ve Geri Dönüş" + " Tarihlerini Seçin!");
+        if (totalPriceField.getText().isEmpty()) {
+            showAlert(Alert.AlertType.ERROR, "Hata", "Lütfen Toplam Fiyatı Girin!");
             return;
         }
 
-        if (totalPriceField.getText().isEmpty()) {
-            showAlert(Alert.AlertType.ERROR, "Hata", "Lütfen Toplam Fiyatı Girin!");
+        if (rentalDatePicker.getValue() == null || returnDatePicker.getValue() == null ||
+                rentalDateBox.getValue() == null || returnDateBox.getValue() == null) {
+            showAlert(Alert.AlertType.ERROR, "Hata", "Lütfen Tarih ve Saat Seçiniz!");
+            return;
+        }
+
+        LocalDate rentalDate = rentalDatePicker.getValue();
+        LocalTime rentalTime = LocalTime.parse(rentalDateBox.getValue(), DateTimeFormatter.ofPattern("HH:mm"));
+        LocalDateTime rentalDateTime = LocalDateTime.of(rentalDate, rentalTime);
+
+        LocalDate returnDate = returnDatePicker.getValue();
+        LocalTime returnTime = LocalTime.parse(returnDateBox.getValue(), DateTimeFormatter.ofPattern("HH:mm"));
+        LocalDateTime returnDateTime = LocalDateTime.of(returnDate, rentalTime);
+
+        if (rentalDate.isAfter(returnDate) || (rentalDate.isEqual(returnDate) && rentalTime.isAfter(returnTime))) {
+            showAlert(Alert.AlertType.ERROR, "Hata", "İade Zamanı Kiralamadan Sonra Olmalıdır!");
             return;
         }
 
@@ -354,18 +387,19 @@ public class RentalProcessController {
         rental.setCar(selectedCar);
         rental.setCustomer(selectedCustomer);
         rental.setBeforeInspection(completedInspection);
-        rental.setRentalDate(rentalDatePicker.getValue().atStartOfDay());
-        rental.setReturnDate(returnDatePicker.getValue().atStartOfDay());
+        rental.setRentalDate(rentalDateTime);
+        rental.setReturnDate(returnDateTime);
         rental.setTotalPrice(Double.parseDouble(totalPriceField.getText()));
         rental.setRentalStatus(RentalStatus.ONGOING);
 
+        selectedCar.setStatus(CarStatus.RENTED);
+        carService.modifyCarStatus(selectedCar);
 
         //TODO: Kiralama bilgileri kaydedilip işlem sonlanacak!!
 
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             Transaction transaction = session.beginTransaction();
             rentalService.save(session, rental);
-
             isRentalFinalized = true;
             finalizedRental = rental;
 
@@ -395,6 +429,7 @@ public class RentalProcessController {
 
     private void setInspectionItems() {
 
+        //TODO
         if (isCustomerSelected) {
             spareTyreCheck.setSelected(true);
             floorMatCheck.setSelected(true);
@@ -404,14 +439,46 @@ public class RentalProcessController {
             firstAidKitCheck.setSelected(true);
             toolSetCheck.setSelected(true);
             fireExtinguisherCheck.setSelected(true);
+
             kilometerField.setText("0");
             fuelSlider.setValue(8);
+            descriptionField.setText(selectedCustomer.getFirstName().concat
+                    (" " + selectedCustomer.getLastName().substring(0, 2))
+                    + " " + selectedCar.getBrand() + " " + selectedCar.getModel());
         } else {
             showAlert(Alert.AlertType.WARNING, "Uyarı", "Sorun Var!");
         }
     }
 
     private void setInspectionFields() {
+        if (selectedCar == null || selectedCar.getInspectionList().isEmpty()) {
+            setInspectionItems();
+            return;
+        }
+
+        Inspection inspection = selectedCar.getInspectionList().get(0);
+        if (!inspectionTab.isDisable()) {
+
+            floorMatCheck.setSelected(inspection.getFloorMat() != null && inspection.getFloorMat());
+            spareTyreCheck.setSelected(inspection.getSpareTyre() != null && inspection.getSpareTyre());
+            fireExtinguisherCheck.setSelected(inspection.getFireExtinguisher() != null && inspection.getFireExtinguisher());
+            toolSetCheck.setSelected(inspection.getToolSet() != null && inspection.getToolSet());
+            aerialCheck.setSelected(inspection.getAerial() != null && inspection.getAerial());
+            firstAidKitCheck.setSelected(inspection.getFirstAidKit() != null && inspection.getFirstAidKit());
+            registrationCheck.setSelected(inspection.getRegistration() != null && inspection.getRegistration());
+            babySeatCheck.setSelected(inspection.getBabySeat() != null && inspection.getBabySeat());
+
+            kilometerField.setText(inspection.getKilometer() != null ? String.valueOf(inspection.getKilometer()) : "");
+            fuelSlider.setValue(inspection.getFuelStatus() != null ? inspection.getFuelStatus() : 0);
+            descriptionField.setText(inspection.getDescription() != null ? inspection.getDescription() : "");
+        } else {
+            setInspectionItems();
+        }
+    }
+
+    /*
+    private void setInspectionFields() {
+        //TODO
         Inspection inspection = new Inspection();
         if (!inspectionTab.isDisable()) {
             floorMatCheck.setSelected(inspection.getFloorMat() != null && inspection.getFloorMat());
@@ -429,5 +496,39 @@ public class RentalProcessController {
         } else {
             setInspectionItems();
         }
+    }*/
+
+    private void populateComboBox() {
+        generateTimeItems();
+
+        rentalDateBox.setValue("08:30");
+        rentalDateBox.setValue("09:00");
+
+        returnDateBox.valueProperty().addListener((observable, oldValue, newValue) -> {
+            LocalTime rentalTime = null;
+            if (newValue != null && rentalDateBox.getValue() != null) {
+                rentalTime = LocalTime.parse(rentalDateBox.getValue());
+                LocalTime returnTime = LocalTime.parse(newValue);
+
+                if (!returnTime.isAfter(rentalTime)) {
+                    showAlert(Alert.AlertType.WARNING, "Geçersiz Zaman", "İade Zamanı Kiralama Zamanından Sonra Olmalıdır!");
+                    returnDateBox.setValue(rentalTime.plusMinutes(30).format(DateTimeFormatter.ofPattern("HH:mm")));
+                }
+            }
+        });
+    }
+
+    private void generateTimeItems() {
+        ObservableList<String> timeSlots = FXCollections.observableArrayList();
+        LocalTime startTime = LocalTime.of(8, 30);
+        LocalTime endTime = LocalTime.of(18, 30);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
+
+        while (!startTime.isAfter(endTime)) {
+            timeSlots.add(startTime.format(formatter));
+            startTime = startTime.plusMinutes(30);
+        }
+        rentalDateBox.setItems(timeSlots);
+        returnDateBox.setItems(timeSlots);
     }
 }

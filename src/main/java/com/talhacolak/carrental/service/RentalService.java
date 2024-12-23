@@ -1,8 +1,13 @@
 package com.talhacolak.carrental.service;
 
+import com.talhacolak.carrental.config.HibernateUtil;
+import com.talhacolak.carrental.dto.RentalStatus;
 import com.talhacolak.carrental.entity.Rental;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
+
+import java.util.List;
 
 public class RentalService {
 
@@ -22,7 +27,6 @@ public class RentalService {
                 transaction.commit();
             }
             return rental;
-
         } catch (Exception e) {
             if (newTransaction && transaction.getStatus().canRollback()) {
                 transaction.rollback();
@@ -31,25 +35,34 @@ public class RentalService {
             e.printStackTrace();
             return null;
         }
+    }
 
-       /* try {
-            System.out.println("Rental SessionFactory is open: " + HibernateUtil.getSessionFactory().isOpen());
-            transaction = session.beginTransaction();
-            session.persist(rental);
-//          session.save(rental);
-//          transaction.commit();
-
-            System.out.println("Kiralama işlemi yapıldı!" + rental);
-            return rental;
+    public List<Rental> getRentedCars() {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            Query<Rental> query = session.createQuery(
+                    "from Rental where rentalStatus = :status", Rental.class);
+            query.setParameter("status", RentalStatus.ONGOING);
+            return query.list();
 
         } catch (Exception e) {
-           *//* if (transaction != null && transaction.getStatus().canRollback()) {
-                transaction.rollback();
-            }
-           *//*
-            System.err.println("Kiralama işlemi yapılamadı!" + e.getMessage());
+            System.err.println("Bulunamadı " + e.getMessage());
             e.printStackTrace();
             return null;
-        }*/
+        }
     }
+
+    public Rental findRentedInfoByPlate(String licensePlate, String licenseNumber) {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            Query<Rental> query = session.createQuery("from Rental where car.licensePlate = :plate", Rental.class);
+            query.setParameter("license", licenseNumber);
+            /*Query<Rental> query = session.createQuery("from Rental where car.licensePlate = :plate OR customer.licenseNumber = :license", Rental.class);
+            query.setParameter("plate", licensePlate);*/
+            return query.uniqueResult();
+        } catch (Exception e) {
+            System.err.println("Bulunamadı " + e.getMessage());
+            e.printStackTrace();
+            return null;
+        }
+    }
+
 }

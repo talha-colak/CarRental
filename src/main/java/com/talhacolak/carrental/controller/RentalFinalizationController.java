@@ -1,152 +1,195 @@
-/**
- * Sample Skeleton for 'rental-retrieve.fxml' Controller Class
- */
-
 package com.talhacolak.carrental.controller;
 
+import com.talhacolak.carrental.entity.Rental;
+import com.talhacolak.carrental.service.RentalService;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.Slider;
-import javafx.scene.control.Tab;
-import javafx.scene.control.TabPane;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
+
+import java.util.List;
+
+import static com.talhacolak.carrental.service.AlertUtil.showAlert;
 
 public class RentalFinalizationController {
 
-    @FXML // fx:id="aerialCheck"
-    private CheckBox aerialCheck; // Value injected by FXMLLoader
-
-    @FXML // fx:id="babySeatCheck"
-    private CheckBox babySeatCheck; // Value injected by FXMLLoader
-
-    @FXML // fx:id="brandColumn"
-    private TableColumn<?, ?> brandColumn; // Value injected by FXMLLoader
-
-    @FXML // fx:id="carSelectionTab"
-    private Tab carSelectionTab; // Value injected by FXMLLoader
-
-    @FXML // fx:id="carTableView"
-    private TableView<?> carTableView; // Value injected by FXMLLoader
-
-    @FXML // fx:id="customerNameColumn"
-    private TableColumn<?, ?> customerNameColumn; // Value injected by FXMLLoader
-
-    @FXML // fx:id="customerRegistrationTab"
-    private Tab customerRegistrationTab; // Value injected by FXMLLoader
-
-    @FXML // fx:id="descriptionField"
-    private TextField descriptionField; // Value injected by FXMLLoader
-
-    @FXML // fx:id="emailField"
-    private TextField emailField; // Value injected by FXMLLoader
-
-    @FXML // fx:id="finalizeButton"
-    private Button finalizeButton; // Value injected by FXMLLoader
-
-    @FXML // fx:id="fireExtinguisherCheck"
-    private CheckBox fireExtinguisherCheck; // Value injected by FXMLLoader
-
-    @FXML // fx:id="firstAidKitCheck"
-    private CheckBox firstAidKitCheck; // Value injected by FXMLLoader
-
-    @FXML // fx:id="firstNameField"
-    private TextField firstNameField; // Value injected by FXMLLoader
-
-    @FXML // fx:id="floorMatCheck"
-    private CheckBox floorMatCheck; // Value injected by FXMLLoader
-
-    @FXML // fx:id="fuelSlider"
-    private Slider fuelSlider; // Value injected by FXMLLoader
-
-    @FXML // fx:id="inspectionButton"
-    private Button inspectionButton; // Value injected by FXMLLoader
-
-    @FXML // fx:id="inspectionTab"
-    private Tab inspectionTab; // Value injected by FXMLLoader
-
-    @FXML // fx:id="kilometerField"
-    private TextField kilometerField; // Value injected by FXMLLoader
-
-    @FXML // fx:id="lastNameField"
-    private TextField lastNameField; // Value injected by FXMLLoader
-
-    @FXML // fx:id="licenseNumberField"
-    private TextField licenseNumberField; // Value injected by FXMLLoader
-
-    @FXML // fx:id="licensePlateColumn"
-    private TableColumn<?, ?> licensePlateColumn; // Value injected by FXMLLoader
-
-    @FXML // fx:id="modelColumn"
-    private TableColumn<?, ?> modelColumn; // Value injected by FXMLLoader
-
-    @FXML // fx:id="phoneNumberField"
-    private TextField phoneNumberField; // Value injected by FXMLLoader
-
-    @FXML // fx:id="priceColumn"
-    private TableColumn<?, ?> priceColumn; // Value injected by FXMLLoader
-
-    @FXML // fx:id="registerButton"
-    private Button registerButton; // Value injected by FXMLLoader
-
-    @FXML // fx:id="registeredCarField"
-    private TextField registeredCarField; // Value injected by FXMLLoader
-
-    @FXML // fx:id="registeredCustomerField"
-    private TextField registeredCustomerField; // Value injected by FXMLLoader
-
-    @FXML // fx:id="registrationCheck"
-    private CheckBox registrationCheck; // Value injected by FXMLLoader
-
-    @FXML // fx:id="rentalDatePicker"
-    private DatePicker rentalDatePicker; // Value injected by FXMLLoader
-
-    @FXML // fx:id="rentalFinalizationTab"
-    private Tab rentalFinalizationTab; // Value injected by FXMLLoader
-
-    @FXML // fx:id="rentaltimeColumn"
-    private TableColumn<?, ?> rentaltimeColumn; // Value injected by FXMLLoader
-
-    @FXML // fx:id="returnDatePicker"
-    private DatePicker returnDatePicker; // Value injected by FXMLLoader
-
-    @FXML // fx:id="searchButton"
-    private FontAwesomeIconView searchButton; // Value injected by FXMLLoader
-
-    @FXML // fx:id="searchCar"
-    private Button searchCar; // Value injected by FXMLLoader
-
-    @FXML // fx:id="spareTyreCheck"
-    private CheckBox spareTyreCheck; // Value injected by FXMLLoader
-
-    @FXML // fx:id="tabPane"
-    private TabPane tabPane; // Value injected by FXMLLoader
-
-    @FXML // fx:id="toolSetCheck"
-    private CheckBox toolSetCheck; // Value injected by FXMLLoader
-
-    @FXML // fx:id="totalPriceField"
-    private TextField totalPriceField; // Value injected by FXMLLoader
+    private final RentalService rentalService = new RentalService();
 
     @FXML
-    void finalizeRental(ActionEvent event) {
+    private CheckBox aerialCheck;
+
+    @FXML
+    private CheckBox babySeatCheck;
+
+    @FXML
+    private Tab carSelectionTab;
+
+    @FXML
+    private Tab customerRegistrationTab;
+
+    @FXML
+    private TextField descriptionField;
+
+    @FXML
+    private TextField emailField;
+
+    @FXML
+    private Button finalizeButton;
+
+    @FXML
+    private CheckBox fireExtinguisherCheck;
+
+    @FXML
+    private CheckBox firstAidKitCheck;
+
+    @FXML
+    private TextField firstNameField;
+
+    @FXML
+    private CheckBox floorMatCheck;
+
+    @FXML
+    private Slider fuelSlider;
+
+    @FXML
+    private Button inspectionButton;
+
+    @FXML
+    private Tab inspectionTab;
+
+    @FXML
+    private TextField kilometerField;
+
+    @FXML
+    private TextField lastNameField;
+
+    @FXML
+    private TextField licenseNumberField;
+
+    @FXML
+    private TextField phoneNumberField;
+
+    @FXML
+    private TableView<Rental> carTableView;
+
+    @FXML
+    private TableColumn<Rental, String> brandColumn;
+
+    @FXML
+    private TableColumn<Rental, String> customerNameColumn;
+
+    @FXML
+    private TableColumn<Rental, String> licensePlateColumn;
+
+    @FXML
+    private TableColumn<Rental, String> modelColumn;
+
+    @FXML
+    private TableColumn<Rental, Double> priceColumn;
+
+    @FXML
+    private TableColumn<Rental, String> rentalDateColumn, returnDateColumn;
+
+    @FXML
+    private Button registerButton;
+
+    @FXML
+    private TextField registeredCarField;
+
+    @FXML
+    private TextField registeredCustomerField;
+
+    @FXML
+    private CheckBox registrationCheck;
+
+    @FXML
+    private DatePicker rentalDatePicker;
+
+    @FXML
+    private Tab rentalFinalizationTab;
+
+    @FXML
+    private DatePicker returnDatePicker;
+
+    @FXML
+    private FontAwesomeIconView searchButton;
+
+    @FXML
+    private Button searchCar;
+
+    @FXML
+    private CheckBox spareTyreCheck;
+
+    @FXML
+    private TabPane tabPane;
+
+    @FXML
+    private CheckBox toolSetCheck;
+
+    @FXML
+    private TextField totalPriceField;
+    private Rental selectedRentedCar;
+
+    @FXML
+    public void initialize() {
+
+/*      carSelectionTab.setDisable(true);
+        customerRegistrationTab.setDisable(false);
+        inspectionTab.setDisable(false);
+        rentalFinalizationTab.setDisable(false);*/
+
+        loadRentedCars();
+
+        customerNameColumn.setCellValueFactory(cellData -> new SimpleStringProperty
+                (cellData.getValue().getCustomer().getFirstName() + " " +
+                        (cellData.getValue().getCustomer().getLastName().length() >= 2
+                                ? cellData.getValue().getCustomer().getLastName().substring(0, 2)
+                                : cellData.getValue().getCustomer().getLastName())));
+
+        licensePlateColumn.setCellValueFactory(cellData -> new SimpleStringProperty
+                (cellData.getValue().getCar().getLicensePlate()));
+
+        brandColumn.setCellValueFactory(cellData -> new SimpleStringProperty(
+                cellData.getValue().getCar().getBrand()));
+
+        modelColumn.setCellValueFactory(cellData -> new SimpleStringProperty(
+                cellData.getValue().getCar().getModel()));
+
+        rentalDateColumn.setCellValueFactory(cellData -> new SimpleStringProperty(
+                cellData.getValue().getFormattedRentalDate()));
+
+        returnDateColumn.setCellValueFactory(cellData -> new SimpleStringProperty(
+                cellData.getValue().getFormattedReturnDate()));
+    }
+
+    private void loadRentedCars() {
+        List<Rental> rentedCars = rentalService.getRentedCars();
+
+        if (rentedCars != null) {
+            ObservableList<Rental> rentalObservableList = FXCollections.observableArrayList(rentedCars);
+            carTableView.setItems(rentalObservableList);
+        }
 
     }
 
     @FXML
-    void findCarByPlate(ActionEvent event) {
+    void findRentedCarByPlate(ActionEvent event) {
+        String licensePlate = registeredCarField.getText().trim();
+        if (!licensePlate.isEmpty()) {
+            showAlert(Alert.AlertType.WARNING, "UYARI", "Lütfen Plaka Girinizi!");
+            return;
+        }
 
-    }
+        Rental rental = rentalService.findRentedInfoByPlate(licensePlate, null);
 
-    @FXML
-    void findCustomerByLicense(MouseEvent event) {
+        if (rental != null) {
+            selectedRentedCar = rental;
 
+        }
     }
 
     @FXML
@@ -155,7 +198,18 @@ public class RentalFinalizationController {
     }
 
     @FXML
+    void findCustomerByLicense(MouseEvent event) {
+
+    }
+
+
+    @FXML
     void saveInspection(ActionEvent event) {
+
+    }
+
+    @FXML
+    void finalizeRental(ActionEvent event) {
 
     }
 

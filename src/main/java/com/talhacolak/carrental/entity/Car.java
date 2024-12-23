@@ -48,7 +48,6 @@ public class Car extends BaseEntity {
     private CarStatus status = CarStatus.UNDEFINED;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-//    @JoinColumn(name = "car_id", referencedColumnName = "id")
     private List<Inspection> inspectionList = new ArrayList<>();
 
 }

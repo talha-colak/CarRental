@@ -6,17 +6,28 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Entity
 @Table(name = "rental")
 @Data
 public class Rental extends BaseEntity {
 
-    @JsonFormat(pattern = "dd-mm-yyyy HH:mm:ss")
+    @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
     private LocalDateTime rentalDate;
 
     @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
     private LocalDateTime returnDate;
+
+    public String getFormattedReturnDate() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+        return this.returnDate.format(formatter);
+    }
+
+    public String getFormattedRentalDate() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+        return this.rentalDate.format(formatter);
+    }
 
     private Double totalPrice;
 
