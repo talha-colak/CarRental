@@ -11,6 +11,7 @@ module com.talhacolak.carrental {
     requires de.jensd.fx.glyphs.fontawesome;
     requires jbcrypt;
     requires com.google.protobuf;
+    requires java.desktop;
 
     opens com.talhacolak.carrental.dto to org.hibernate.orm.core;
     exports com.talhacolak.carrental.dto;

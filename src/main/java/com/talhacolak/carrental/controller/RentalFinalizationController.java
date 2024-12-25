@@ -2,6 +2,7 @@ package com.talhacolak.carrental.controller;
 
 import com.talhacolak.carrental.dto.CarStatus;
 import com.talhacolak.carrental.dto.RentalStatus;
+import com.talhacolak.carrental.entity.Car;
 import com.talhacolak.carrental.entity.Customer;
 import com.talhacolak.carrental.entity.Inspection;
 import com.talhacolak.carrental.entity.Rental;
@@ -212,10 +213,10 @@ public class RentalFinalizationController {
             populateRentalItems();
         }
         if (isRentalFinalized) {
-//            selectedRental.setRentalStatus(RentalStatus.FINISHED);
-//            selectedRental.getCar().setStatus(CarStatus.AVAILABLE);
+            selectedRental.setRentalStatus(RentalStatus.FINISHED);
+            selectedRental.getCar().setStatus(CarStatus.AVAILABLE);
 
-            showAlert(Alert.AlertType.INFORMATION, "Tebrikler", "Araç Teslim Alındı");
+            showAlert(Alert.AlertType.INFORMATION, "Tebrikler", "Başarılı İşlem", "Araç Teslim Alındı");
         }
 
     }
@@ -224,7 +225,7 @@ public class RentalFinalizationController {
     private void findRentedCarByPlate(ActionEvent event) {
         String licensePlate = registeredCarField.getText().trim();
         if (licensePlate.isEmpty()) {
-            showAlert(Alert.AlertType.WARNING, "UYARI", "Lütfen Plaka Girinizi!");
+            showAlert(Alert.AlertType.WARNING, "UYARI", "Plaka Eksik", "Lütfen Plaka Girinizi!");
             return;
         }
 
@@ -232,9 +233,9 @@ public class RentalFinalizationController {
         if (rental != null) {
             selectedRental = rental;
             isRentalSelected = true;
-            showAlert(Alert.AlertType.INFORMATION, "Başarılı", "Araba Seçildi");
+            showAlert(Alert.AlertType.INFORMATION, "Başarılı", "Başarılı İşlem", "Araba Seçildi");
         } else {
-            showAlert(Alert.AlertType.ERROR, "Başarısız", "Araba Seçilemedi");
+            showAlert(Alert.AlertType.ERROR, "Başarısız", "Başarısız İşlem", "Araba Seçilemedi");
         }
     }
 
@@ -303,7 +304,7 @@ public class RentalFinalizationController {
             SingleSelectionModel<Tab> selectionModel = tabPane.getSelectionModel();
             selectionModel.select(rentalFinalizationTab);
         } catch (Exception e) {
-            showAlert(Alert.AlertType.ERROR, "Hata", "İnceleme Bilgileri Kaydedilemedi!");
+            showAlert(Alert.AlertType.ERROR, "Hata", "Başarısız İşlem", "İnceleme Bilgileri Kaydedilemedi!");
             System.err.println(e.getMessage());
             e.printStackTrace();
         }
@@ -353,7 +354,7 @@ public class RentalFinalizationController {
                     (" " + selectedCustomer.getLastName().substring(0, 2))
                     + " " + selectedRental.getCar().getBrand() + " " + selectedRental.getCar().getModel());
         } else {
-            showAlert(Alert.AlertType.WARNING, "Uyarı", "Sorun Var!");
+            showAlert(Alert.AlertType.WARNING, "Uyarı", "Başarısız İşlem", "Sorun Var!");
         }
     }
 
@@ -363,13 +364,13 @@ public class RentalFinalizationController {
 
             selectedRental.setTotalPrice(Integer.valueOf(totalPriceField.getText()));
             selectedRental.setRentalStatus(RentalStatus.FINISHED);
-            selectedRental.getCar().setStatus(CarStatus.AVAILABLE);
+            Car rentedCar = selectedRental.getCar();
+            rentedCar.setStatus(CarStatus.AVAILABLE);
+            rentalService.updateRental(selectedRental, rentedCar);
 
-            rentalService.updateRental(selectedRental);
-
-            showAlert(Alert.AlertType.INFORMATION, "Başarılı", "Araç Teslim Alındı ve Kiralama Tamamlandı.");
+            showAlert(Alert.AlertType.INFORMATION, "Başarılı", "Başarılı İşlem", "Araç Teslim Alındı ve Kiralama Tamamlandı.");
         } catch (Exception e) {
-            showAlert(Alert.AlertType.ERROR, "Hata", "Kiralama Tamamlanırken Hata Oluştu!");
+            showAlert(Alert.AlertType.ERROR, "Hata", "Başarısız İşlem", "Kiralama Tamamlanırken Hata Oluştu!");
             System.err.println(e.getMessage());
             e.printStackTrace();
         }
@@ -397,6 +398,7 @@ public class RentalFinalizationController {
         int totalPenalty = delayPenalty + inspectionPenalty;
         int totalPrice = selectedRental.getTotalPrice() + totalPenalty;
 
+        totalPriceField.setEditable(false);
         totalPriceField.setText(String.format("%d", totalPrice));
     }
 

@@ -3,6 +3,8 @@ package com.talhacolak.carrental.controller;
 import com.talhacolak.carrental.CarRentalApplication;
 import com.talhacolak.carrental.config.HibernateUtil;
 import com.talhacolak.carrental.entity.Car;
+import com.talhacolak.carrental.service.AlertUtil;
+import com.talhacolak.carrental.service.CarService;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -45,9 +47,10 @@ public class CarGalleryController {
     @FXML
     FontAwesomeIconView carAdd;
 
+    private CarService carService = new CarService();
+
     @FXML
     public void initialize() {
-//        loadCarGallery();
         refreshCarGallery();
     }
 
@@ -105,34 +108,89 @@ public class CarGalleryController {
         return carTile;
     }
 
+    private Stage detailsStage = null;
+
     private void showCarDetails(Car car) {
         System.out.println("Showing details for: " + car.getBrand() + " " + car.getModel());
+        if (detailsStage == null) {
+            detailsStage = new Stage();
+            try {
+                FXMLLoader loader = new FXMLLoader(CarRentalApplication.class.getResource("car-details.fxml"));
+                Parent root = loader.load();
+
+                CarDetailsController controller = loader.getController();
+                controller.setCar(car);
+
+                Scene scene = new Scene(root);
+                detailsStage.setScene(scene);
+                detailsStage.setTitle("Araba Detayları");
+                detailsStage.initStyle(StageStyle.UTILITY);
+
+                Window currentWindow = carGalleryScrollPane.getScene().getWindow();
+                detailsStage.initOwner(currentWindow);
+                detailsStage.initModality(Modality.WINDOW_MODAL);
+
+                detailsStage.show();
+
+                detailsStage.setOnCloseRequest(e -> {
+                    detailsStage = null;
+                    refreshCarGallery();
+                });
+            } catch (IOException e) {
+                e.printStackTrace();
+                System.err.println("Yüklenemedi " + e.getMessage());
+            }
+        } else {
+            detailsStage.toFront();
+        }
 
     }
 
     private void editCar(Car car) {
-        System.out.println("Editing car: " + car.getBrand() + " " + car.getModel());
+        System.out.println("Araba Düzenleniyor: " + car.getBrand() + " " + car.getModel());
+        try {
+            FXMLLoader loader = new FXMLLoader(CarRentalApplication.class.getResource("car-edit.fxml"));
+            Parent root = loader.load();
+
+            CarEditController controller = loader.getController();
+            Stage stage = new Stage();
+            controller.setCar(car, stage);
+
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.setTitle("Araba Düzenleme");
+            stage.initStyle(StageStyle.UTILITY);
+
+            Window currentWindow = carGalleryScrollPane.getScene().getWindow();
+            stage.initOwner(currentWindow);
+            stage.initModality(Modality.WINDOW_MODAL);
+
+            stage.show();
+
+            stage.setOnCloseRequest(e -> refreshCarGallery()); // Refresh the gallery on close
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.err.println("Yüklenemedi: " + e.getMessage());
+        }
     }
 
     private void deleteCar(Car car) {
         System.out.println("Deleting car: " + car.getBrand() + " " + car.getModel());
-        Alert confirmAlert = new Alert(Alert.AlertType.CONFIRMATION);
-        confirmAlert.setTitle("Delete Car");
-        confirmAlert.setHeaderText("Are you sure you want to delete this car?");
-        confirmAlert.setContentText(car.getBrand() + " " + car.getModel());
 
-        // Check user confirmation
-        if (confirmAlert.showAndWait().orElse(ButtonType.CANCEL) == ButtonType.OK) {
-            try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-                session.beginTransaction();
-                session.delete(car); // Remove the car
-                session.getTransaction().commit();
+        if (carService.isCarRented(car)) {
+            AlertUtil.showAlert(Alert.AlertType.WARNING, "Araba Silinemez", "Araba Kiralanmış",
+                    "Bu Arabanın Kiralama Kaydı Var. Önce Onu Tamamlayın!!");
 
-                // Remove from UI
+        } else {
+
+            Alert confirmAlert = new Alert(Alert.AlertType.CONFIRMATION);
+            confirmAlert.setTitle("Arabayı Sil");
+            confirmAlert.setHeaderText("Bu Arabayı Silmek İstedğinizden Emin Misiniz?");
+            confirmAlert.setContentText(car.getLicensePlate() + " " + car.getBrand() + " " + car.getModel());
+
+            if (confirmAlert.showAndWait().orElse(ButtonType.CANCEL) == ButtonType.OK) {
+                carService.delete(car);
                 refreshCarGallery();
-            } catch (Exception e) {
-                e.printStackTrace();
-                System.err.println("Error deleting car: " + e.getMessage());
             }
         }
     }
@@ -154,7 +212,7 @@ public class CarGalleryController {
                 carAddStage.initOwner(currentWindow);
                 carAddStage.initModality(Modality.WINDOW_MODAL);
 
-                carAddStage.setTitle("Car Adding Forms");
+                carAddStage.setTitle("Araç Ekleme Formu");
                 carAddStage.show();
                 carAddStage.setOnCloseRequest(e -> {
                     carAddStage = null;

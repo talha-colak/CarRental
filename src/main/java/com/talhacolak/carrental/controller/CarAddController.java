@@ -72,7 +72,7 @@ public class CarAddController {
 
         if (brand.isEmpty() || model.isEmpty() || plate.isEmpty() || year.isEmpty() || price.isEmpty()) {
             //showAlert("Hata!", "Tüm kutucuklar doldurulmalı ve Resim seçilmeli!");
-            showAlert(Alert.AlertType.INFORMATION, "Hata!", "Tüm kutucuklar doldurulmalı ve Resim seçilmeli!");
+            showAlert(Alert.AlertType.WARNING, "Uyarı", "Seçim Yapınız", "Tüm kutucuklar doldurulmalı ve Resim seçilmeli!");
             return;
         }
 
@@ -82,18 +82,17 @@ public class CarAddController {
 
         if (!plate.matches("\\d{0,2}[A-Z]{0,3}\\d{0,3}")) {
             //showAlert("Hata!", "Plaka '00ABC000' formatında girilmeli!");
-            showAlert(Alert.AlertType.INFORMATION, "Hata!", "Plaka '00ABC000' formatında girilmeli!");
+            showAlert(Alert.AlertType.WARNING, "Uyarı!", "Uygun Format Değil", "Plaka '00ABC000' formatında girilmeli!");
             return;
         }
 
         if (!year.matches("\\d{4}") || Integer.parseInt(year) < 1900 || Integer.parseInt(year) > LocalDate.now().getYear()) {
-            //showAlert("Hata!", "Yıl değeri bugünden büyük olamaz!");
-            showAlert(Alert.AlertType.INFORMATION, "Hata!", "Yıl değeri bugünden büyük olamaz!");
+            showAlert(Alert.AlertType.WARNING, "Uyarı!", "Yıl Bugünden Büyük", "Yıl değeri bugünden büyük olamaz!");
             return;
         }
 
         if (!price.matches("\\d*(\\.\\d{0,2})?")) {
-            showAlert(Alert.AlertType.INFORMATION, "Hata!", "Günlük fiyatı doğru giriniz!");
+            showAlert(Alert.AlertType.WARNING, "Uyarı!", "Küsürat Fazla", "Günlük fiyatı doğru giriniz!");
             return;
         }
 
@@ -117,10 +116,10 @@ public class CarAddController {
         try {
             saveCar(car);
             //showAlert("Başarlı!", "Bilgiler başarıyla eklendi!");
-            showAlert(Alert.AlertType.INFORMATION, "Başarılı!", "Bilgiler başarıyla eklendi!");
+            showAlert(Alert.AlertType.INFORMATION, "Başarılı!", "Başarılı İşlem", "Bilgiler başarıyla eklendi!");
             clearFields();
         } catch (Exception e) {
-            showAlert(Alert.AlertType.INFORMATION, "Hata!", "Araba kaydedilirken bir sorun oluştu!");
+            showAlert(Alert.AlertType.ERROR, "Hata!", "Hatalı İşlem ", "Araba kaydedilirken bir sorun oluştu!");
             e.printStackTrace();
         }
     }

@@ -157,7 +157,7 @@ public class RentalProcessController {
     private void findCarByPlate() {
         String licensePlate = registeredCarField.getText().trim();
         if (licensePlate.isEmpty()) {
-            showAlert(Alert.AlertType.WARNING, "Uyarı", "Lütfen Plaka Giriniz!");
+            showAlert(Alert.AlertType.WARNING, "Uyarı", "Plaka Eksik", "Lütfen Plaka Giriniz!");
             return;
         }
 
@@ -166,9 +166,9 @@ public class RentalProcessController {
             selectedCar = car;
             isCarSelected = true;
             enableNextPhase();
-            showAlert(Alert.AlertType.INFORMATION, "Başarılı", "Araba Seçildi!");
+            showAlert(Alert.AlertType.INFORMATION, "Başarılı", "Başarılı İşlem", "Araba Seçildi!");
         } else {
-            showAlert(Alert.AlertType.WARNING, "Başarısız", "Araba Seçilemedi");
+            showAlert(Alert.AlertType.WARNING, "Başarısız", "Başarısız İşlem", "Araba Seçilemedi");
         }
     }
 
@@ -176,7 +176,7 @@ public class RentalProcessController {
     private void registerCustomer() {
 
         if (licenseNumberField.getText().isEmpty() || firstNameField.getText().isEmpty() || lastNameField.getText().isEmpty() || phoneNumberField.getText().isEmpty() || emailField.getText().isEmpty()) {
-            showAlert(Alert.AlertType.ERROR, "Hata", "Lütfen tüm alanları doldurun!");
+            showAlert(Alert.AlertType.ERROR, "Hata", "Boş Değer Kaydedilemez!", "Lütfen tüm alanları doldurun!");
             return;
         }
 
@@ -189,7 +189,7 @@ public class RentalProcessController {
 
         try {
             customerService.save(newcustomer);
-            showAlert(Alert.AlertType.INFORMATION, "Başarılı", "Müşteri Başarıyla Kaydedildi!");
+            showAlert(Alert.AlertType.INFORMATION, "Başarılı", "Başarılı İşlem", "Müşteri Başarıyla Kaydedildi!");
             clearCustomerField();
 
             licenseNumberField.setEditable(false);
@@ -212,7 +212,7 @@ public class RentalProcessController {
             setInspectionFields();
 
         } catch (Exception e) {
-            showAlert(Alert.AlertType.ERROR, "Hata", "Müşteri Kaydedilemedi: " + e.getMessage());
+            showAlert(Alert.AlertType.ERROR, "Hata", "Kaydedilemedi", "Müşteri Kaydedilemedi: " + e.getMessage());
         }
     }
 
@@ -221,7 +221,7 @@ public class RentalProcessController {
 
         String licenseNumber = registeredCustomerField.getText().trim();
         if (licenseNumber.isEmpty()) {
-            showAlert(Alert.AlertType.WARNING, "Uyarı", "Lütfen Ehliyet Sicil Numarası Giriniz!");
+            showAlert(Alert.AlertType.WARNING, "Uyarı", "Sicil Numarası Eksik", "Lütfen Ehliyet Sicil Numarası Giriniz!");
             return;
         }
 
@@ -247,9 +247,9 @@ public class RentalProcessController {
 //            setInspectionItems();
             setInspectionFields();
 
-            showAlert(Alert.AlertType.INFORMATION, "Başarılı", "Müşteri Bulundu!");
+            showAlert(Alert.AlertType.INFORMATION, "Başarılı", "Başarılı İşlem", "Müşteri Bulundu!");
         } else {
-            showAlert(Alert.AlertType.WARNING, "Başarısız", "Müşteri Bulunamadı!");
+            showAlert(Alert.AlertType.WARNING, "Başarısız", "Başarısız İşlem", "Müşteri Bulunamadı!");
             registeredCustomerField.selectAll();
         }
     }
@@ -267,7 +267,7 @@ public class RentalProcessController {
     private void saveInspection() {
 
         if (kilometerField.getText().isEmpty() || descriptionField.getText().isEmpty()) {
-            showAlert(Alert.AlertType.ERROR, "Hata", "Lütfen tüm alanları doldurun!");
+            showAlert(Alert.AlertType.ERROR, "Hata", "Boş Değer Kaydedilemez", "Lütfen tüm alanları doldurun!");
             return;
         }
 
@@ -301,7 +301,7 @@ public class RentalProcessController {
             enableNextPhase();
 
         } catch (Exception e) {
-            showAlert(Alert.AlertType.ERROR, "Hata", "İnceleme bilgileri kaydedilemedi: ");
+            showAlert(Alert.AlertType.ERROR, "Hata", "Bilgiler Kaydedilemedi", "İnceleme bilgileri kaydedilemedi: ");
             System.err.println(e.getMessage());
             e.printStackTrace();
         }
@@ -311,23 +311,23 @@ public class RentalProcessController {
     private void finalizeRental() {
 
         if (selectedCar == null) {
-            showAlert(Alert.AlertType.ERROR, "Hata", "Lütfen Bir Araba Seçin!");
+            showAlert(Alert.AlertType.ERROR, "Hata", "Araba Seçin", "Lütfen Bir Araba Seçin!");
             return;
         }
 
         if (selectedCustomer == null) {
-            showAlert(Alert.AlertType.ERROR, "Hata", "Lütfen Bir Müşteri Seçin!");
+            showAlert(Alert.AlertType.ERROR, "Hata", "Müşteri Seçin", "Lütfen Bir Müşteri Seçin!");
             return;
         }
 
         if (totalPriceField.getText().isEmpty()) {
-            showAlert(Alert.AlertType.ERROR, "Hata", "Lütfen Toplam Fiyatı Girin!");
+            showAlert(Alert.AlertType.ERROR, "Hata", "T", "Lütfen Toplam Fiyatı Girin!");
             return;
         }
 
         if (rentalDatePicker.getValue() == null || returnDatePicker.getValue() == null ||
                 rentalDateBox.getValue() == null || returnDateBox.getValue() == null) {
-            showAlert(Alert.AlertType.ERROR, "Hata", "Lütfen Tarih ve Saat Seçiniz!");
+            showAlert(Alert.AlertType.ERROR, "Hata", "Tarih ve Saat", "Lütfen Tarih ve Saat Seçiniz!");
             return;
         }
 
@@ -340,7 +340,7 @@ public class RentalProcessController {
         LocalDateTime returnDateTime = LocalDateTime.of(returnDate, rentalTime);
 
         if (rentalDate.isAfter(returnDate) || (rentalDate.isEqual(returnDate) && rentalTime.isAfter(returnTime))) {
-            showAlert(Alert.AlertType.ERROR, "Hata", "İade Zamanı Kiralamadan Sonra Olmalıdır!");
+            showAlert(Alert.AlertType.ERROR, "Hata", "Hata", "İade Zamanı Kiralamadan Sonra Olmalıdır!");
             return;
         }
 
@@ -364,12 +364,12 @@ public class RentalProcessController {
             finalizedRental = rental;
 
             transaction.commit();
-            showAlert(Alert.AlertType.INFORMATION, "Başarılı", "Kiralama İşlemi Başarıyla Tamamlandı!");
+            showAlert(Alert.AlertType.INFORMATION, "Başarılı", "Başarılı İşlem", "Kiralama İşlemi Başarıyla Tamamlandı!");
 
             resetRentalFields();
 
         } catch (Exception e) {
-            showAlert(Alert.AlertType.ERROR, "Hata", "Kiralama İşlemi Sırasında Hata Oluştu");
+            showAlert(Alert.AlertType.ERROR, "Hata", "Başarısız İşlem", "Kiralama İşlemi Sırasında Hata Oluştu");
             System.err.println(e.getMessage());
             e.printStackTrace();
         }
@@ -405,7 +405,7 @@ public class RentalProcessController {
                     (" " + selectedCustomer.getLastName().substring(0, 2))
                     + " " + selectedCar.getBrand() + " " + selectedCar.getModel());
         } else {
-            showAlert(Alert.AlertType.WARNING, "Uyarı", "Sorun Var!");
+            showAlert(Alert.AlertType.WARNING, "Uyarı", "Sorun Var", "Sorun Var!");
         }
     }
 
@@ -448,7 +448,7 @@ public class RentalProcessController {
                 LocalTime returnTime = LocalTime.parse(newValue);
 
                 if (!returnTime.isAfter(rentalTime)) {
-                    showAlert(Alert.AlertType.WARNING, "Geçersiz Zaman", "İade Zamanı Kiralama Zamanından Sonra Olmalıdır!");
+                    showAlert(Alert.AlertType.WARNING, "Geçersiz Zaman", "Zaman Geçersiz", "İade Zamanı Kiralama Zamanından Sonra Olmalıdır!");
                     returnDateBox.setValue(rentalTime.plusMinutes(30).format(DateTimeFormatter.ofPattern("HH:mm")));
                 }
             }

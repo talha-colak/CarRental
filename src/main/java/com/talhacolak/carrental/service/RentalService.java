@@ -2,6 +2,7 @@ package com.talhacolak.carrental.service;
 
 import com.talhacolak.carrental.config.HibernateUtil;
 import com.talhacolak.carrental.dto.RentalStatus;
+import com.talhacolak.carrental.entity.Car;
 import com.talhacolak.carrental.entity.Customer;
 import com.talhacolak.carrental.entity.Rental;
 import org.hibernate.Session;
@@ -78,12 +79,16 @@ public class RentalService {
         return null;
     }
 
-    public void updateRental(Rental rental) {
+    public void updateRental(Rental rental, Car car) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
 
             session.beginTransaction();
 
             session.update(rental);
+
+            Car rentedCar = rental.getCar();
+
+            session.update(rentedCar);
 
             session.getTransaction().commit();
 
