@@ -2,7 +2,9 @@ package com.talhacolak.carrental.service;
 
 import com.talhacolak.carrental.config.HibernateUtil;
 import com.talhacolak.carrental.entity.Inspection;
+import com.talhacolak.carrental.entity.Rental;
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 public class CarInspectionService {
 
@@ -23,4 +25,17 @@ public class CarInspectionService {
         }
     }
 
+    public void saveInspectionWithCar(Rental selectedRental, Inspection inspection) {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            Transaction transaction = session.beginTransaction();
+
+            session.save(inspection);
+            session.merge(selectedRental);
+
+            transaction.commit();
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+            e.printStackTrace();
+        }
+    }
 }

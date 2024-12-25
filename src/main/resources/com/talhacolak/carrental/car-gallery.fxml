@@ -15,40 +15,13 @@
                   prefTileWidth="280.0" prefWidth="1090.0" style="-fx-background-color: #219ebc;" vgap="20.0">
             <children>
                 <!--Araç ekleme butonu-->
-                <AnchorPane prefHeight="210.0" prefWidth="280.0"
+                <AnchorPane fx:id="carAddTile" prefHeight="210.0" prefWidth="280.0"
                             style="-fx-border-color: black; -fx-border-width: 1;                             -fx-background-color: White;">
                     <children>
                         <FontAwesomeIconView fx:id="carAdd" glyphName="PLUS" layoutX="65.0" layoutY="105.0"
                                              onMouseClicked="#carAdd" size="16em" textOrigin="CENTER"/>
                     </children>
                 </AnchorPane>
-                <!-- Araç şablonu-->
-                <!--                <VBox alignment="CENTER" prefHeight="210.0" prefWidth="280.0"-->
-                <!--                      style="-fx-border-width: 1; -fx-border-color: black; -fx-background-color: White;">-->
-                <!--                    <children>-->
-                <!--                        <ImageView fitHeight="200.0" fitWidth="260.0" preserveRatio="true">-->
-                <!--                            <image>-->
-                <!--                                <Image url="@images/placeholder.jpg"/>-->
-                <!--                            </image>-->
-                <!--                            <VBox.margin>-->
-                <!--                                <Insets left="5.0" right="5.0" top="10.0"/>-->
-                <!--                            </VBox.margin>-->
-                <!--                        </ImageView>-->
-                <!--                        <Label text="Car Brand and Model" style="-fx-font-weight: bold;"/>-->
-                <!--                        <Label text="Price: ₺2000/Günlük"/>-->
-                <!--                        <HBox alignment="CENTER" prefHeight="35.0" prefWidth="280.0" spacing="5.0">-->
-                <!--                            <children>-->
-                <!--                                <Button fx:id="viewButton" text="Details"/>-->
-                <!--                                <Button fx:id="editButton" layoutX="10.0" layoutY="10.0" text="Edit"/>-->
-                <!--                                <Button fx:id="deleteButton" layoutX="62.0" layoutY="10.0" text="Delete"/>-->
-                <!--                            </children>-->
-                <!--                            <padding>-->
-                <!--                                <Insets bottom="10.0"/>-->
-                <!--                            </padding>-->
-                <!--                        </HBox>-->
-                <!--                    </children>-->
-                <!--                </VBox>-->
-
             </children>
             <padding>
                 <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>

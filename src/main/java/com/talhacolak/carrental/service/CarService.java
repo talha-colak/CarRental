@@ -42,6 +42,7 @@ public class CarService {
         }
     }
 
+    //    where status = 'AVAILABLE' TODO
     public List<Car> getAllCars() {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             return session.createQuery("from Car where status = 'AVAILABLE' ", Car.class).list();

@@ -10,19 +10,19 @@
 <?import javafx.scene.layout.VBox?>
 
 <VBox fx:id="carAddForm" alignment="CENTER" prefHeight="565.0" prefWidth="510.0" spacing="10"
-      style="-fx-background-color: #8ecae6;"
-      xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1"
+      style="-fx-background-color: #8ecae6;" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="com.talhacolak.carrental.controller.CarAddController">
     <Label alignment="TOP_CENTER" contentDisplay="TOP" style="-fx-font-size: 32px; -fx-font-weight: bold;"
            text="Araç Ekleme Formu">
     </Label>
     <Separator prefHeight="35.0" prefWidth="600.0">
     </Separator>
-    <TextField fx:id="plateField" maxWidth="-Infinity" prefWidth="510.0" promptText="Plate Number" VBox.vgrow="NEVER"/>
-    <TextField fx:id="brandField" maxWidth="-Infinity" prefWidth="510.0" promptText="Brand" VBox.vgrow="NEVER"/>
+    <TextField fx:id="plateField" maxWidth="-Infinity" prefWidth="510.0" promptText="Plaka Numarası"
+               VBox.vgrow="NEVER"/>
+    <TextField fx:id="brandField" maxWidth="-Infinity" prefWidth="510.0" promptText="Marka" VBox.vgrow="NEVER"/>
     <TextField fx:id="modelField" maxWidth="-Infinity" prefWidth="510.0" promptText="Model" VBox.vgrow="NEVER"/>
-    <TextField fx:id="yearField" maxWidth="-Infinity" prefWidth="510.0" promptText="Year" VBox.vgrow="NEVER"/>
-    <TextField fx:id="priceField" maxWidth="-Infinity" prefWidth="510.0" promptText="Price-per-Day" VBox.vgrow="NEVER"/>
+    <TextField fx:id="yearField" maxWidth="-Infinity" prefWidth="510.0" promptText="Yıl" VBox.vgrow="NEVER"/>
+    <TextField fx:id="priceField" maxWidth="-Infinity" prefWidth="510.0" promptText="Günlük Fiyat" VBox.vgrow="NEVER"/>
     <HBox alignment="TOP_CENTER" prefHeight="30.0" prefWidth="500.0" spacing="20.0">
         <children>
             <ComboBox fx:id="bodyDropdown" prefWidth="150.0" promptText="Gövde Tipi" visibleRowCount="4"
@@ -39,5 +39,5 @@
         </VBox.margin>
     </HBox>
     <fx:include fx:id="imageChooser" source="ImageChooser.fxml"/>
-    <Button onAction="#addCar" text="Add Car"/>
+    <Button onAction="#addCar" text="Araba Ekle"/>
 </VBox>

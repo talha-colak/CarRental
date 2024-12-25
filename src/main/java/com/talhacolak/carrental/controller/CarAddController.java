@@ -1,15 +1,18 @@
 package com.talhacolak.carrental.controller;
 
-import com.talhacolak.carrental.entity.Inspection;
-import com.talhacolak.carrental.service.CarService;
 import com.talhacolak.carrental.dto.CarStatus;
 import com.talhacolak.carrental.dto.Category;
 import com.talhacolak.carrental.dto.Fuel;
 import com.talhacolak.carrental.dto.Gear;
 import com.talhacolak.carrental.entity.Car;
+import com.talhacolak.carrental.entity.Inspection;
+import com.talhacolak.carrental.service.CarService;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.TextField;
+import javafx.scene.control.TextFormatter;
 import javafx.scene.layout.VBox;
 
 import java.time.LocalDate;
@@ -134,6 +137,7 @@ public class CarAddController {
         inspection.setBabySeat(true);
         inspection.setFloorMat(true);
         inspection.setRegistration(true);
+        inspection.setSpareTyre(true);
         inspection.setKilometer(0);
         inspection.setFuelStatus(8);
         inspection.setDescription(car.getBrand() + " " + car.getModel());

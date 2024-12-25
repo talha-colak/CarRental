@@ -25,6 +25,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 
 import static com.talhacolak.carrental.service.AlertUtil.showAlert;
 
@@ -90,7 +91,7 @@ public class RentalProcessController {
 
     private boolean isCarSelected = false;
     private boolean isCustomerSelected = false;
-    private boolean isInspectionedCompleted = false;
+    private boolean isInspectionCompleted = false;
     private boolean isRentalFinalized = false;
 
     @FXML
@@ -101,27 +102,6 @@ public class RentalProcessController {
         inspectionTab.setDisable(true);
         rentalFinalizationTab.setDisable(true);
 
-/*        customerRegistrationTab.setOnSelectionChanged(event -> {
-            if (!isCarSelected) {
-                event.consume();
-                showAlert(Alert.AlertType.WARNING, "Araba Seç", "Bir Sonraki Aşamaya Geçmek" + " İçin Araba Seçmek Gerekmektedir!");
-            }
-        });
-
-        inspectionTab.setOnSelectionChanged(event -> {
-            if (!isCustomerSelected) {
-                event.consume();
-                showAlert(Alert.AlertType.WARNING, "Müşteri Seç", "Bir Sonraki Aşamaya Geçmek" + " İçin Müşteri Seçmek Gerekmektedir!");
-            }
-        });
-
-        rentalFinalizationTab.setOnSelectionChanged(event -> {
-            if (!isInspectionedCompleted) {
-                event.consume();
-                showAlert(Alert.AlertType.WARNING, "İncelemeyi Tamamla", "Bir Sonraki Aşamaya Geçmek" + " İçin İncelemeyi Tamamlamak Gerekmektedir!");
-            }
-        });*/
-
         carTableView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
                 selectedCar = newValue;
@@ -130,9 +110,12 @@ public class RentalProcessController {
             }
         });
 
+        rentalDatePicker.valueProperty().addListener((observable, oldValue, newValue) -> calculateTotalPrice());
+
+        returnDatePicker.valueProperty().addListener((observable, oldValue, newValue) -> calculateTotalPrice());
+
         populateCarTableView();
     }
-
 
     private void enableNextPhase() {
         if (isCarSelected) {
@@ -142,7 +125,7 @@ public class RentalProcessController {
             inspectionTab.setDisable(false);
             setInspectionFields();
         }
-        if (isInspectionedCompleted) {
+        if (isInspectionCompleted) {
             resetRentalFields();
             rentalFinalizationTab.setDisable(false);
             populateComboBox();
@@ -183,9 +166,9 @@ public class RentalProcessController {
             selectedCar = car;
             isCarSelected = true;
             enableNextPhase();
-            showAlert(Alert.AlertType.INFORMATION, "Başarılı", "Araba Bulundu");
+            showAlert(Alert.AlertType.INFORMATION, "Başarılı", "Araba Seçildi!");
         } else {
-            showAlert(Alert.AlertType.WARNING, "Başarısız", "Araba Bulunamadı");
+            showAlert(Alert.AlertType.WARNING, "Başarısız", "Araba Seçilemedi");
         }
     }
 
@@ -316,29 +299,10 @@ public class RentalProcessController {
 
             transaction.commit();
 
-            isInspectionedCompleted = true;
+            isInspectionCompleted = true;
             completedInspection = inspection;
             enableNextPhase();
 
-/*            Inspection savedInspection = inspectionService.save(session, inspection);
-
-
-            if (savedInspection != null) {
-                Car car = session.merge(selectedCar);
-
-                session.merge(car);
-                transaction.commit();
-
-                isInspectionedCompleted = true;
-                completedInspection = savedInspection;
-                enableNextPhase();
-
-                showAlert(Alert.AlertType.INFORMATION, "Başarılı", "İnceleme bilgileri başarıyla kaydedildi");
-                System.out.println("Worked " + savedInspection);
-            } else {
-                transaction.rollback();
-                throw new RuntimeException("kaydedilen inceleme bilgileri NULL!!");
-            }*/
         } catch (Exception e) {
             showAlert(Alert.AlertType.ERROR, "Hata", "İnceleme bilgileri kaydedilemedi: ");
             System.err.println(e.getMessage());
@@ -389,13 +353,12 @@ public class RentalProcessController {
         rental.setBeforeInspection(completedInspection);
         rental.setRentalDate(rentalDateTime);
         rental.setReturnDate(returnDateTime);
-        rental.setTotalPrice(Double.parseDouble(totalPriceField.getText()));
+//        rental.setTotalPrice(Double.parseDouble(totalPriceField.getText()));
+        rental.setTotalPrice(Integer.valueOf(totalPriceField.getText()));
         rental.setRentalStatus(RentalStatus.ONGOING);
 
         selectedCar.setStatus(CarStatus.RENTED);
         carService.modifyCarStatus(selectedCar);
-
-        //TODO: Kiralama bilgileri kaydedilip işlem sonlanacak!!
 
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             Transaction transaction = session.beginTransaction();
@@ -423,7 +386,7 @@ public class RentalProcessController {
 
         isCarSelected = false;
         isCustomerSelected = false;
-        isInspectionedCompleted = false;
+        isInspectionCompleted = false;
         isRentalFinalized = false;
     }
 
@@ -439,7 +402,6 @@ public class RentalProcessController {
             firstAidKitCheck.setSelected(true);
             toolSetCheck.setSelected(true);
             fireExtinguisherCheck.setSelected(true);
-
             kilometerField.setText("0");
             fuelSlider.setValue(8);
             descriptionField.setText(selectedCustomer.getFirstName().concat
@@ -531,4 +493,37 @@ public class RentalProcessController {
         rentalDateBox.setItems(timeSlots);
         returnDateBox.setItems(timeSlots);
     }
+
+    private void calculateTotalPrice() {
+        if (rentalDatePicker.getValue() == null || returnDatePicker.getValue() == null) {
+            totalPriceField.setText("0");
+            return;
+        }
+
+        try {
+            LocalDate rentalDate = rentalDatePicker.getValue();
+            LocalDate returnDate = returnDatePicker.getValue();
+
+            // Calculate the total number of days
+            long totalDays = ChronoUnit.DAYS.between(rentalDate, returnDate);
+
+            if (totalDays <= 0) {
+                totalPriceField.setText("0");
+                return;
+            }
+
+            // Toplam Ücreti Hesapla
+            int basePrice = selectedCar.getPrice();
+            int totalPrice = (int) (basePrice * totalDays);
+
+            // Toplam Ücreti TextField'a yaz
+            totalPriceField.setText(String.valueOf(totalPrice));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            // Hata Dön
+            totalPriceField.setText("Hata");
+        }
+    }
+
 }

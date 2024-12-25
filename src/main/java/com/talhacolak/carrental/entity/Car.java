@@ -1,9 +1,9 @@
 package com.talhacolak.carrental.entity;
 
+import com.talhacolak.carrental.dto.CarStatus;
+import com.talhacolak.carrental.dto.Category;
 import com.talhacolak.carrental.dto.Fuel;
 import com.talhacolak.carrental.dto.Gear;
-import com.talhacolak.carrental.dto.Category;
-import com.talhacolak.carrental.dto.CarStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -33,7 +33,7 @@ public class Car extends BaseEntity {
 
     private int year;
 
-    private int price;
+    private Integer price;
 
     @Enumerated(EnumType.STRING)
     private Category category = Category.UNDEFINED;

@@ -2,7 +2,10 @@ package com.talhacolak.carrental.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.talhacolak.carrental.dto.RentalStatus;
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -29,7 +32,7 @@ public class Rental extends BaseEntity {
         return this.rentalDate.format(formatter);
     }
 
-    private Double totalPrice;
+    private Integer totalPrice;
 
     private RentalStatus rentalStatus;
 

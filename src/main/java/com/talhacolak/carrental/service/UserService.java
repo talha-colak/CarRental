@@ -22,9 +22,7 @@ public class UserService {
         Transaction transaction = null;
 
         try {
-
             session = HibernateUtil.getSessionFactory().openSession();
-
             transaction = session.beginTransaction();
             session.save(user); // kullanıyı tabloya kaydeder
             transaction.commit();

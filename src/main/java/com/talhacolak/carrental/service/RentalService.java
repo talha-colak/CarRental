@@ -2,6 +2,7 @@ package com.talhacolak.carrental.service;
 
 import com.talhacolak.carrental.config.HibernateUtil;
 import com.talhacolak.carrental.dto.RentalStatus;
+import com.talhacolak.carrental.entity.Customer;
 import com.talhacolak.carrental.entity.Rental;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -39,8 +40,7 @@ public class RentalService {
 
     public List<Rental> getRentedCars() {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            Query<Rental> query = session.createQuery(
-                    "from Rental where rentalStatus = :status", Rental.class);
+            Query<Rental> query = session.createQuery("from Rental where rentalStatus = :status", Rental.class);
             query.setParameter("status", RentalStatus.ONGOING);
             return query.list();
 
@@ -51,12 +51,10 @@ public class RentalService {
         }
     }
 
-    public Rental findRentedInfoByPlate(String licensePlate, String licenseNumber) {
+    public Rental findRentedInfoByPlate(String licensePlate) { // arg , String licenseNumber
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             Query<Rental> query = session.createQuery("from Rental where car.licensePlate = :plate", Rental.class);
-            query.setParameter("license", licenseNumber);
-            /*Query<Rental> query = session.createQuery("from Rental where car.licensePlate = :plate OR customer.licenseNumber = :license", Rental.class);
-            query.setParameter("plate", licensePlate);*/
+            query.setParameter("plate", licensePlate);
             return query.uniqueResult();
         } catch (Exception e) {
             System.err.println("Bulunamadı " + e.getMessage());
@@ -65,4 +63,33 @@ public class RentalService {
         }
     }
 
+    public Customer getCustomerByCar(Rental selectedRental, RentalStatus rentalStatus) {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            Query<Rental> query = session.createQuery("from Rental where car.id = :selectedRental AND rentalStatus = :status", Rental.class);
+            query.setParameter("selectedRental", selectedRental.getCar().getId());
+            query.setParameter("status", rentalStatus);
+
+            Rental rental = query.uniqueResult();
+            return rental != null ? rental.getCustomer() : null;
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public void updateRental(Rental rental) {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+
+            session.beginTransaction();
+
+            session.update(rental);
+
+            session.getTransaction().commit();
+
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+            e.printStackTrace();
+        }
+    }
 }

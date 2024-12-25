@@ -10,10 +10,14 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
@@ -33,15 +37,18 @@ public class CarGalleryController {
     private ScrollPane carGalleryScrollPane;
 
     @FXML
+    private AnchorPane carAddTile;
+
+    @FXML
     private TilePane carTilePane;
 
     @FXML
     FontAwesomeIconView carAdd;
 
-    //TODO
     @FXML
     public void initialize() {
-        loadCarGallery();
+//        loadCarGallery();
+        refreshCarGallery();
     }
 
     private void loadCarGallery() {
@@ -66,7 +73,6 @@ public class CarGalleryController {
         carTile.setPrefSize(220.0, 300.0); //220,300 210,280
         carTile.setAlignment(Pos.CENTER_LEFT);
 
-//      ImageView carImage = new ImageView(new Image(car.getImageUrl()));
         String imageUrl = car.getImageUrl() != null ? car.getImageUrl() : "file:///C:/Users/Talha Çolak/IdeaProjects/CarRentalSystem/src/main/resources/com/talhacolak/carrental/images/placeholder.jpg";
         ImageView carImage = new ImageView(new Image(imageUrl));
         carImage.setFitHeight(120); //120
@@ -74,7 +80,6 @@ public class CarGalleryController {
         carImage.setPreserveRatio(true);
         carImage.setStyle("-fx-border-width: 1;-fx-border-color: black;");
         VBox.setMargin(carImage, new Insets(10, 5, 0, 5));
-//      setOpaqueInsets(new Insets(10, 5, 10, 5));
 
         Text brandText = new Text(car.getBrand());
         brandText.setStyle("-fx-font-weight: bold;");
@@ -95,7 +100,6 @@ public class CarGalleryController {
         HBox buttonBox = new HBox(viewButton, editButton, deleteButton);
         buttonBox.setPadding(new Insets(0, 0, 5, 5));
         buttonBox.setAlignment(Pos.CENTER);
-//        VBox.setMargin(buttonBox, new Insets(0, 0, 5, 0));
 
         carTile.getChildren().addAll(carImage, brandText, modelText, priceText, buttonBox);
         return carTile;
@@ -125,8 +129,7 @@ public class CarGalleryController {
                 session.getTransaction().commit();
 
                 // Remove from UI
-                carTilePane.getChildren().clear();
-                loadCarGallery();
+                refreshCarGallery();
             } catch (Exception e) {
                 e.printStackTrace();
                 System.err.println("Error deleting car: " + e.getMessage());
@@ -153,7 +156,10 @@ public class CarGalleryController {
 
                 carAddStage.setTitle("Car Adding Forms");
                 carAddStage.show();
-                carAddStage.setOnCloseRequest(e -> carAddStage = null);
+                carAddStage.setOnCloseRequest(e -> {
+                    carAddStage = null;
+                    refreshCarGallery();
+                });
 
             } catch (IOException e) {
                 throw new RuntimeException(e);
@@ -161,7 +167,11 @@ public class CarGalleryController {
         } else {
             carAddStage.toFront();
         }
+    }
 
-
+    private void refreshCarGallery() {
+        carTilePane.getChildren().clear();
+        carTilePane.getChildren().add(carAddTile);
+        loadCarGallery();
     }
 }
