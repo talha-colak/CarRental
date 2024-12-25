@@ -180,7 +180,6 @@ public class RentalProcessController {
             return;
         }
 
-        //TODO: filtrele
         Customer newcustomer = new Customer();
         newcustomer.setLicenseNumber(licenseNumberField.getText());
         newcustomer.setFirstName(firstNameField.getText());
@@ -188,7 +187,6 @@ public class RentalProcessController {
         newcustomer.setPhoneNumber(phoneNumberField.getText());
         newcustomer.setEmail(emailField.getText());
 
-        //TODO: Müşteri bilgileri kaydedilecek ve Bir sonraki sekme açılacak!!
         try {
             customerService.save(newcustomer);
             showAlert(Alert.AlertType.INFORMATION, "Başarılı", "Müşteri Başarıyla Kaydedildi!");
@@ -288,7 +286,6 @@ public class RentalProcessController {
         inspection.setDescription(descriptionField.getText());
         inspection.setInspectionDate(LocalDateTime.now());
 
-        //TODO: Araç inceleme formundaki bilgiler kaydedilecek ve Bir sonraki sekme açılacak!!
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             Transaction transaction = session.beginTransaction();
 
@@ -437,28 +434,6 @@ public class RentalProcessController {
             setInspectionItems();
         }
     }
-
-    /*
-    private void setInspectionFields() {
-        //TODO
-        Inspection inspection = new Inspection();
-        if (!inspectionTab.isDisable()) {
-            floorMatCheck.setSelected(inspection.getFloorMat() != null && inspection.getFloorMat());
-            spareTyreCheck.setSelected(inspection.getSpareTyre() != null && inspection.getSpareTyre());
-            fireExtinguisherCheck.setSelected(inspection.getFireExtinguisher() != null && inspection.getFireExtinguisher());
-            toolSetCheck.setSelected(inspection.getToolSet() != null && inspection.getToolSet());
-            aerialCheck.setSelected(inspection.getAerial() != null && inspection.getAerial());
-            firstAidKitCheck.setSelected(inspection.getFirstAidKit() != null && inspection.getFirstAidKit());
-            registrationCheck.setSelected(inspection.getRegistration() != null && inspection.getRegistration());
-            babySeatCheck.setSelected(inspection.getBabySeat() != null && inspection.getBabySeat());
-
-            kilometerField.setText(inspection.getKilometer() != null ? String.valueOf(inspection.getKilometer()) : "");
-            fuelSlider.setValue(inspection.getFuelStatus() != null ? inspection.getFuelStatus() : 0);
-            descriptionField.setText(inspection.getDescription() != null ? inspection.getDescription() : "");
-        } else {
-            setInspectionItems();
-        }
-    }*/
 
     private void populateComboBox() {
         generateTimeItems();
