@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox fx:id="carDetailsBox" alignment="CENTER" prefHeight="341.0" prefWidth="300.0" spacing="10.0"
+      xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.talhacolak.carrental.controller.CarDetailsController">
+    <children>
+        <ImageView fx:id="carImageView" fitHeight="200.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true"/>
+        <Label fx:id="plateLabel" layoutX="10.0" layoutY="248.0" text="Plaka"/>
+        <Label fx:id="brandLabel" text="Marka"/>
+        <Label fx:id="modelLabel" text="Model"/>
+        <Label fx:id="priceLabel" text="Ücret"/>
+        <Label fx:id="fuelLabel" text="Yakıt Tipi"/>
+        <Label fx:id="gearLabel" text="Vites Tipi"/>
+        <Label fx:id="yearLabel" layoutX="10.0" layoutY="231.0" text="Yıl"/>
+        <Label fx:id="statusLabel" layoutX="10.0" layoutY="266.0" text="Durum"/>
+    </children>
+    <padding>
+        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
+    </padding>
+</VBox>
