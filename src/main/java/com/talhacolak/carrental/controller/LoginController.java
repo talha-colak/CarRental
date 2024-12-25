@@ -46,9 +46,6 @@ public class LoginController {
     @FXML
     public void initialize() {
 
-        username.setText("admin");
-        password.setText("alyattes");
-
         setLanguage(new Locale("tr", "TR"));
 
         languageSelector.getItems().addAll("Türkçe", "English");
