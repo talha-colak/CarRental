@@ -93,10 +93,10 @@ public class DashboardController {
         loadview("car-gallery.fxml");
     }
 
-    @FXML
+    /*@FXML TODO Programa dashboard'a eklenene kadar car-gallery ana ekran yapıldı!
     private void carviewer() throws IOException {
         loadview("car-gallery.fxml");
-    }
+    }*/
 
     @FXML
     private void addformview() throws IOException {

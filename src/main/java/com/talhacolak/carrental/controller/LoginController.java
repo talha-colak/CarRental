@@ -74,7 +74,6 @@ public class LoginController {
 
     }
 
-
     @FXML
     private void close() {
         Stage stage = (Stage) login_form.getScene().getWindow();

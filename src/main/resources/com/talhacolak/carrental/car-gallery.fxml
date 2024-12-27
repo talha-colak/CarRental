@@ -15,7 +15,7 @@
             <children>
                 <!--Araç ekleme butonu-->
                 <AnchorPane fx:id="carAddTile" prefHeight="210.0" prefWidth="280.0"
-                            style="-fx-border-color: black; -fx-border-width: 1;                             -fx-background-color: White;">
+                            style="-fx-border-color: black; -fx-border-width: 1; -fx-background-color: White;">
                     <children>
                         <FontAwesomeIconView fx:id="carAdd" glyphName="PLUS" layoutX="65.0" layoutY="105.0"
                                              onMouseClicked="#carAdd" size="16em" textOrigin="CENTER"/>
